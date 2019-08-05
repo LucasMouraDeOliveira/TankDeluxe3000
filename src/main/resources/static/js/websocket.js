@@ -15,6 +15,7 @@ function connect() {
 
 function receiveMessage(wsMessage) {
 	var data = wsMessage.data;
+	drawForeground(JSON.parse(data));
 }
 
 function sendMessage(wsMessage) {

@@ -11,10 +11,13 @@ function initCanvas() {
 }
 
 function drawForeground(gameState) {
-	var myTank = gameState.myTank;
-	drawTank("red", myTank.x, myTank.y);
+	var tanks = gameState;
+	for(var i in tanks) {
+		var tank = tanks[i];
+		drawTank(tank.x, tank.y);
+	}
 }
 
-function drawTank(color, x, y) {
-	
+function drawTank(x, y) {
+	console.log(x + " " + y);
 }
