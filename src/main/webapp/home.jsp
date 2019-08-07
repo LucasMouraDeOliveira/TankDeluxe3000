@@ -17,13 +17,11 @@
 			position: relative;
 		}
 		
-		#mainDiv canvas {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-		}
+ 		#mainDiv canvas {
+ 			position: absolute;
+ 			top: 0;
+ 			left: 0;
+ 		}
 	
 	</style>
 	
@@ -31,8 +29,8 @@
 <body>
 
 	<div id="mainDiv">
-		<canvas id="backgroundCanvas"></canvas>
-		<canvas id="foregroundCanvas"></canvas>
+		<canvas id="backgroundCanvas" width=640 height=640></canvas>
+		<canvas id="foregroundCanvas" width=640 height=640></canvas>
 	</div>
 	
 	<script type="text/javascript" src="js/controls.js"></script>
