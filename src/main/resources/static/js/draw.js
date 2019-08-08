@@ -1,15 +1,28 @@
+var fCanvas;
+var bCanvas;
+var fCtx;
+var bCtx;
+var wheelFrontRight;
+var wheelFrontLeft;
+var wheelBackRight;
+var wheelBackLeft;
+var tankBody;
+var machineGun;
+var ground;
+
+
 document.addEventListener("DOMContentLoaded", function(){
 	initCanvas();
 });
 
-var fCanvas;
-var fCtx;
-var wheelFrontRight;
-
 function initCanvas() {
+	// Get canvas
 	fCanvas = document.querySelector("#foregroundCanvas");
+	bCanvas = document.querySelector("#backgroundCanvas");
 	fCtx = fCanvas.getContext("2d");
+	bCtx = bCanvas.getContext("2d");
 	
+	// Tank assets
 	wheelFrontRight = new Image();
 	wheelFrontLeft = new Image();
 	wheelBackRight = new Image();
@@ -17,12 +30,22 @@ function initCanvas() {
 	tankBody = new Image();
 	machineGun = new Image();
 	
+	// Ground assets
+	ground = new Image();
+	
+	// Assets loading
 	wheelFrontRight.src = "/assets/img/wheel-front-right-S.png";
 	wheelFrontLeft.src = "/assets/img/wheel-front-left-S.png";
 	wheelBackRight.src = "/assets/img/wheel-back-right-S.png";
 	wheelBackLeft.src = "/assets/img/wheel-back-left-S.png";
 	tankBody.src = "/assets/img/tank-body-S.png";
 	machineGun.src = "/assets/img/machine-gun-S.png";
+	ground.src = "/assets/img/ground-1.jpg";
+	
+	// Draw background once
+	ground.onload = function() {
+		drawBackground();
+	}
 }
 
 function drawForeground(gameState) {
@@ -31,6 +54,12 @@ function drawForeground(gameState) {
 		var tank = tanks[i];
 		drawTank(tank.x, tank.y, tank.angle);
 	}
+}
+
+function drawBackground() {
+	let groundPattern = bCtx.createPattern(ground, 'repeat');
+	bCtx.fillStyle = groundPattern;
+	bCtx.fillRect(0, 0, bCanvas.width, bCanvas.height);
 }
 
 // Tank sizing configuration
@@ -44,9 +73,8 @@ function drawTank(x, y, a) {
 	
 	
 	fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
-//	fCtx.rect(10, 10, 10, 10);
-//	fCtx.stroke();
-	
+
+	// Rotate context
 	fCtx.save();
 	fCtx.translate(x, y);
 	fCtx.rotate(a);
