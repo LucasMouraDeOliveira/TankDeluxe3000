@@ -13,10 +13,12 @@ public class MovePlayerAction extends GameUpdate {
 	public void act() {
 		for(Player player : this.gameServer.getPlayers()) {
 			if(player.isMoving(Player.NORTH)) {
-				player.setY(player.getY() - 5);
+				player.setY((int) Math.round(player.getY() - 5 * Math.cos(player.getAngle())));
+				player.setX((int) Math.round(player.getX() + 5 * Math.sin(player.getAngle())));
 			}
 			if(player.isMoving(Player.SOUTH)) {
-				player.setY(player.getY() + 5);
+				player.setY((int) Math.round(player.getY() + 5 * Math.cos(player.getAngle())));
+				player.setX((int) Math.round(player.getX() - 5 * Math.sin(player.getAngle())));
 			}
 			if(player.isMoving(Player.EAST)) {
 				player.setAngle(player.getAngle() + 0.1);
@@ -27,4 +29,7 @@ public class MovePlayerAction extends GameUpdate {
 		}
 	}
 
+	public static void main(String[] args) {
+		System.out.println(Math.round(2.6));
+	}
 }

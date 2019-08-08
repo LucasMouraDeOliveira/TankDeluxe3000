@@ -29,7 +29,7 @@ function drawForeground(gameState) {
 	var tanks = gameState;
 	for(var i in tanks) {
 		var tank = tanks[i];
-		drawTank(tank.x, tank.y);
+		drawTank(tank.x, tank.y, tank.angle);
 	}
 }
 
@@ -37,8 +37,8 @@ function drawForeground(gameState) {
 var width = 50;
 var height = 50;
 
-function drawTank(x, y) {
-	console.log(x + " " + y);
+function drawTank(x, y, a) {
+	console.log(x + " " + y + " " + a);
 	x += 100;			// To remove
 	y += 100;			// To remove
 	
@@ -47,11 +47,18 @@ function drawTank(x, y) {
 //	fCtx.rect(10, 10, 10, 10);
 //	fCtx.stroke();
 	
-	fCtx.drawImage(wheelFrontRight, x + (width / 2), y - (height / 2));
-	fCtx.drawImage(wheelFrontLeft, x - (width / 2), y - (height / 2));
-	fCtx.drawImage(wheelBackRight, x + (width / 2), y + (height / 2));
-	fCtx.drawImage(wheelBackLeft, x - (width / 2), y + (height / 2));
-	fCtx.drawImage(tankBody, x - (width / 2) + 5, y - 15);
-	fCtx.drawImage(machineGun, x - 4, y - 30);
+	fCtx.save();
+	fCtx.translate(x, y);
+	fCtx.rotate(a);
+	
+	// Tank Drawing
+	fCtx.drawImage(wheelFrontRight, (width / 2), -(height / 2));
+	fCtx.drawImage(wheelFrontLeft, -(width / 2), -(height / 2));
+	fCtx.drawImage(wheelBackRight, (width / 2), (height / 2));
+	fCtx.drawImage(wheelBackLeft, -(width / 2), (height / 2));
+	fCtx.drawImage(tankBody, -(width / 2) + 5, -15);
+	fCtx.drawImage(machineGun, -4, -30);
+	
+	fCtx.restore();
 	
 }
