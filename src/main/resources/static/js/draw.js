@@ -79,6 +79,12 @@ function drawTank(x, y, a) {
 	fCtx.translate(x, y);
 	fCtx.rotate(a);
 	
+	// Shadow
+	fCtx.shadowOffsetX = 1;
+	fCtx.shadowOffsetY = 1;
+	fCtx.shadowColor = "black";
+	fCtx.shadowBlur = 6;
+	
 	// Tank Drawing
 	fCtx.drawImage(wheelFrontRight, (width / 2), -(height / 2));
 	fCtx.drawImage(wheelFrontLeft, -(width / 2), -(height / 2));
