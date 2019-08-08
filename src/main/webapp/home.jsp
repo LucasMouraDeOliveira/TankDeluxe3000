@@ -9,7 +9,7 @@
 	<style>
 	
 		#mainDiv {
-			width: 640px;
+			width: 800px;
 			height: 640px;
 			margin: auto;
 			border: 1px solid black;
@@ -29,8 +29,8 @@
 <body>
 
 	<div id="mainDiv">
-		<canvas id="backgroundCanvas" width=640 height=640></canvas>
-		<canvas id="foregroundCanvas" width=640 height=640></canvas>
+		<canvas id="backgroundCanvas" width=800 height=640></canvas>
+		<canvas id="foregroundCanvas" width=800 height=640></canvas>
 	</div>
 	
 	<script type="text/javascript" src="js/controls.js"></script>
