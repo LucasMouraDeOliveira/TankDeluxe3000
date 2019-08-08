@@ -1,3 +1,10 @@
+// Configuration
+var MAX_ANNIMATION_STEP = 20;
+
+var TANK_WIDTH = 50;
+var TANK_HEIGHT = 50;
+
+// Variables
 var fCanvas;
 var bCanvas;
 var fCtx;
@@ -9,6 +16,7 @@ var wheelBackLeft;
 var tankBody;
 var machineGun;
 var ground;
+var currentStepNumber;
 
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -16,6 +24,9 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 function initCanvas() {
+	// Varibale initialization
+	currentStepNumber = 0;
+	
 	// Get canvas
 	fCanvas = document.querySelector("#foregroundCanvas");
 	bCanvas = document.querySelector("#backgroundCanvas");
@@ -50,10 +61,46 @@ function initCanvas() {
 
 function drawForeground(gameState) {
 	var tanks = gameState;
+
+	// Increment annimation step number
+	currentStepNumber++;
+	
+	// Reset canvas
+	fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
+
+	// Global annimation switch
+	switch(currentStepNumber) {
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+	case 10:
+	case 11:
+	case 12:
+	case 13:
+	case 14:
+	case 15:
+	case 16:
+	case 17:
+	case 18:
+	case 19:
+		break;
+	default:
+		currentStepNumber = 0;
+	}
+	
+	// Draw tanks
 	for(var i in tanks) {
 		var tank = tanks[i];
 		drawTank(tank.x, tank.y, tank.angle);
 	}
+	
 }
 
 function drawBackground() {
@@ -62,18 +109,12 @@ function drawBackground() {
 	bCtx.fillRect(0, 0, bCanvas.width, bCanvas.height);
 }
 
-// Tank sizing configuration
-var width = 50;
-var height = 50;
-
 function drawTank(x, y, a) {
 	console.log(x + " " + y + " " + a);
+	console.log("steps : " + currentStepNumber);
 	x += 100;			// To remove
 	y += 100;			// To remove
 	
-	
-	fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
-
 	// Rotate context
 	fCtx.save();
 	fCtx.translate(x, y);
@@ -86,13 +127,52 @@ function drawTank(x, y, a) {
 	fCtx.shadowBlur = 6;
 	
 	// Tank Drawing
-	fCtx.drawImage(wheelFrontRight, (width / 2), -(height / 2));
-	fCtx.drawImage(wheelFrontLeft, -(width / 2), -(height / 2));
-	fCtx.drawImage(wheelBackRight, (width / 2), (height / 2));
-	fCtx.drawImage(wheelBackLeft, -(width / 2), (height / 2));
-	fCtx.drawImage(tankBody, -(width / 2) + 5, -15);
+	// Annimation switch
+	switch(currentStepNumber) {
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+		fCtx.drawImage(wheelBackRight, (TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelBackLeft, -(TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelFrontRight, (TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelFrontLeft, -(TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
+		break;
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+		fCtx.drawImage(wheelFrontRight, (TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelFrontLeft, -(TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelBackRight,   (TANK_WIDTH / 2), (TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelBackLeft,   -(TANK_WIDTH / 2), (TANK_HEIGHT / 2));
+		break;
+	case 10:
+	case 11:
+	case 12:
+	case 13:
+	case 14:
+		fCtx.drawImage(wheelBackRight, (TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelBackLeft, -(TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelFrontRight,(TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelFrontLeft,-(TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
+		break;
+	case 15:
+	case 16:
+	case 17:
+	case 18:
+	case 19:
+		fCtx.drawImage(wheelFrontRight, (TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelFrontLeft, -(TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelBackRight,  (TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
+		fCtx.drawImage(wheelBackLeft,  -(TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
+		break;
+	}
+	
+	fCtx.drawImage(tankBody, -(TANK_WIDTH / 2) + 5, -15);
 	fCtx.drawImage(machineGun, -4, -30);
 	
 	fCtx.restore();
-	
 }
