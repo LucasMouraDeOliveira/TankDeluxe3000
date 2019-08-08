@@ -25,6 +25,12 @@ function addPressEvent() {
 		if (touch === 'ArrowDown') {
 			controls.backward = true; 
 		}
+		if (touch === 'ArrowRight') {
+			controls.right = true;
+		}
+		if (touch === 'ArrowLeft') {
+			controls.left = true;
+		}
 	}, false);
 }
 
@@ -37,6 +43,12 @@ function addReleaseEvent() {
 		}
 		if (touch === 'ArrowDown') {
 			controls.backward = false; 
+		}
+		if (touch === 'ArrowRight') {
+			controls.right = false;
+		}
+		if (touch === 'ArrowLeft') {
+			controls.left = false;
 		}
 	}, false);
 }
