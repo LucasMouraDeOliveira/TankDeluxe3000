@@ -32,7 +32,8 @@
 		<canvas id="backgroundCanvas" width=800 height=640></canvas>
 		<canvas id="foregroundCanvas" width=800 height=640></canvas>
 	</div>
-	
+
+	<script type="text/javascript" src="js/drawer/tank-drawer.js"></script>
 	<script type="text/javascript" src="js/controls.js"></script>
 	<script type="text/javascript" src="js/draw.js"></script>
 	<script type="text/javascript" src="js/websocket.js"></script>
