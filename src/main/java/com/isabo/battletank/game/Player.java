@@ -19,8 +19,8 @@ public class Player {
 	
 	public Player(String name) {
 		this.name = name;
-		this.x = 0;
-		this.y = 0;
+		this.x = 400;
+		this.y = 400;
 		this.angle = 0D;
 		this.moving = new boolean[4];
 	}

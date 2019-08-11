@@ -1,8 +1,5 @@
 // Configuration
-var MAX_ANNIMATION_STEP = 20;
-
-var TANK_WIDTH = 50;
-var TANK_HEIGHT = 50;
+var MAX_ANIMATION_STEP = 20;
 
 // Variables
 var fCanvas;
@@ -18,13 +15,14 @@ var machineGun;
 var ground;
 var currentStepNumber;
 
+var tankDrawer;
 
 document.addEventListener("DOMContentLoaded", function(){
 	initCanvas();
 });
 
 function initCanvas() {
-	// Varibale initialization
+	// Variable initialization
 	currentStepNumber = 0;
 	
 	// Get canvas
@@ -57,18 +55,21 @@ function initCanvas() {
 	ground.onload = function() {
 		drawBackground();
 	}
+
+	tankDrawer = new TankDrawer(fCtx);
+
 }
 
 function drawForeground(gameState) {
 	var tanks = gameState;
 
-	// Increment annimation step number
+	// Increment animation step number
 	currentStepNumber++;
 	
 	// Reset canvas
 	fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
 
-	// Global annimation switch
+	// Global animation switch
 	switch(currentStepNumber) {
 	case 0:
 	case 1:
@@ -98,7 +99,7 @@ function drawForeground(gameState) {
 	// Draw tanks
 	for(var i in tanks) {
 		var tank = tanks[i];
-		drawTank(tank.x, tank.y, tank.angle);
+		tankDrawer.draw(tank);
 	}
 	
 }
@@ -107,72 +108,4 @@ function drawBackground() {
 	let groundPattern = bCtx.createPattern(ground, 'repeat');
 	bCtx.fillStyle = groundPattern;
 	bCtx.fillRect(0, 0, bCanvas.width, bCanvas.height);
-}
-
-function drawTank(x, y, a) {
-	console.log(x + " " + y + " " + a);
-	console.log("steps : " + currentStepNumber);
-	x += 100;			// To remove
-	y += 100;			// To remove
-	
-	// Rotate context
-	fCtx.save();
-	fCtx.translate(x, y);
-	fCtx.rotate(a);
-	
-	// Shadow
-	fCtx.shadowOffsetX = 1;
-	fCtx.shadowOffsetY = 1;
-	fCtx.shadowColor = "black";
-	fCtx.shadowBlur = 6;
-	
-	// Tank Drawing
-	// Annimation switch
-	switch(currentStepNumber) {
-	case 0:
-	case 1:
-	case 2:
-	case 3:
-	case 4:
-		fCtx.drawImage(wheelBackRight, (TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelBackLeft, -(TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelFrontRight, (TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelFrontLeft, -(TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
-		break;
-	case 5:
-	case 6:
-	case 7:
-	case 8:
-	case 9:
-		fCtx.drawImage(wheelFrontRight, (TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelFrontLeft, -(TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelBackRight,   (TANK_WIDTH / 2), (TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelBackLeft,   -(TANK_WIDTH / 2), (TANK_HEIGHT / 2));
-		break;
-	case 10:
-	case 11:
-	case 12:
-	case 13:
-	case 14:
-		fCtx.drawImage(wheelBackRight, (TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelBackLeft, -(TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelFrontRight,(TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelFrontLeft,-(TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
-		break;
-	case 15:
-	case 16:
-	case 17:
-	case 18:
-	case 19:
-		fCtx.drawImage(wheelFrontRight, (TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelFrontLeft, -(TANK_WIDTH / 2), -(TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelBackRight,  (TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
-		fCtx.drawImage(wheelBackLeft,  -(TANK_WIDTH / 2),  (TANK_HEIGHT / 2));
-		break;
-	}
-	
-	fCtx.drawImage(tankBody, -(TANK_WIDTH / 2) + 5, -15);
-	fCtx.drawImage(machineGun, -4, -30);
-	
-	fCtx.restore();
 }
