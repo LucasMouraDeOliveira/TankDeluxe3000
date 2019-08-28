@@ -15,7 +15,6 @@ class BulletDrawer {
         let a = bullet.angle;
 
         console.log(x + " " + y + " " + a);
-        console.log("steps : " + currentStepNumber);
 
         // Rotate context
         this.ctx.save();

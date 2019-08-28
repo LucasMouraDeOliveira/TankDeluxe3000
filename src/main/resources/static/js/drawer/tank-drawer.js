@@ -41,9 +41,6 @@ class TankDrawer {
         let y = tank.y;
         let a = tank.angle;
 
-        console.log(x + " " + y + " " + a);
-        console.log("steps : " + currentStepNumber);
-
         // Rotate context
         this.ctx.save();
         this.ctx.translate(x, y);
