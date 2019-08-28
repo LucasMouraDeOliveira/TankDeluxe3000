@@ -17,9 +17,8 @@ class BulletDrawer {
         console.log(x + " " + y + " " + a);
 
         // Rotate context
-        this.ctx.save();
-        this.ctx.translate(x, y);
-        this.ctx.rotate(a);
+//        this.ctx.save();
+//        this.ctx.rotate(a);
 
         // Shadow
         this.ctx.shadowOffsetX = 1;
@@ -61,7 +60,7 @@ class BulletDrawer {
         this.ctx.fill();
         this.ctx.stroke();
 
-        this.ctx.restore();
+//        this.ctx.restore();
     }
 
 }
