@@ -1,18 +1,25 @@
 package com.isabo.battletank.game;
 
-public class Bullet {
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.isabo.battletank.SettingsManager;
+
+public class Bullet {
+	
+	@Autowired
+	private SettingsManager settingsManager;
+	
 	private Player shooter;
-	private int velocity;
 	private double x;
 	private double y;
+	private int velocity;
 	private double angle;
 	
 	public Bullet(Player shooter) {
 		this.shooter = shooter;
-		this.velocity = 10;
 		this.x = shooter.getX();
 		this.y = shooter.getY();
+		this.velocity = settingsManager.getBulletVelocity();
 		this.angle = shooter.getAngle();
 	}
 	
