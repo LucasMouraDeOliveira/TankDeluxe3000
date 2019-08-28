@@ -22,6 +22,7 @@ public class UpdatePlayerAction extends GameUpdate {
 			player.setMoving(Player.SOUTH, obj.getBoolean("backward"));
 			player.setMoving(Player.WEST, obj.getBoolean("left"));
 			player.setMoving(Player.EAST, obj.getBoolean("right"));
+			player.setShooting(obj.getBoolean("shoot"));
 		}
 	}
 

@@ -5,6 +5,7 @@ function initControls() {
 	controls.backward = false;
 	controls.left = false;
 	controls.right = false;
+	controls.shoot = false;
 	addPressEvent();
 	addReleaseEvent();
 }
@@ -31,6 +32,9 @@ function addPressEvent() {
 		if (touch === 'ArrowLeft') {
 			controls.left = true;
 		}
+		if (touch === ' ') {
+			controls.shoot = true;
+		}
 	}, false);
 }
 
@@ -49,6 +53,9 @@ function addReleaseEvent() {
 		}
 		if (touch === 'ArrowLeft') {
 			controls.left = false;
+		}
+		if (touch === ' ') {
+			controls.shoot = false;
 		}
 	}, false);
 }

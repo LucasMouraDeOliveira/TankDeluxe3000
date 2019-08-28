@@ -16,6 +16,7 @@ var ground;
 var currentStepNumber;
 
 var tankDrawer;
+var bulletDrawer;
 
 document.addEventListener("DOMContentLoaded", function(){
 	initCanvas();
@@ -57,11 +58,13 @@ function initCanvas() {
 	}
 
 	tankDrawer = new TankDrawer(fCtx);
+	bulletDrawer = new BulletDrawer(fCtx);
 
 }
 
 function drawForeground(gameState) {
-	var tanks = gameState;
+	var tanks = gameState.players;
+	var bullets = gameState.bullets;
 
 	// Increment animation step number
 	currentStepNumber++;
@@ -102,6 +105,11 @@ function drawForeground(gameState) {
 		tankDrawer.draw(tank);
 	}
 	
+	// Draw bullet
+	for(var j in bullets) {
+		var bullet = bullets[j];
+		bulletDrawer.draw(bullet);
+	}
 }
 
 function drawBackground() {

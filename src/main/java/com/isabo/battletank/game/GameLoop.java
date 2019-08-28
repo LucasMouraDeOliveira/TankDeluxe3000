@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.isabo.battletank.game.actions.GameUpdate;
 import com.isabo.battletank.game.actions.MovePlayerAction;
+import com.isabo.battletank.game.actions.ShootAction;
 import com.isabo.battletank.game.actions.UpdatePlayerAction;
 
 public class GameLoop extends Thread {
@@ -28,6 +29,7 @@ public class GameLoop extends Thread {
 		this.updates = new ArrayList<>();
 		this.updates.add(new UpdatePlayerAction(gameServer));
 		this.updates.add(new MovePlayerAction(gameServer));
+		this.updates.add(new ShootAction(gameServer));
 	}
 	
 	@Override

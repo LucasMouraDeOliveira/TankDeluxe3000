@@ -11,6 +11,8 @@ public class Player {
 	private String name;
 	
 	private boolean moving[];
+
+	private boolean shooting;
 	
 	public static final int NORTH = 0;
 	public static final int EAST = 1;
@@ -23,6 +25,7 @@ public class Player {
 		this.y = 400;
 		this.angle = 0D;
 		this.moving = new boolean[4];
+		this.shooting = false;
 	}
 
 	public int getX() {
@@ -69,6 +72,14 @@ public class Player {
 		try {
 			this.moving[direction] = value;
 		} catch(ArrayIndexOutOfBoundsException e) {}
+	}
+
+	public void setShooting(boolean isShooting) {
+		this.shooting = isShooting;
+	}
+
+	public boolean isShooting() {
+		return shooting;
 	}
 
 }
