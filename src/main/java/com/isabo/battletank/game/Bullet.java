@@ -58,5 +58,9 @@ public class Bullet {
 	public void setRemainingBounce(int remainingBounce) {
 		this.remainingBounce = remainingBounce;
 	}
+
+	public void bounce() {
+		this.remainingBounce--;
+	}
 	
 }
