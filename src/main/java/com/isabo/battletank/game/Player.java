@@ -1,18 +1,21 @@
 package com.isabo.battletank.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.isabo.battletank.SettingsManager;
+
 public class Player {
 	
 	private int x;
-	
 	private int y;
-	
 	private double angle;
-	
 	private String name;
-	
 	private boolean moving[];
-
 	private boolean shooting;
+	private List<Bullet> bullets;
+	private int maxBullet;
+	private int cooldown;
 	
 	public static final int NORTH = 0;
 	public static final int EAST = 1;
@@ -26,6 +29,8 @@ public class Player {
 		this.angle = 0D;
 		this.moving = new boolean[4];
 		this.shooting = false;
+		this.bullets = new ArrayList<>();
+		this.maxBullet = SettingsManager.MAX_BULLET;
 	}
 
 	public int getX() {
@@ -80,6 +85,30 @@ public class Player {
 
 	public boolean isShooting() {
 		return shooting;
+	}
+	
+	public void addBullet(Bullet b) {
+		this.bullets.add(b);
+	}
+	
+	public List<Bullet> getBullets() {
+		return this.bullets;
+	}
+
+	public int getMaxBullet() {
+		return maxBullet;
+	}
+
+	public void setMaxBullet(int maxBullet) {
+		this.maxBullet = maxBullet;
+	}
+
+	public int getCooldown() {
+		return cooldown;
+	}
+
+	public void setCooldown(int cooldown) {
+		this.cooldown = cooldown;
 	}
 
 }

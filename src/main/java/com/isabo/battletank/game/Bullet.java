@@ -1,26 +1,23 @@
 package com.isabo.battletank.game;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.isabo.battletank.SettingsManager;
 
 public class Bullet {
-	
-	@Autowired
-	private SettingsManager settingsManager;
 	
 	private Player shooter;
 	private double x;
 	private double y;
 	private int velocity;
 	private double angle;
+	private int remainingBounce;
 	
 	public Bullet(Player shooter) {
 		this.shooter = shooter;
 		this.x = shooter.getX();
 		this.y = shooter.getY();
-		this.velocity = settingsManager.getBulletVelocity();
+		this.velocity = SettingsManager.BULLET_VELOCITY;
 		this.angle = shooter.getAngle();
+		this.remainingBounce = SettingsManager.MAX_BOUNCE;
 	}
 	
 	public Player getShooter() {
@@ -52,6 +49,14 @@ public class Bullet {
 	}
 	public void setAngle(double angle) {
 		this.angle = angle;
+	}
+
+	public int getRemainingBounce() {
+		return remainingBounce;
+	}
+
+	public void setRemainingBounce(int remainingBounce) {
+		this.remainingBounce = remainingBounce;
 	}
 	
 }

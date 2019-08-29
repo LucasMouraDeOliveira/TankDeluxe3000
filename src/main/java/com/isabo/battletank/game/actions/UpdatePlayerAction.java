@@ -14,7 +14,7 @@ public class UpdatePlayerAction extends GameUpdate {
 	}
 
 	@Override
-	public void act() {
+	public void act(int delta) {
 		for(Map.Entry<Player, JSONObject> entry : gameServer.getPlayerActions().entrySet()) {
 			Player player = entry.getKey();
 			JSONObject obj = entry.getValue();

@@ -35,20 +35,25 @@ public class GameLoop extends Thread {
 	@Override
 	public void run() {
 		long start = 0;
+		long lastTickDuration = delay;
+		
 		while(!isGameFinished()) {
 			start = System.currentTimeMillis();
-			update();
-			notifyPlayers();
-			try {
-				Thread.sleep(Math.max(0, delay-(System.currentTimeMillis()-start)));
-			} catch(Exception e) {};
 			
+			update((int) lastTickDuration);
+			notifyPlayers();
+			
+			try {
+				Thread.sleep(Math.max(0, delay - (System.currentTimeMillis() - start)));
+			} catch(Exception e) {};
+
+			lastTickDuration = System.currentTimeMillis() - start;
 		}
 	}
 	
-	private void update() {
+	private void update(int lastTickDuration) {
 		for(GameUpdate update : updates) {
-			update.act();
+			update.act(lastTickDuration);
 		}
 	}
 	

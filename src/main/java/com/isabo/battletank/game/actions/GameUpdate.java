@@ -10,6 +10,6 @@ public abstract class GameUpdate {
 		this.gameServer = gameServer;
 	}
 	
-	public abstract void act();
+	public abstract void act(int delta);
 
 }

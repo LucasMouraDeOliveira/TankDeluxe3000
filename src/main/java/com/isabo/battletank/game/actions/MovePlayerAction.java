@@ -10,7 +10,7 @@ public class MovePlayerAction extends GameUpdate {
 	}
 
 	@Override
-	public void act() {
+	public void act(int delta) {
 		for(Player player : this.gameServer.getPlayers()) {
 			if(player.isMoving(Player.NORTH)) {
 				player.setY((int) Math.round(player.getY() - 5 * Math.cos(player.getAngle())));
