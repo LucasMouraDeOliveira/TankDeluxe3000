@@ -18,24 +18,37 @@ public class ShootAction extends GameUpdate {
 	public void act(int delta) {
 		// Move existing bullet
 		for (Bullet b : super.gameServer.getBullets()) {
+			boolean hasBounce = false;
+			
+			double vx = b.getVelocity() * Math.sin(b.getAngle());
+			double vy = -b.getVelocity() * Math.cos(b.getAngle());
+			
+			int newX = (int) Math.round(b.getX() + vx);
+			int newY = (int) Math.round(b.getY() + vy);
+
 			// bounce detection
-			int newX = (int) Math.round(b.getX() + b.getVelocity() * Math.sin(b.getAngle()));
-			int newY = (int) Math.round(b.getY() - b.getVelocity() * Math.cos(b.getAngle()));
-			
-			
 			if(newX > SettingsManager.CANVAS_WIDTH || newX < 0) {
-				b.setAngle(180 - b.getAngle());
+				vx *= -1;
+				b.setAngle(Math.atan2(vy, vx) + (Math.PI / 2));
 				b.bounce();
+				hasBounce = true;
 			}
 			
 			if(newY > SettingsManager.CANVAS_HEIGHT || newY < 0) {
-				b.setAngle(180 - 3 * b.getAngle());
+				vy *= -1;
+				b.setAngle(Math.atan2(vy, vx) + (Math.PI / 2));
 				b.bounce();
+				hasBounce = true;
 			}
-			
+
 			// Move
-			b.setX(newX);
-			b.setY(newY);
+			if(!hasBounce) {
+				newX = (int) Math.round(b.getX() + vx);
+				newY = (int) Math.round(b.getY() + vy);
+				
+				b.setX(newX);
+				b.setY(newY);
+			}
 		}
 		
 		
