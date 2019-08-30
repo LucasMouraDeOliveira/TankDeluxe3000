@@ -7,12 +7,12 @@ public class SettingsManager {
 	public static final int CANVAS_HEIGHT = 640;
 	
 	// Player
-	public static final int SHOOT_COOLDOWN = 500;
-	public static final int MAX_BULLET = 2;
+	public static final int SHOOT_COOLDOWN = 250;
+	public static final int MAX_BULLET = 10;
 	
 	// Bullet
-	public static final int BULLET_VELOCITY = 15;
-	public static final int MAX_BOUNCE = 1;
+	public static final int BULLET_VELOCITY = 20;
+	public static final int MAX_BOUNCE = 5;
 	
 	
 }
