@@ -8,12 +8,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.isabo.battletank.SettingsManager;
 import com.isabo.battletank.game.Bullet;
 import com.isabo.battletank.game.GameServer;
 import com.isabo.battletank.game.Player;
 
 public class ShootAction extends GameUpdate {
+	
+	private static Logger logger = LoggerFactory.getLogger(ShootAction.class);
 
 	public ShootAction(GameServer gameServer) {
 		super(gameServer);
@@ -71,6 +76,7 @@ public class ShootAction extends GameUpdate {
 				hitBox = transform.createTransformedShape(hitBox);
 				
 				if(hitBox.contains(new Point2D.Double(b.getX(), b.getY()))) {
+					logger.info("Player shooted !");
 					iterator.remove();
 				}
 			}
