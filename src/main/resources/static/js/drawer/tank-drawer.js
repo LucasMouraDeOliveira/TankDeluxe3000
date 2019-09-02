@@ -2,8 +2,19 @@ var wheelFrontRight;
 var wheelFrontLeft;
 var wheelBackRight;
 var wheelBackLeft;
-var tankBody;
-var machineGun;
+var tankBodyBlue;
+var tankBodyOrange;
+var tankBodyYellow;
+var tankBodyTurquoise;
+var tankBodyGreen;
+var tankBodyPurple;
+var machineGunBlue;
+var machineGunOrange;
+var machineGunYellow;
+var machineGunTurquoise;
+var machineGunPurple;
+var machineGunGreen;
+
 
 class TankDrawer {
 	
@@ -16,16 +27,36 @@ class TankDrawer {
         wheelFrontLeft = new Image();
         wheelBackRight = new Image();
         wheelBackLeft = new Image();
-        tankBody = new Image();
-        machineGun = new Image();
+        tankBodyBlue = new Image();
+        tankBodyOrange = new Image();
+        tankBodyYellow = new Image();
+        tankBodyTurquoise = new Image();
+        tankBodyGreen = new Image();
+        tankBodyPurple = new Image();
+        machineGunBlue = new Image();
+        machineGunOrange = new Image();
+        machineGunYellow = new Image();
+        machineGunTurquoise = new Image();
+        machineGunPurple = new Image();
+        machineGunGreen = new Image();
         
     	// Assets loading
     	wheelFrontRight.src = "/assets/img/wheel-front-right-S.png";
     	wheelFrontLeft.src = "/assets/img/wheel-front-left-S.png";
     	wheelBackRight.src = "/assets/img/wheel-back-right-S.png";
     	wheelBackLeft.src = "/assets/img/wheel-back-left-S.png";
-    	tankBody.src = "/assets/img/tank-body-S.png";
-    	machineGun.src = "/assets/img/machine-gun-S.png";
+    	tankBodyBlue.src = "/assets/img/tank-body-S-blue.png";
+    	tankBodyOrange.src = "/assets/img/tank-body-S-orange.png";
+    	tankBodyYellow.src = "/assets/img/tank-body-S-yellow.png";
+    	tankBodyTurquoise.src = "/assets/img/tank-body-S-turquoise.png";
+    	tankBodyGreen.src = "/assets/img/tank-body-S-green.png";
+    	tankBodyPurple.src = "/assets/img/tank-body-S-purple.png";
+    	machineGunBlue.src = "/assets/img/machine-gun-S-blue.png";
+    	machineGunOrange.src = "/assets/img/machine-gun-S-orange.png";
+    	machineGunYellow.src = "/assets/img/machine-gun-S-yellow.png";
+    	machineGunTurquoise.src = "/assets/img/machine-gun-S-turquoise.png";
+    	machineGunPurple.src = "/assets/img/machine-gun-S-purple.png";
+    	machineGunGreen.src = "/assets/img/machine-gun-S-green.png";
     }
 
     initParts() {
@@ -119,8 +150,33 @@ class TankDrawer {
             break;
         }
 
-        this.ctx.drawImage(tankBody, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        this.centerAround(machineGun, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+        switch(tank.color){
+        case "BLUE":
+        	this.ctx.drawImage(tankBodyBlue, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
+        	this.centerAround(machineGunBlue, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+        	break;
+        case "ORANGE":
+        	this.ctx.drawImage(tankBodyOrange, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
+        	this.centerAround(machineGunOrange, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+        	break;
+        case "YELLOW":
+        	this.ctx.drawImage(tankBodyYellow, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
+        	this.centerAround(machineGunYellow, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+        	break;
+        case "GREEN":
+        	this.ctx.drawImage(tankBodyGreen, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
+        	this.centerAround(machineGunGreen, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+        	break;
+        case "PURPLE":
+        	this.ctx.drawImage(tankBodyPurple, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
+        	this.centerAround(machineGunPurple, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+        	break;
+        case "TURQUOISE":
+	        this.ctx.drawImage(tankBodyTurquoise, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
+	        this.centerAround(machineGunTurquoise, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+        	break;
+        }
+        
         this.ctx.restore();
     }
 

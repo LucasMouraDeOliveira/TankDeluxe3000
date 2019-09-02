@@ -16,13 +16,14 @@ public class Player {
 	private List<Bullet> bullets;
 	private int maxBullet;
 	private int cooldown;
+	private Color color;
 	
 	public static final int NORTH = 0;
 	public static final int EAST = 1;
 	public static final int SOUTH = 2;
 	public static final int WEST = 3;
 	
-	public Player(String name) {
+	public Player(String name, Color color) {
 		this.name = name;
 		this.x = 400;
 		this.y = 400;
@@ -31,6 +32,7 @@ public class Player {
 		this.shooting = false;
 		this.bullets = new ArrayList<>();
 		this.maxBullet = SettingsManager.MAX_BULLET;
+		this.color = color;
 	}
 
 	public int getX() {
@@ -109,6 +111,14 @@ public class Player {
 
 	public void setCooldown(int cooldown) {
 		this.cooldown = cooldown;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 }

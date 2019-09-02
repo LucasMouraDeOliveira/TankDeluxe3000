@@ -2,7 +2,9 @@ package com.isabo.battletank.game;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,15 +24,19 @@ public class GameServer {
 	private Map<Player, JSONObject> playerActions;
 	
 	private List<Bullet> bullets;
+	private List<Color> availableColor;
 	
 	public GameServer() {
 		this.players = new HashMap<>();
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
+		this.availableColor = new LinkedList<Color>(Arrays.asList(Color.values()));
 	}
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
-		this.players.put(session, new Player(playerName));
+		Color playerColor = this.availableColor.remove(0);
+		
+		this.players.put(session, new Player(playerName, playerColor));
 	}
 
 	public void removePlayer(WebSocketSession session) {
@@ -67,6 +73,7 @@ public class GameServer {
 			jsonPlayer.put("x", player.getX());
 			jsonPlayer.put("y", player.getY());
 			jsonPlayer.put("angle", player.getAngle());
+			jsonPlayer.put("color", player.getColor());
 			jsonPlayers.put(jsonPlayer);
 		}
 		
