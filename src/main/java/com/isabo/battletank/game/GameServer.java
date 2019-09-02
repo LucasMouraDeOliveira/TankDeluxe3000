@@ -23,12 +23,14 @@ public class GameServer {
 	
 	private List<Bullet> bullets;
 	
-	public void addPlayer(WebSocketSession session, String playerName) {
-		Player player = new Player(playerName);
+	public GameServer() {
 		this.players = new HashMap<>();
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
-		this.players.put(session, player);
+	}
+	
+	public void addPlayer(WebSocketSession session, String playerName) {
+		this.players.put(session, new Player(playerName));
 	}
 
 	public void removePlayer(WebSocketSession session) {

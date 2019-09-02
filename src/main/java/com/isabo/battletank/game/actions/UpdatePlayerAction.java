@@ -18,11 +18,13 @@ public class UpdatePlayerAction extends GameUpdate {
 		for(Map.Entry<Player, JSONObject> entry : gameServer.getPlayerActions().entrySet()) {
 			Player player = entry.getKey();
 			JSONObject obj = entry.getValue();
-			player.setMoving(Player.NORTH, obj.getBoolean("forward"));
-			player.setMoving(Player.SOUTH, obj.getBoolean("backward"));
-			player.setMoving(Player.WEST, obj.getBoolean("left"));
-			player.setMoving(Player.EAST, obj.getBoolean("right"));
-			player.setShooting(obj.getBoolean("shoot"));
+			if(player != null && obj != null) {
+				player.setMoving(Player.NORTH, obj.getBoolean("forward"));
+				player.setMoving(Player.SOUTH, obj.getBoolean("backward"));
+				player.setMoving(Player.WEST, obj.getBoolean("left"));
+				player.setMoving(Player.EAST, obj.getBoolean("right"));
+				player.setShooting(obj.getBoolean("shoot"));
+			}
 		}
 	}
 
