@@ -30,12 +30,13 @@ class BulletDrawer {
         console.log(x + " " + y + " " + a);
 
         // Rotate context
-//        this.ctx.save();
-//        this.ctx.rotate(a);
+        this.ctx.save();
+        this.ctx.translate(x, y);
+        this.ctx.rotate(a);
 
         // Shadow
-        this.ctx.shadowOffsetX = 1;
-        this.ctx.shadowOffsetY = 1;
+        this.ctx.shadowOffsetX = 5;
+        this.ctx.shadowOffsetY = 5;
         this.ctx.shadowColor = "black";
         this.ctx.shadowBlur = 6;
 
@@ -62,16 +63,16 @@ class BulletDrawer {
         case 17:
         case 18:
         case 19:
-        	this.ctx.drawImage(bulletSprite, x, y);
+        	this.ctx.drawImage(bulletSprite, 0, 0, 10, 20);
             break;
         }
         
-        this.ctx.beginPath();
-        this.ctx.arc(x, y, 10, 0, 2 * Math.PI);
-        this.ctx.fill();
-        this.ctx.stroke();
+//        this.ctx.beginPath();
+//        this.ctx.arc(x, y, 10, 0, 2 * Math.PI);
+//        this.ctx.fill();
+//        this.ctx.stroke();
 
-//        this.ctx.restore();
+        this.ctx.restore();
     }
 
 }

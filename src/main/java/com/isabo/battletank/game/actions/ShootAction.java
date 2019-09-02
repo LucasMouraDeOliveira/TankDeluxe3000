@@ -1,5 +1,6 @@
 package com.isabo.battletank.game.actions;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,11 @@ public class ShootAction extends GameUpdate {
 				
 				b.setX(newX);
 				b.setY(newY);
+			}
+			
+			// Player collision
+			for (Player p : this.gameServer.getPlayers()) {
+				// TODO
 			}
 		}
 		
