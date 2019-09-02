@@ -14,5 +14,8 @@ public class SettingsManager {
 	public static final int BULLET_VELOCITY = 20;
 	public static final int MAX_BOUNCE = 5;
 	
+	// Tank
+	public static final int TANK_WIDTH = 60;
+	public static final int TANK_HEIGHT = 76;
 	
 }

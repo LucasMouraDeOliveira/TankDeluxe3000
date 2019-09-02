@@ -1,7 +1,11 @@
 package com.isabo.battletank.game.actions;
 
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.isabo.battletank.SettingsManager;
@@ -52,8 +56,23 @@ public class ShootAction extends GameUpdate {
 			}
 			
 			// Player collision
-			for (Player p : this.gameServer.getPlayers()) {
-				// TODO
+			Iterator<Player> iterator = this.gameServer.getPlayers().iterator();
+			Player p = null;
+			while(iterator.hasNext()) {
+				p = iterator.next();
+				
+				Shape hitBox = new Rectangle2D.Double(
+						p.getX() - SettingsManager.TANK_WIDTH / 2, 
+						p.getY() - SettingsManager.TANK_HEIGHT / 2, SettingsManager.TANK_WIDTH, SettingsManager.TANK_HEIGHT);
+				
+				AffineTransform transform = new AffineTransform();
+				
+				transform.rotate(p.getAngle());
+				hitBox = transform.createTransformedShape(hitBox);
+				
+				if(hitBox.contains(new Point2D.Double(b.getX(), b.getY()))) {
+					iterator.remove();
+				}
 			}
 		}
 		
