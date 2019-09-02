@@ -1,12 +1,34 @@
-class TankDrawer {
+var wheelFrontRight;
+var wheelFrontLeft;
+var wheelBackRight;
+var wheelBackLeft;
+var tankBody;
+var machineGun;
 
+class TankDrawer {
+	
     constructor(ctx) {
         this.ctx = ctx;
         this.initParts();
+        
+        // Tank assets
+        wheelFrontRight = new Image();
+        wheelFrontLeft = new Image();
+        wheelBackRight = new Image();
+        wheelBackLeft = new Image();
+        tankBody = new Image();
+        machineGun = new Image();
+        
+    	// Assets loading
+    	wheelFrontRight.src = "/assets/img/wheel-front-right-S.png";
+    	wheelFrontLeft.src = "/assets/img/wheel-front-left-S.png";
+    	wheelBackRight.src = "/assets/img/wheel-back-right-S.png";
+    	wheelBackLeft.src = "/assets/img/wheel-back-left-S.png";
+    	tankBody.src = "/assets/img/tank-body-S.png";
+    	machineGun.src = "/assets/img/machine-gun-S.png";
     }
 
     initParts() {
-
         this.WHEEL_HEIGHT = 38;
         this.WHEEL_WIDTH = 21;
 

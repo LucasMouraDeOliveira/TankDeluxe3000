@@ -1,12 +1,25 @@
-class BulletDrawer {
+var bulletSprite;
 
+class BulletDrawer {
+	
     constructor(ctx) {
         this.ctx = ctx;
+        this.initParts();
+        
+        bulletSprite = new Image();
+        
+        // Assets loading
+        bulletSprite.src = "/assets/img/bullet.png";
     }
 
-    centerAround(img, x, y, width, height) {
-        this.ctx.drawImage(img, x - (width / 2) - (this.TANK_WIDTH / 2) , y - (height / 2) - (this.TANK_HEIGHT / 2));
+    initParts() {
+//        this.WHEEL_HEIGHT = 38;
+//        this.WHEEL_WIDTH = 21;
     }
+    
+//    centerAround(img, x, y, width, height) {
+//        this.ctx.drawImage(img, x - (width / 2) - (this.TANK_WIDTH / 2) , y - (height / 2) - (this.TANK_HEIGHT / 2));
+//    }
 
     draw(bullet) {
 
@@ -34,24 +47,22 @@ class BulletDrawer {
         case 2:
         case 3:
         case 4:
-            break;
         case 5:
         case 6:
         case 7:
         case 8:
         case 9:
-            break;
         case 10:
         case 11:
         case 12:
         case 13:
         case 14:
-            break;
         case 15:
         case 16:
         case 17:
         case 18:
         case 19:
+        	this.ctx.drawImage(bulletSprite, x, y);
             break;
         }
         

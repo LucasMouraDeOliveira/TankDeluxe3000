@@ -6,13 +6,8 @@ var fCanvas;
 var bCanvas;
 var fCtx;
 var bCtx;
-var wheelFrontRight;
-var wheelFrontLeft;
-var wheelBackRight;
-var wheelBackLeft;
-var tankBody;
-var machineGun;
 var ground;
+
 var currentStepNumber;
 
 var tankDrawer;
@@ -32,24 +27,8 @@ function initCanvas() {
 	fCtx = fCanvas.getContext("2d");
 	bCtx = bCanvas.getContext("2d");
 	
-	// Tank assets
-	wheelFrontRight = new Image();
-	wheelFrontLeft = new Image();
-	wheelBackRight = new Image();
-	wheelBackLeft = new Image();
-	tankBody = new Image();
-	machineGun = new Image();
-	
 	// Ground assets
 	ground = new Image();
-	
-	// Assets loading
-	wheelFrontRight.src = "/assets/img/wheel-front-right-S.png";
-	wheelFrontLeft.src = "/assets/img/wheel-front-left-S.png";
-	wheelBackRight.src = "/assets/img/wheel-back-right-S.png";
-	wheelBackLeft.src = "/assets/img/wheel-back-left-S.png";
-	tankBody.src = "/assets/img/tank-body-S.png";
-	machineGun.src = "/assets/img/machine-gun-S.png";
 	ground.src = "/assets/img/ground-1.jpg";
 	
 	// Draw background once
