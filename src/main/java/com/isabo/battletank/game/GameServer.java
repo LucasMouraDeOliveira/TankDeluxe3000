@@ -10,14 +10,16 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import com.isabo.battletank.SettingsManager;
-
 @Component
 public class GameServer {
+	
+	@Autowired
+	private LevelBuilder levelBuilder;
 	
 	private static final int FPS = 20;
 	
@@ -28,17 +30,13 @@ public class GameServer {
 	private List<Bullet> bullets;
 	private List<Color> availableColor;
 	
-	private Boolean [][] level;
+	private boolean [][] level;
 	
 	public GameServer() {
 		this.players = new HashMap<>();
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
 		this.availableColor = new LinkedList<Color>(Arrays.asList(Color.values()));
-		this.level = new Boolean[SettingsManager.CANVAS_HEIGHT / SettingsManager.OBSTACLE_HEIGHT][SettingsManager.CANVAS_WIDTH / SettingsManager.OBSTACLE_WIDTH];
-		this.level[0][0] = true;
-		this.level[1][1] = true;
-		this.level[2][2] = true;
 	}
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
@@ -68,6 +66,18 @@ public class GameServer {
 	}
 	
 	public void start() {
+		this.level = this.levelBuilder.getNewBorderedLevel();
+		
+		this.level[7][7] = true;
+		this.level[8][8] = true;
+		this.level[8][7] = true;
+		this.level[7][8] = true;
+		
+		this.level[14][7] = true;
+		this.level[14][8] = true;
+		this.level[15][7] = true;
+		this.level[15][8] = true;
+		
 		new GameLoop(this, 1000 / FPS).start();
 	}
 
@@ -134,6 +144,14 @@ public class GameServer {
 				players.remove(session.getKey());
 			}
 		}
+	}
+
+	public boolean[][] getLevel() {
+		return level;
+	}
+
+	public void setLevel(boolean[][] level) {
+		this.level = level;
 	}
 
 }
