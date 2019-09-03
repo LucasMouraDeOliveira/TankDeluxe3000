@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.isabo.battletank.SettingsManager;
+
 @Component
 public class GameServer {
 	
@@ -26,11 +28,17 @@ public class GameServer {
 	private List<Bullet> bullets;
 	private List<Color> availableColor;
 	
+	private Boolean [][] level;
+	
 	public GameServer() {
 		this.players = new HashMap<>();
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
 		this.availableColor = new LinkedList<Color>(Arrays.asList(Color.values()));
+		this.level = new Boolean[SettingsManager.CANVAS_HEIGHT / SettingsManager.OBSTACLE_HEIGHT][SettingsManager.CANVAS_WIDTH / SettingsManager.OBSTACLE_WIDTH];
+		this.level[0][0] = true;
+		this.level[1][1] = true;
+		this.level[2][2] = true;
 	}
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
@@ -66,6 +74,7 @@ public class GameServer {
 	public void notifyPlayers() {
 		JSONArray jsonPlayers = new JSONArray();
 		JSONArray jsonBullets = new JSONArray();
+		JSONArray jsonLevel = new JSONArray();
 		
 		JSONObject jsonPlayer;
 		for(Player player : this.players.values()) {
@@ -86,9 +95,18 @@ public class GameServer {
 			jsonBullets.put(jsonBullet);
 		}
 		
+		for (int i = 0; i < level.length; i++) {
+			JSONArray jsonObstacleRow = new JSONArray();
+			for (int j = 0; j < level[0].length; j++) {
+				jsonObstacleRow.put(this.level[i][j]);
+			}
+			jsonLevel.put(jsonObstacleRow);
+		}
+		
 		JSONObject gameData = new JSONObject();
 		gameData.put("players", jsonPlayers);
 		gameData.put("bullets", jsonBullets);
+		gameData.put("level", jsonLevel);
 		
 		for(WebSocketSession session : this.players.keySet()) {
 			new Thread(() -> {
@@ -107,6 +125,15 @@ public class GameServer {
 
 	public List<Bullet> getBullets() {
 		return bullets;
+	}
+
+	public void killPlayer(Player player) {
+		this.playerActions.remove(player);
+		for(Map.Entry<WebSocketSession, Player> session : this.players.entrySet()) {
+			if(session.getValue().equals(player)) {
+				players.remove(session.getKey());
+			}
+		}
 	}
 
 }

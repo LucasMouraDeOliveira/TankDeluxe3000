@@ -26,6 +26,9 @@ public class ShootAction extends GameUpdate {
 
 	@Override
 	public void act(int delta) {
+		
+		List<Player> playersToRemove = new ArrayList<>();
+		
 		// Move existing bullet
 		for (Bullet b : super.gameServer.getBullets()) {
 			boolean hasBounce = false;
@@ -75,11 +78,14 @@ public class ShootAction extends GameUpdate {
 				transform.rotate(p.getAngle());
 				hitBox = transform.createTransformedShape(hitBox);
 				
-				if(hitBox.contains(new Point2D.Double(b.getX(), b.getY()))) {
-					logger.info("Player shooted !");
-					iterator.remove();
+				if(!b.getShooter().equals(p) && hitBox.contains(new Point2D.Double(b.getX(), b.getY()))) {
+					playersToRemove.add(p);
 				}
 			}
+		}
+		
+		for(Player p : playersToRemove) {
+			super.gameServer.killPlayer(p);
 		}
 		
 		

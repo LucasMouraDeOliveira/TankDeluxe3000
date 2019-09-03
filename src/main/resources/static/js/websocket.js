@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function connect() {
-	ws = new WebSocket("ws://localhost:8080/ws");
+	ws = new WebSocket("ws://10.1.7.43:8080/ws");
 	ws.onmessage = receiveMessage;
 	ws.onopen = function(){
 		initControls();

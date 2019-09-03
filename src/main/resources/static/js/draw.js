@@ -7,6 +7,7 @@ var bCanvas;
 var fCtx;
 var bCtx;
 var ground;
+var obstacle;
 
 var currentStepNumber;
 
@@ -29,7 +30,9 @@ function initCanvas() {
 	
 	// Ground assets
 	ground = new Image();
+	obstacle = new Image();
 	ground.src = "/assets/img/ground-1.jpg";
+	obstacle.src = "/assets/img/wood-S.png";
 	
 	// Draw background once
 	ground.onload = function() {
@@ -44,7 +47,8 @@ function initCanvas() {
 function drawForeground(gameState) {
 	var tanks = gameState.players;
 	var bullets = gameState.bullets;
-
+	var level = gameState.level;
+	
 	// Increment animation step number
 	currentStepNumber++;
 	
@@ -76,6 +80,19 @@ function drawForeground(gameState) {
 		break;
 	default:
 		currentStepNumber = 0;
+	}
+	
+	fCtx.shadowOffsetX = 1;
+	fCtx.shadowOffsetY = 1;
+	fCtx.shadowColor = "black";
+	fCtx.shadowBlur = 6;
+
+	for(var i in level) {
+		for(var j in level[i]) {
+			if(level[i][j]) {
+				fCtx.drawImage(obstacle, i * obstacle.width, j * obstacle.height);
+			}
+		}
 	}
 	
 	// Draw tanks
