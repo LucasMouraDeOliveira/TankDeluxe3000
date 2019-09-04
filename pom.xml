@@ -72,6 +72,12 @@
 		    <version>20180813</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.dyn4j</groupId>
+		    <artifactId>dyn4j</artifactId>
+		    <version>3.3.0</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
