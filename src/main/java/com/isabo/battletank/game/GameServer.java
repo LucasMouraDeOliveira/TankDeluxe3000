@@ -46,6 +46,7 @@ public class GameServer {
 	}
 
 	public void removePlayer(WebSocketSession session) {
+		this.availableColor.add(this.players.get(session).getColor());
 		this.players.remove(session);
 	}
 	
@@ -138,6 +139,8 @@ public class GameServer {
 	}
 
 	public void killPlayer(Player player) {
+		this.availableColor.add(player.getColor());
+		
 		this.playerActions.remove(player);
 		for(Map.Entry<WebSocketSession, Player> session : this.players.entrySet()) {
 			if(session.getValue().equals(player)) {
