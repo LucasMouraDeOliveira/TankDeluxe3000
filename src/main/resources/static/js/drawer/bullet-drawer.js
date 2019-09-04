@@ -13,14 +13,10 @@ class BulletDrawer {
     }
 
     initParts() {
-//        this.WHEEL_HEIGHT = 38;
-//        this.WHEEL_WIDTH = 21;
+        this.BULLET_WIDTH = 10;
+        this.BULLET_HEIGHT = 20;
     }
     
-//    centerAround(img, x, y, width, height) {
-//        this.ctx.drawImage(img, x - (width / 2) - (this.TANK_WIDTH / 2) , y - (height / 2) - (this.TANK_HEIGHT / 2));
-//    }
-
     draw(bullet) {
 
         let x = bullet.x;
@@ -63,7 +59,7 @@ class BulletDrawer {
         case 17:
         case 18:
         case 19:
-        	this.ctx.drawImage(bulletSprite, 0, 0, 10, 20);
+        	this.ctx.drawImage(bulletSprite, 0 - Math.round(this.BULLET_WIDTH / 2), 0 - Math.round(this.BULLET_WIDTH / 2), this.BULLET_WIDTH, this.BULLET_HEIGHT);
             break;
         }
         
