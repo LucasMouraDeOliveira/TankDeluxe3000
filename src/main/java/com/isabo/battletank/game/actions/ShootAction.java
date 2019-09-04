@@ -35,38 +35,30 @@ public class ShootAction extends GameUpdate {
 			int newY = (int) Math.round(b.getY() + vy);
 
 			// bounce detection
-			outerloop:
-			for (int i = 0; i < this.gameServer.getLevel().length - 1; i++) {
-				for (int j = 0; j < this.gameServer.getLevel()[0].length - 1; j++) {
-					
-					// If this block is an obstacle
-					if(this.gameServer.getLevel()[i][j]) {
-						Rectangle2D hitBox = new Rectangle2D.Double(
-								i * SettingsManager.OBSTACLE_WIDTH,
-								j * SettingsManager.OBSTACLE_HEIGHT, 
-								SettingsManager.OBSTACLE_WIDTH,
-								SettingsManager.OBSTACLE_HEIGHT);
-						
-						// If next  bullet position is in obstacle
-						if(hitBox.contains(new Point2D.Double(newX, newY))) {
+			int nextBlockX = (int) (newX / SettingsManager.OBSTACLE_WIDTH);
+			int nextBlockY = (int) (newY / SettingsManager.OBSTACLE_HEIGHT);
+			// If this block is an obstacle
+			if(this.gameServer.getLevel()[nextBlockX][nextBlockY]) {
+				Rectangle2D hitBox = new Rectangle2D.Double(
+						nextBlockX * SettingsManager.OBSTACLE_WIDTH,
+						nextBlockY * SettingsManager.OBSTACLE_HEIGHT, 
+						SettingsManager.OBSTACLE_WIDTH,
+						SettingsManager.OBSTACLE_HEIGHT);
+				
+				// If next  bullet position is in obstacle
+				if(hitBox.contains(new Point2D.Double(newX, newY))) {
 
-							// Detect on which side of the obstacle is the bullet
-							if(b.getX() > hitBox.getMaxX() || b.getX() < hitBox.getMinX()) {
-								vx *= -1;
-								b.setAngle(Math.atan2(vy, vx) + (Math.PI / 2));
-								b.bounce();
-								hasBounce = true;
-								break outerloop;
-							}
-							
-							if(b.getY() > hitBox.getMaxY() || b.getY() < hitBox.getMinY()) {
-								vy *= -1;
-								b.setAngle(Math.atan2(vy, vx) + (Math.PI / 2));
-								b.bounce();
-								hasBounce = true;
-								break outerloop;
-							}
-						}
+					// Detect on which side of the obstacle is the bullet
+					if(b.getX() > hitBox.getMaxX() || b.getX() < hitBox.getMinX()) {
+						vx *= -1;
+						b.setAngle(Math.atan2(vy, vx) + (Math.PI / 2));
+						b.bounce();
+						hasBounce = true;
+					} else if(b.getY() > hitBox.getMaxY() || b.getY() < hitBox.getMinY()) {
+						vy *= -1;
+						b.setAngle(Math.atan2(vy, vx) + (Math.PI / 2));
+						b.bounce();
+						hasBounce = true;
 					}
 				}
 			}
