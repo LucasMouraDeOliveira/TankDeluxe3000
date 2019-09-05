@@ -1,8 +1,10 @@
 package com.isabo.battletank.game;
 
+import org.dyn4j.dynamics.Body;
+
 import com.isabo.battletank.SettingsManager;
 
-public class Bullet {
+public class Bullet extends Body {
 	
 	private Player shooter;
 	private double x;

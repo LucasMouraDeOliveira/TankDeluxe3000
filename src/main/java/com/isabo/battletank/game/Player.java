@@ -3,6 +3,8 @@ package com.isabo.battletank.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dyn4j.dynamics.Body;
+
 import com.isabo.battletank.SettingsManager;
 
 public class Player {
@@ -17,22 +19,22 @@ public class Player {
 	private int maxBullet;
 	private int cooldown;
 	private Color color;
+	private Body tank;
 	
 	public static final int NORTH = 0;
 	public static final int EAST = 1;
 	public static final int SOUTH = 2;
 	public static final int WEST = 3;
 	
-	public Player(String name, Color color) {
+	public Player(String name, Color color, Body tank) {
 		this.name = name;
-		this.x = 400;
-		this.y = 400;
-		this.angle = 0D;
 		this.moving = new boolean[4];
 		this.shooting = false;
 		this.bullets = new ArrayList<>();
 		this.maxBullet = SettingsManager.MAX_BULLET;
 		this.color = color;
+		this.tank = tank;
+		tank.getWorldCenter();
 	}
 
 	public int getX() {
@@ -119,6 +121,14 @@ public class Player {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public Body getTank() {
+		return tank;
+	}
+
+	public void setTank(Body tank) {
+		this.tank = tank;
 	}
 
 }

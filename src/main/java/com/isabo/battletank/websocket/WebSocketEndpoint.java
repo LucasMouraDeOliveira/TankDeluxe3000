@@ -27,10 +27,11 @@ public class WebSocketEndpoint extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		gameServer.addPlayer(session, "Player " + playerCount);
 		if(playerCount == 0) {
 			gameServer.start();
 		}
+		
+		gameServer.addPlayer(session, "Player " + playerCount);
 		playerCount++;
 	}
 	

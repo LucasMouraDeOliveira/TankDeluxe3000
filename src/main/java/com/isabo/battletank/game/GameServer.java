@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.geometry.Vector2;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +17,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.isabo.battletank.SettingsManager;
+
 @Component
 public class GameServer {
 	
 	@Autowired
 	private LevelBuilder levelBuilder;
 	
-	private static final int FPS = 20;
+	private Simulation simulation;
 	
 	private Map<WebSocketSession, Player> players;
-	
 	private Map<Player, JSONObject> playerActions;
 	
 	private List<Bullet> bullets;
@@ -41,8 +44,10 @@ public class GameServer {
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
 		Color playerColor = this.availableColor.remove(0);
+		Body tank = this.simulation.createNewTank(400, 400, 0);
+		Player newPlayer = new Player(playerName, playerColor, tank);
 		
-		this.players.put(session, new Player(playerName, playerColor));
+		this.players.put(session, newPlayer);
 	}
 
 	public void removePlayer(WebSocketSession session) {
@@ -67,8 +72,10 @@ public class GameServer {
 	}
 	
 	public void start() {
-		this.level = this.levelBuilder.getNewBorderedLevel();
+		System.out.println("Start game");
 		
+		this.level = this.levelBuilder.getNewBorderedLevel();
+
 		this.level[7][7] = true;
 		this.level[8][8] = true;
 		this.level[8][7] = true;
@@ -79,7 +86,9 @@ public class GameServer {
 		this.level[15][7] = true;
 		this.level[15][8] = true;
 		
-		new GameLoop(this, 1000 / FPS).start();
+		this.simulation = new Simulation(level);
+		
+		new GameLoop(this, 1000 / SettingsManager.FPS).start();
 	}
 
 	public void notifyPlayers() {
@@ -90,9 +99,10 @@ public class GameServer {
 		JSONObject jsonPlayer;
 		for(Player player : this.players.values()) {
 			jsonPlayer = new JSONObject();
-			jsonPlayer.put("x", player.getX());
-			jsonPlayer.put("y", player.getY());
-			jsonPlayer.put("angle", player.getAngle());
+			Vector2 pos = player.getTank().getLocalCenter();
+			jsonPlayer.put("x", pos.getXComponent());
+			jsonPlayer.put("y", pos.getYComponent());
+			jsonPlayer.put("angle", player.getTank().getTorque());
 			jsonPlayer.put("color", player.getColor());
 			jsonPlayers.put(jsonPlayer);
 		}
@@ -155,6 +165,14 @@ public class GameServer {
 
 	public void setLevel(boolean[][] level) {
 		this.level = level;
+	}
+
+	public Simulation getSimulation() {
+		return simulation;
+	}
+
+	public void setSimulation(Simulation simulation) {
+		this.simulation = simulation;
 	}
 
 }
