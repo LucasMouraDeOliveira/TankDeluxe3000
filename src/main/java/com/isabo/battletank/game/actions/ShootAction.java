@@ -1,11 +1,6 @@
 package com.isabo.battletank.game.actions;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.isabo.battletank.SettingsManager;
@@ -38,7 +33,7 @@ public class ShootAction extends GameUpdate {
 			int nextBlockY = (int) (newY / SettingsManager.OBSTACLE_HEIGHT);
 
 			// If bullet out of screen, delete it
-			if(	nextBlockX < 0 || nextBlockX > this.gameServer.getLevel().length ||
+			/*if(	nextBlockX < 0 || nextBlockX > this.gameServer.getLevel().length ||
 				nextBlockY < 0 || nextBlockY > this.gameServer.getLevel()[0].length) {
 				
 				super.gameServer.getBullets().remove(b);
@@ -140,7 +135,7 @@ public class ShootAction extends GameUpdate {
 				p.addBullet(newBullet);
 				
 				p.setCooldown(SettingsManager.SHOOT_COOLDOWN);
-			}
+			}*/
 		}
 	}
 }

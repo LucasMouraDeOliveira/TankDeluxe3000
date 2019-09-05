@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.dynamics.World;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +32,19 @@ public class GameServer {
 	private List<Bullet> bullets;
 	private List<Color> availableColor;
 	
-	private boolean [][] level;
+	private World world;
+	private List<Body> walls;
 	
 	public GameServer() {
 		this.players = new HashMap<>();
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
+		this.walls = new ArrayList<>();
 		this.availableColor = new LinkedList<Color>(Arrays.asList(Color.values()));
 	}
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
 		Color playerColor = this.availableColor.remove(0);
-		
 		this.players.put(session, new Player(playerName, playerColor));
 	}
 
@@ -67,19 +70,17 @@ public class GameServer {
 	}
 	
 	public void start() {
-		this.level = this.levelBuilder.getNewBorderedLevel();
-		
-		this.level[7][7] = true;
-		this.level[8][8] = true;
-		this.level[8][7] = true;
-		this.level[7][8] = true;
-		
-		this.level[14][7] = true;
-		this.level[14][8] = true;
-		this.level[15][7] = true;
-		this.level[15][8] = true;
-		
+		this.world = new World();
+		this.world.setGravity(World.ZERO_GRAVITY);
+		this.walls = this.levelBuilder.getNewBorderedLevel();
+		for(Body wall : this.walls) {
+			this.world.addBody(wall);
+		}
 		new GameLoop(this, 1000 / FPS).start();
+	}
+	
+	public void updateWorld(int elapsedTime) {
+		this.world.update(elapsedTime);
 	}
 
 	public void notifyPlayers() {
@@ -106,18 +107,20 @@ public class GameServer {
 			jsonBullets.put(jsonBullet);
 		}
 		
-		for (int i = 0; i < level.length; i++) {
-			JSONArray jsonObstacleRow = new JSONArray();
-			for (int j = 0; j < level[0].length; j++) {
-				jsonObstacleRow.put(this.level[i][j]);
-			}
-			jsonLevel.put(jsonObstacleRow);
-		}
 		
+		JSONArray jsonWalls = new JSONArray();
+		for(Body wall : this.walls) {
+			JSONObject jsonWall = new JSONObject();
+			jsonWall.put("x", wall.getTransform().getTranslationX());
+			jsonWall.put("y", wall.getTransform().getTranslationY());
+			jsonWalls.put(jsonWall);
+		}
+
 		JSONObject gameData = new JSONObject();
 		gameData.put("players", jsonPlayers);
 		gameData.put("bullets", jsonBullets);
 		gameData.put("level", jsonLevel);
+		gameData.put("walls", jsonWalls);
 		
 		for(WebSocketSession session : this.players.keySet()) {
 			new Thread(() -> {
@@ -148,13 +151,4 @@ public class GameServer {
 			}
 		}
 	}
-
-	public boolean[][] getLevel() {
-		return level;
-	}
-
-	public void setLevel(boolean[][] level) {
-		this.level = level;
-	}
-
 }

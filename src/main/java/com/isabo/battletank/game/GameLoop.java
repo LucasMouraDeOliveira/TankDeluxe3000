@@ -52,13 +52,14 @@ public class GameLoop extends Thread {
 	}
 	
 	private void update(int lastTickDuration) {
+		this.gameServer.updateWorld(lastTickDuration);
 		for(GameUpdate update : updates) {
 			update.act(lastTickDuration);
 		}
 	}
 	
 	private void notifyPlayers() {
-		new Thread(() -> gameServer.notifyPlayers()).start();
+		/*new Thread(() -> */gameServer.notifyPlayers()/*).start()*/;
 	}
 	
 	private boolean isGameFinished() {

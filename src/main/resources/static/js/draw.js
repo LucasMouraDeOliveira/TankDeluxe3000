@@ -47,7 +47,7 @@ function initCanvas() {
 function drawForeground(gameState) {
 	var tanks = gameState.players;
 	var bullets = gameState.bullets;
-	var level = gameState.level;
+	var walls = gameState.walls;
 	
 	// Increment animation step number
 	currentStepNumber++;
@@ -87,12 +87,10 @@ function drawForeground(gameState) {
 	fCtx.shadowColor = "black";
 	fCtx.shadowBlur = 6;
 
-	for(var i in level) {
-		for(var j in level[i]) {
-			if(level[i][j]) {
-				fCtx.drawImage(obstacle, i * obstacle.width, j * obstacle.height);
-			}
-		}
+	console.log(walls);
+	for(var i in walls) {
+		var wall = walls[i];
+		fCtx.drawImage(obstacle, wall.x - 16, wall.y - 16);
 	}
 	
 	// Draw tanks
