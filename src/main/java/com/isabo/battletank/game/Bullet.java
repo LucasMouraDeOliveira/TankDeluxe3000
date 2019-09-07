@@ -1,23 +1,26 @@
 package com.isabo.battletank.game;
 
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.geometry.Geometry;
+import org.dyn4j.geometry.MassType;
+
 import com.isabo.battletank.SettingsManager;
 
-public class Bullet {
+public class Bullet extends Body{
 	
 	private Player shooter;
-	private double x;
-	private double y;
 	private int velocity;
-	private double angle;
 	private int remainingBounce;
 	
 	public Bullet(Player shooter) {
 		this.shooter = shooter;
-		this.x = shooter.getX();
-		this.y = shooter.getY();
 		this.velocity = SettingsManager.BULLET_VELOCITY;
-		this.angle = shooter.getAngle();
 		this.remainingBounce = SettingsManager.MAX_BOUNCE;
+		
+		this.addFixture(Geometry.createCircle(3), 0.0001, 0, 1);
+		this.translate(shooter.getX() + 40, shooter.getY());
+		this.setLinearVelocity(SettingsManager.BULLET_VELOCITY, 0);
+		this.setMass(MassType.NORMAL);
 	}
 	
 	public Player getShooter() {
@@ -33,22 +36,13 @@ public class Bullet {
 		this.velocity = velocity;
 	}
 	public double getX() {
-		return x;
-	}
-	public void setX(double x) {
-		this.x = x;
+		return this.getWorldCenter().x;
 	}
 	public double getY() {
-		return y;
-	}
-	public void setY(double y) {
-		this.y = y;
+		return this.getWorldCenter().y;
 	}
 	public double getAngle() {
-		return angle;
-	}
-	public void setAngle(double angle) {
-		this.angle = angle;
+		return this.getTransform().getRotation();
 	}
 
 	public int getRemainingBounce() {

@@ -13,7 +13,7 @@ public class SettingsManager {
 	public static final int MAX_BULLET = 30;
 	
 	// Bullet
-	public static final int BULLET_VELOCITY = 20;
+	public static final int BULLET_VELOCITY = 20000;
 	public static final int MAX_BOUNCE = 1;
 	
 	// Tank

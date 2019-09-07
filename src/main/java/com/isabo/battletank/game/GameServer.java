@@ -49,6 +49,10 @@ public class GameServer {
 		
 		newPlayer.translate(400, 400);
 		this.players.put(session, newPlayer);
+		
+		if(this.world != null) {
+			this.world.addBody(newPlayer);
+		}
 	}
 
 	public void removePlayer(WebSocketSession session) {
@@ -139,6 +143,7 @@ public class GameServer {
 
 	public void addBullet(Bullet bullet) {
 		this.bullets.add(bullet);
+		this.world.addBody(bullet);
 	}
 
 	public List<Bullet> getBullets() {
