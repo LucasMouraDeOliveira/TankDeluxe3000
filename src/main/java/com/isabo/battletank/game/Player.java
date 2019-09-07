@@ -3,13 +3,14 @@ package com.isabo.battletank.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.geometry.Geometry;
+import org.dyn4j.geometry.MassType;
+
 import com.isabo.battletank.SettingsManager;
 
-public class Player {
+public class Player extends Body {
 	
-	private int x;
-	private int y;
-	private double angle;
 	private String name;
 	private boolean moving[];
 	private boolean shooting;
@@ -25,40 +26,36 @@ public class Player {
 	
 	public Player(String name, Color color) {
 		this.name = name;
-		this.x = 400;
-		this.y = 400;
-		this.angle = 0D;
 		this.moving = new boolean[4];
 		this.shooting = false;
 		this.bullets = new ArrayList<>();
 		this.maxBullet = SettingsManager.MAX_BULLET;
 		this.color = color;
+		
+		this.addFixture(Geometry.createRectangle(SettingsManager.TANK_WIDTH, SettingsManager.TANK_HEIGHT), 0.001, 0.5, 0.01);
+		this.setMass(MassType.NORMAL);
 	}
 
-	public int getX() {
-		return x;
+	public double getX() {
+		return this.getWorldCenter().x;
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public void setX(double x) {
+		this.translate(x, 0);
 	}
 
-	public int getY() {
-		return y;
+	public double getY() {
+		return this.getWorldCenter().y;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public void setY(double y) {
+		this.translate(0, y);
 	}
 
 	public double getAngle() {
-		return angle;
+		return this.getTransform().getRotation();
 	}
 
-	public void setAngle(double angle) {
-		this.angle = angle;
-	}
-	
 	public String getName() {
 		return name;
 	}

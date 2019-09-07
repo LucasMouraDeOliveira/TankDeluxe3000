@@ -45,7 +45,10 @@ public class GameServer {
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
 		Color playerColor = this.availableColor.remove(0);
-		this.players.put(session, new Player(playerName, playerColor));
+		Player newPlayer = new Player(playerName, playerColor);
+		
+		newPlayer.translate(400, 400);
+		this.players.put(session, newPlayer);
 	}
 
 	public void removePlayer(WebSocketSession session) {
@@ -73,9 +76,10 @@ public class GameServer {
 		this.world = new World();
 		this.world.setGravity(World.ZERO_GRAVITY);
 		this.walls = this.levelBuilder.getNewBorderedLevel();
-		for(Body wall : this.walls) {
-			this.world.addBody(wall);
-		}
+		this.walls.stream().forEach(wall -> this.world.addBody(wall));
+		
+		this.players.entrySet().stream().forEach(entry -> this.world.addBody(entry.getValue()));
+		
 		new GameLoop(this, 1000 / FPS).start();
 	}
 	
