@@ -29,7 +29,7 @@ public class LevelBuilder {
 	
 	private Body createWall(int x, int y) {
 		Body wall = new Body();
-		wall.addFixture(Geometry.createRectangle(SettingsManager.OBSTACLE_WIDTH, SettingsManager.OBSTACLE_HEIGHT));
+		wall.addFixture(Geometry.createRectangle(SettingsManager.OBSTACLE_WIDTH, SettingsManager.OBSTACLE_HEIGHT), 1, 0.2, 0);
 		wall.translate(x + SettingsManager.OBSTACLE_WIDTH / 2, y + SettingsManager.OBSTACLE_HEIGHT / 2);
 		wall.setMass(MassType.INFINITE);
 		return wall;

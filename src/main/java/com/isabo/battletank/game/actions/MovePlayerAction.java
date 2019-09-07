@@ -13,17 +13,18 @@ public class MovePlayerAction extends GameUpdate {
 
 	@Override
 	public void act(int delta) {
-		double force = 100000 * delta;
+		double force = 1000 * delta;
 		
 		for(Player player : this.gameServer.getPlayers()) {
 			Vector2 r = new Vector2(player.getTransform().getRotation() + Math.PI * 0.5);
 			Vector2 c = player.getWorldCenter();
 
 			if(player.isMoving(Player.NORTH)) {
-				Vector2 f = r.product(-force * 10000000);
+				Vector2 f = r.product(-force);
 				player.applyForce(f);
 			} else if(player.isMoving(Player.SOUTH)) {
-				Vector2 f = r.product(force * 10000000);
+				Vector2 f = r.product(force);
+
 				player.applyForce(f);
 			} else {
 				// Fake friction
@@ -33,16 +34,16 @@ public class MovePlayerAction extends GameUpdate {
 			
 			// Limit angular velocity to 8
 			if(player.isMoving(Player.EAST) && Math.abs(player.getAngularVelocity()) < 8) {
-	        	Vector2 f1 = r.product(force * 0.03).right();
-	        	Vector2 f2 = r.product(force * 0.03).left();
+	        	Vector2 f1 = r.product(force * 3).right();
+	        	Vector2 f2 = r.product(force * 3).left();
 	        	Vector2 p1 = c.sum(r.product(0.9));
 	        	Vector2 p2 = c.sum(r.product(-0.9));
 	        	
 	        	player.applyForce(f1, p1);			// Apply a force to the top going left
 	        	player.applyForce(f2, p2);			// Apply a force to the bottom going right
 			} else if(player.isMoving(Player.WEST) && Math.abs(player.getAngularVelocity()) < 8) {
-				Vector2 f1 = r.product(force * 0.03).left();
-	        	Vector2 f2 = r.product(force * 0.03).right();
+				Vector2 f1 = r.product(force * 3).left();
+	        	Vector2 f2 = r.product(force * 3).right();
 	        	Vector2 p1 = c.sum(r.product(0.9));
 	        	Vector2 p2 = c.sum(r.product(-0.9));
 	        	
