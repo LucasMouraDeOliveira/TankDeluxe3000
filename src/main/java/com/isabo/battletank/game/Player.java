@@ -32,7 +32,7 @@ public class Player extends Body {
 		this.maxBullet = SettingsManager.MAX_BULLET;
 		this.color = color;
 		
-		this.addFixture(Geometry.createRectangle(SettingsManager.TANK_WIDTH, SettingsManager.TANK_HEIGHT), 0.001, 0.5, 0);
+		this.addFixture(Geometry.createRectangle(SettingsManager.TANK_WIDTH, SettingsManager.TANK_HEIGHT), 1, 0.5, 0);
 		this.setMass(MassType.NORMAL);
 	}
 

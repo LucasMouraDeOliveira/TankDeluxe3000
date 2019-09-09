@@ -13,12 +13,12 @@ public class MovePlayerAction extends GameUpdate {
 
 	@Override
 	public void act(int delta) {
-		double force = 1000 * delta;
+		double force = 50 * delta;
 		
 		for(Player player : this.gameServer.getPlayers()) {
 			Vector2 r = new Vector2(player.getTransform().getRotation() + Math.PI * 0.5);
 			Vector2 c = player.getWorldCenter();
-
+			
 			if(player.isMoving(Player.NORTH)) {
 				Vector2 f = r.product(-force);
 				player.applyForce(f);
@@ -29,7 +29,7 @@ public class MovePlayerAction extends GameUpdate {
 			} else {
 				// Fake friction
 				Vector2 v = player.getLinearVelocity();
-				player.setLinearVelocity(v.product(0.8));
+				player.setLinearVelocity(v.product(0.7));
 			}
 			
 			// Limit angular velocity to 8
@@ -51,7 +51,7 @@ public class MovePlayerAction extends GameUpdate {
 	        	player.applyForce(f2, p2);			// Apply a force to the bottom going right
 			} else {
 				// Fake friction
-				player.setAngularVelocity(player.getAngularVelocity() * 0.8);
+				player.setAngularVelocity(player.getAngularVelocity() * 0.5);
 			}
 		}
 	}

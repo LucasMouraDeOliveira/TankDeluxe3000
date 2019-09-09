@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.json.JSONArray;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+
+import com.isabo.battletank.SettingsManager;
 
 @Component
 public class GameServer {
@@ -47,7 +50,7 @@ public class GameServer {
 		Color playerColor = this.availableColor.remove(0);
 		Player newPlayer = new Player(playerName, playerColor);
 		
-		newPlayer.translate(400, 400);
+		newPlayer.translate(6, 6);
 		this.players.put(session, newPlayer);
 		
 		if(this.world != null) {
@@ -78,6 +81,7 @@ public class GameServer {
 	
 	public void start() {
 		this.world = new World();
+//		this.world = new World(new AxisAlignedBounds(SettingsManager.WORLD_WIDTH, SettingsManager.WORLD_HEIGHT));
 		this.world.setGravity(World.ZERO_GRAVITY);
 		this.walls = this.levelBuilder.getNewBorderedLevel();
 		this.walls.stream().forEach(wall -> this.world.addBody(wall));
@@ -99,8 +103,8 @@ public class GameServer {
 		JSONObject jsonPlayer;
 		for(Player player : this.players.values()) {
 			jsonPlayer = new JSONObject();
-			jsonPlayer.put("x", player.getX());
-			jsonPlayer.put("y", player.getY());
+			jsonPlayer.put("x", player.getX() * SettingsManager.SIZE_RATIO);
+			jsonPlayer.put("y", player.getY() * SettingsManager.SIZE_RATIO);
 			jsonPlayer.put("angle", player.getAngle());
 			jsonPlayer.put("color", player.getColor());
 			jsonPlayers.put(jsonPlayer);
@@ -109,8 +113,8 @@ public class GameServer {
 		JSONObject jsonBullet;
 		for (Bullet bullet : bullets) {
 			jsonBullet = new JSONObject();
-			jsonBullet.put("x", bullet.getX());
-			jsonBullet.put("y", bullet.getY());
+			jsonBullet.put("x", bullet.getX() * SettingsManager.SIZE_RATIO);
+			jsonBullet.put("y", bullet.getY() * SettingsManager.SIZE_RATIO);
 			jsonBullet.put("angle", bullet.getAngle());
 			jsonBullets.put(jsonBullet);
 		}
@@ -119,8 +123,8 @@ public class GameServer {
 		JSONArray jsonWalls = new JSONArray();
 		for(Body wall : this.walls) {
 			JSONObject jsonWall = new JSONObject();
-			jsonWall.put("x", wall.getTransform().getTranslationX());
-			jsonWall.put("y", wall.getTransform().getTranslationY());
+			jsonWall.put("x", wall.getTransform().getTranslationX() * SettingsManager.SIZE_RATIO);
+			jsonWall.put("y", wall.getTransform().getTranslationY() * SettingsManager.SIZE_RATIO);
 			jsonWalls.put(jsonWall);
 		}
 
