@@ -34,6 +34,8 @@ public class Player extends Body {
 		
 		this.addFixture(Geometry.createRectangle(SettingsManager.TANK_WIDTH, SettingsManager.TANK_HEIGHT), 1, 0.5, 0);
 		this.setMass(MassType.NORMAL);
+		this.setLinearDamping(6);
+		this.setAngularDamping(8);
 	}
 
 	public double getX() {

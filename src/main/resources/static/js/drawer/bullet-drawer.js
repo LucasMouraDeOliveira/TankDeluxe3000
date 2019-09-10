@@ -9,12 +9,12 @@ class BulletDrawer {
         bulletSprite = new Image();
         
         // Assets loading
-        bulletSprite.src = "/assets/img/bullet.png";
+        bulletSprite.src = "/assets/img/circle-bullet.png";
     }
 
     initParts() {
-        this.BULLET_WIDTH = 10;
-        this.BULLET_HEIGHT = 20;
+        this.BULLET_WIDTH = 12;
+        this.BULLET_HEIGHT = 12;
     }
     
     draw(bullet) {

@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.json.JSONArray;
@@ -19,6 +18,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.isabo.battletank.SettingsManager;
+import com.isabo.battletank.listener.TankBulletListener;
 
 @Component
 public class GameServer {
@@ -81,7 +81,9 @@ public class GameServer {
 	
 	public void start() {
 		this.world = new World();
-//		this.world = new World(new AxisAlignedBounds(SettingsManager.WORLD_WIDTH, SettingsManager.WORLD_HEIGHT));
+		
+		this.world.addListener(new TankBulletListener(this));
+		
 		this.world.setGravity(World.ZERO_GRAVITY);
 		this.walls = this.levelBuilder.getNewBorderedLevel();
 		this.walls.stream().forEach(wall -> this.world.addBody(wall));
