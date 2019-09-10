@@ -50,7 +50,7 @@ public class GameServer {
 		Color playerColor = this.availableColor.remove(0);
 		Player newPlayer = new Player(playerName, playerColor);
 		
-		newPlayer.translate(6, 6);
+		newPlayer.translate(30, 30);
 		this.players.put(session, newPlayer);
 		
 		if(this.world != null) {
@@ -86,6 +86,11 @@ public class GameServer {
 		
 		this.world.setGravity(World.ZERO_GRAVITY);
 		this.walls = this.levelBuilder.getNewBorderedLevel();
+		this.levelBuilder.addRectangle(this.walls, 5, 3, 12, 3);
+		this.levelBuilder.addRectangle(this.walls, 12, 4, 12, 8);
+		this.levelBuilder.addRectangle(this.walls, 14, 11, 18, 11);
+		this.levelBuilder.addRectangle(this.walls, 8, 12, 9, 13);
+		
 		this.walls.stream().forEach(wall -> this.world.addBody(wall));
 		
 		this.players.entrySet().stream().forEach(entry -> this.world.addBody(entry.getValue()));
@@ -162,7 +167,8 @@ public class GameServer {
 		this.playerActions.remove(player);
 		for(Map.Entry<WebSocketSession, Player> session : this.players.entrySet()) {
 			if(session.getValue().equals(player)) {
-				players.remove(session.getKey());
+				this.players.remove(session.getKey());
+				this.world.removeBody(player);
 			}
 		}
 	}

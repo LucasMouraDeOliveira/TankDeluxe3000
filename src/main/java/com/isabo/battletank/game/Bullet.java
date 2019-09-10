@@ -17,10 +17,13 @@ public class Bullet extends Body{
 		this.remainingBounce = SettingsManager.MAX_BOUNCE;
 		
 		Vector2 r = new Vector2(shooter.getTransform().getRotation() + Math.PI * 0.5);
-		Vector2 t = new Vector2(shooter.getX(), shooter.getY() + SettingsManager.TANK_HEIGHT / 2);
+//		Vector2 t = new Vector2(shooter.getX(), shooter.getY() + SettingsManager.TANK_HEIGHT / 2);
+		
+		Vector2 p = shooter.getWorldCenter().sum(r.product(-0.9));
 
 		this.addFixture(Geometry.createCircle(0.2), 0.0001, 0, 1);
-		this.translate(shooter.getX() + r.project(t).x, shooter.getY() + r.project(t).y);
+		this.translate(shooter.getX() - SettingsManager.TANK_WIDTH * Math.cos(shooter.getTransform().getRotation() + Math.PI * 0.5), 
+						shooter.getY() - SettingsManager.TANK_HEIGHT * Math.sin(shooter.getTransform().getRotation() + Math.PI * 0.5));
 		this.setLinearVelocity(r.product(-SettingsManager.BULLET_VELOCITY));
 		this.setMass(MassType.NORMAL);
 		
