@@ -51,7 +51,7 @@ class TankDrawer {
     	tankBodyTurquoise.src = "/assets/img/tank-body-S-turquoise.png";
     	tankBodyGreen.src = "/assets/img/tank-body-S-green.png";
     	tankBodyPurple.src = "/assets/img/tank-body-S-purple.png";
-    	machineGunBlue.src = "/assets/img/machine-gun-S-blue.png";
+    	machineGunBlue.src = "/assets/img/barrel-S-blue.png";
     	machineGunOrange.src = "/assets/img/machine-gun-S-orange.png";
     	machineGunYellow.src = "/assets/img/machine-gun-S-yellow.png";
     	machineGunTurquoise.src = "/assets/img/machine-gun-S-turquoise.png";
