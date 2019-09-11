@@ -2,6 +2,7 @@ package com.isabo.battletank.game.actions;
 
 import org.dyn4j.geometry.Vector2;
 
+import com.isabo.battletank.SettingsManager;
 import com.isabo.battletank.game.GameServer;
 import com.isabo.battletank.game.Player;
 
@@ -13,7 +14,7 @@ public class MovePlayerAction extends GameUpdate {
 
 	@Override
 	public void act(int delta) {
-		double force = 100D * delta;
+		double force = SettingsManager.TANK_VELOCITY * delta;
 		
 		for(Player player : this.gameServer.getPlayers()) {
 			Vector2 r = new Vector2(player.getTransform().getRotation() + Math.PI * 0.5);

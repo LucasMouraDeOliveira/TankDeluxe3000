@@ -9,8 +9,8 @@
 	<style>
 	
 		#mainDiv {
-			width: 800px;
-			height: 640px;
+			width: 1200px;
+			height: 800px;
 			margin: auto;
 			border: 1px solid black;
 			background-color: white;
@@ -29,8 +29,8 @@
 <body>
 
 	<div id="mainDiv">
-		<canvas id="backgroundCanvas" width=800 height=640></canvas>
-		<canvas id="foregroundCanvas" width=800 height=640></canvas>
+		<canvas id="backgroundCanvas" width=1200 height=800></canvas>
+		<canvas id="foregroundCanvas" width=1200 height=800></canvas>
 	</div>
 
 	<script type="text/javascript" src="js/drawer/tank-drawer.js"></script>

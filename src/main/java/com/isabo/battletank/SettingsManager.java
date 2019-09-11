@@ -5,8 +5,8 @@ public class SettingsManager {
 	public static final int SIZE_RATIO = 10;
 	
 	// Canvas
-	public static final int CANVAS_WIDTH = 800;
-	public static final int CANVAS_HEIGHT = 640;
+	public static final int CANVAS_WIDTH = 1200;
+	public static final int CANVAS_HEIGHT = 800;
 	public static final int OBSTACLE_HEIGHT_PX = 32;
 	public static final int OBSTACLE_WIDTH_PX = 32;
 	public static final int TANK_WIDTH_PX = 60;
@@ -19,11 +19,12 @@ public class SettingsManager {
 	public static final double OBSTACLE_WIDTH = (double) OBSTACLE_WIDTH_PX / SIZE_RATIO;
 	public static final double TANK_WIDTH = (double) TANK_WIDTH_PX / SIZE_RATIO;
 	public static final double TANK_HEIGHT = (double) TANK_HEIGHT_PX / SIZE_RATIO;
+	public static final double TANK_VELOCITY = 150;
 	
 	
 	// Player
-	public static final int SHOOT_COOLDOWN = 250;
-	public static final int MAX_BULLET = 30;
+	public static final int SHOOT_COOLDOWN = 400;
+	public static final int MAX_BULLET = 3;
 	
 	// Bullet
 	public static final int BULLET_VELOCITY = 50;

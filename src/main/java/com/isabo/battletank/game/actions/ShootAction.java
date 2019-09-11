@@ -114,18 +114,17 @@ public class ShootAction extends GameUpdate {
 			// is a bad idea.
 
 			// Find bullet to remove
-//			List<Bullet> bulletToRemove = new ArrayList<>();
-//			for (Bullet b : p.getBullets()) {
-//				if(b.getRemainingBounce() < 0) {
-//					bulletToRemove.add(b);
-//				}
-//			}
+			List<Bullet> bulletToRemove = new ArrayList<>();
+			for (Bullet b : p.getBullets()) {
+				if(b.getRemainingBounce() < 0) {
+					bulletToRemove.add(b);
+				}
+			}
 			// Remove the bullet
-//			for (Bullet b : bulletToRemove) {
-//				p.getBullets().remove(b);
-//				super.gameServer.getBullets().remove(b);
-//			}
-			
+			for (Bullet b : bulletToRemove) {
+				p.getBullets().remove(b);
+				super.gameServer.removeBullet(b);
+			}
 			
 			// Create new bullet
 			if(p.isShooting() && p.getMaxBullet() > p.getBullets().size() && p.getCooldown() <= 0) {

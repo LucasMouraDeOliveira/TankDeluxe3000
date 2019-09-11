@@ -13,14 +13,19 @@ public class TankBulletListener extends ContactAdapter {
 	
 	public TankBulletListener(GameServer gs) {
 		this.gameServer = gs;
-	}
+	}   
 	
-	@Override
+ 	@Override
 	public boolean begin(ContactPoint point) {
 		for (Player p : this.gameServer.getPlayers()) {
 			if(p.equals(point.getBody1()) && point.getBody2() instanceof Bullet ||
 				p.equals(point.getBody2()) && point.getBody1() instanceof Bullet) {
+				Bullet b = (point.getBody1() instanceof Bullet ? (Bullet) point.getBody1() : (Bullet) point.getBody2());
+				
 				this.gameServer.killPlayer(p);
+				this.gameServer.removeBullet(b);
+				b.getShooter().getBullets().remove(b);
+				
 				break;
 			}
 		}

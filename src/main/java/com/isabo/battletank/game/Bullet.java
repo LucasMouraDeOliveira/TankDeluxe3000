@@ -21,7 +21,7 @@ public class Bullet extends Body{
 		
 		Vector2 p = shooter.getWorldCenter().sum(r.product(-0.9));
 
-		this.addFixture(Geometry.createCircle(0.2), 0.0001, 0, 1);
+		this.addFixture(Geometry.createCircle(0.5), 0.0001, 0, 1);
 		this.translate(shooter.getX() - SettingsManager.TANK_WIDTH * Math.cos(shooter.getTransform().getRotation() + Math.PI * 0.5), 
 						shooter.getY() - SettingsManager.TANK_HEIGHT * Math.sin(shooter.getTransform().getRotation() + Math.PI * 0.5));
 		this.setLinearVelocity(r.product(-SettingsManager.BULLET_VELOCITY));

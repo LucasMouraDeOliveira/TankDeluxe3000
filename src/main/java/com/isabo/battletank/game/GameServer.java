@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
@@ -18,6 +19,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.isabo.battletank.SettingsManager;
+import com.isabo.battletank.listener.BulletBulletListener;
+import com.isabo.battletank.listener.BulletWallListener;
 import com.isabo.battletank.listener.TankBulletListener;
 
 @Component
@@ -36,7 +39,8 @@ public class GameServer {
 	private List<Color> availableColor;
 	
 	private World world;
-	private List<Body> walls;
+	private List<Wall> walls;
+	private Random random;
 	
 	public GameServer() {
 		this.players = new HashMap<>();
@@ -44,13 +48,14 @@ public class GameServer {
 		this.bullets = new ArrayList<>();
 		this.walls = new ArrayList<>();
 		this.availableColor = new LinkedList<Color>(Arrays.asList(Color.values()));
+		this.random = new Random();
 	}
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
 		Color playerColor = this.availableColor.remove(0);
 		Player newPlayer = new Player(playerName, playerColor);
 		
-		newPlayer.translate(30, 30);
+		newPlayer.translate(random.nextInt((int)SettingsManager.WORLD_WIDTH), random.nextInt((int)SettingsManager.WORLD_HEIGHT));
 		this.players.put(session, newPlayer);
 		
 		if(this.world != null) {
@@ -60,7 +65,8 @@ public class GameServer {
 
 	public void removePlayer(WebSocketSession session) {
 		this.availableColor.add(this.players.get(session).getColor());
-		this.players.remove(session);
+		Player p = this.players.remove(session);
+		this.world.removeBody(p);
 	}
 	
 	public Player getPlayer(WebSocketSession session) {
@@ -83,6 +89,8 @@ public class GameServer {
 		this.world = new World();
 		
 		this.world.addListener(new TankBulletListener(this));
+		this.world.addListener(new BulletBulletListener(this));
+		this.world.addListener(new BulletWallListener());
 		
 		this.world.setGravity(World.ZERO_GRAVITY);
 		this.walls = this.levelBuilder.getNewBorderedLevel();
@@ -90,6 +98,7 @@ public class GameServer {
 		this.levelBuilder.addRectangle(this.walls, 12, 4, 12, 8);
 		this.levelBuilder.addRectangle(this.walls, 14, 11, 18, 11);
 		this.levelBuilder.addRectangle(this.walls, 8, 12, 9, 13);
+		this.levelBuilder.addRectangle(this.walls, 22, 12, 25, 12);
 		
 		this.walls.stream().forEach(wall -> this.world.addBody(wall));
 		
@@ -156,6 +165,11 @@ public class GameServer {
 		this.bullets.add(bullet);
 		this.world.addBody(bullet);
 	}
+	
+	public void removeBullet(Bullet bullet) {
+		this.bullets.remove(bullet);
+		this.world.removeBody(bullet);
+	}
 
 	public List<Bullet> getBullets() {
 		return bullets;
@@ -163,13 +177,18 @@ public class GameServer {
 
 	public void killPlayer(Player player) {
 		this.availableColor.add(player.getColor());
-		
 		this.playerActions.remove(player);
+		
+		Map.Entry<WebSocketSession, Player> toBeRemove = null;
 		for(Map.Entry<WebSocketSession, Player> session : this.players.entrySet()) {
 			if(session.getValue().equals(player)) {
-				this.players.remove(session.getKey());
-				this.world.removeBody(player);
+				toBeRemove = session;
 			}
+		}
+		
+		if(toBeRemove != null) {
+			this.players.remove(toBeRemove.getKey());
+			this.world.removeBody(player);
 		}
 	}
 }

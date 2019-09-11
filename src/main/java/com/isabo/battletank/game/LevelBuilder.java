@@ -3,9 +3,6 @@ package com.isabo.battletank.game;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Geometry;
-import org.dyn4j.geometry.MassType;
 import org.springframework.stereotype.Service;
 
 import com.isabo.battletank.SettingsManager;
@@ -13,8 +10,8 @@ import com.isabo.battletank.SettingsManager;
 @Service
 public class LevelBuilder {
 
-	public List<Body> getNewBorderedLevel() {
-		List<Body> walls = new ArrayList<>();
+	public List<Wall> getNewBorderedLevel() {
+		List<Wall> walls = new ArrayList<>();
 		int width = (int) (SettingsManager.WORLD_WIDTH / SettingsManager.OBSTACLE_WIDTH);
 		int height = (int) (SettingsManager.WORLD_HEIGHT / SettingsManager.OBSTACLE_HEIGHT);
 		
@@ -29,16 +26,11 @@ public class LevelBuilder {
 		return walls;
 	}
 	
-	private Body createWall(double x, double y) {
-		Body wall = new Body();
-		wall.addFixture(Geometry.createRectangle(SettingsManager.OBSTACLE_WIDTH, SettingsManager.OBSTACLE_HEIGHT), 1, 0.2, 0);
-		wall.translate(x + SettingsManager.OBSTACLE_WIDTH / 2D, y + SettingsManager.OBSTACLE_HEIGHT / 2D);
-		wall.setMass(MassType.INFINITE);
-		
-		return wall;
+	public Wall createWall(double x, double y) {
+		return new Wall(x, y);
 	}
 	
-	public void addRectangle(List<Body> walls, int x1, int y1, int x2, int y2) {
+	public void addRectangle(List<Wall> walls, int x1, int y1, int x2, int y2) {
 		int width = (int) (SettingsManager.WORLD_WIDTH / SettingsManager.OBSTACLE_WIDTH);
 		int height = (int) (SettingsManager.WORLD_HEIGHT / SettingsManager.OBSTACLE_HEIGHT);
 		
