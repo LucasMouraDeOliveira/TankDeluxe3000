@@ -52,11 +52,11 @@ class TankDrawer {
     	tankBodyGreen.src = "/assets/img/tank-body-S-green.png";
     	tankBodyPurple.src = "/assets/img/tank-body-S-purple.png";
     	machineGunBlue.src = "/assets/img/barrel-S-blue.png";
-    	machineGunOrange.src = "/assets/img/machine-gun-S-orange.png";
-    	machineGunYellow.src = "/assets/img/machine-gun-S-yellow.png";
-    	machineGunTurquoise.src = "/assets/img/machine-gun-S-turquoise.png";
-    	machineGunPurple.src = "/assets/img/machine-gun-S-purple.png";
-    	machineGunGreen.src = "/assets/img/machine-gun-S-green.png";
+    	machineGunOrange.src = "/assets/img/barrel-S-orange.png";
+    	machineGunYellow.src = "/assets/img/barrel-S-yellow.png";
+    	machineGunTurquoise.src = "/assets/img/barrel-S-turquoise.png";
+    	machineGunPurple.src = "/assets/img/barrel-S-purple.png";
+    	machineGunGreen.src = "/assets/img/barrel-S-green.png";
     }
 
     initParts() {
