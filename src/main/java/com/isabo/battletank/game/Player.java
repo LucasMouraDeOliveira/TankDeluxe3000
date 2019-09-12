@@ -19,6 +19,11 @@ public class Player extends Body {
 	private int cooldown;
 	private Color color;
 	
+	private int aimX;
+	private int aimY;
+
+	private double turretAngle;
+	
 	public static final int NORTH = 0;
 	public static final int EAST = 1;
 	public static final int SOUTH = 2;
@@ -110,6 +115,30 @@ public class Player extends Body {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public int getAimX() {
+		return aimX;
+	}
+
+	public void setAimX(int aimX) {
+		this.aimX = aimX;
+	}
+
+	public int getAimY() {
+		return aimY;
+	}
+
+	public void setAimY(int aimY) {
+		this.aimY = aimY;
+	}
+
+	public double getTurretAngle() {
+		return turretAngle;
+	}
+
+	public void setTurretAngle(double turretAngle) {
+		this.turretAngle = turretAngle;
 	}
 
 }

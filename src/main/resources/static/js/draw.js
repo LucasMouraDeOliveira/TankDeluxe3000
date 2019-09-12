@@ -87,7 +87,6 @@ function drawForeground(gameState) {
 	fCtx.shadowColor = "black";
 	fCtx.shadowBlur = 6;
 
-	console.log(walls);
 	for(var i in walls) {
 		var wall = walls[i];
 		fCtx.drawImage(obstacle, wall.x - 16, wall.y - 16);

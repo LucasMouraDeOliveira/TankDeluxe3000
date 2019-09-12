@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import com.isabo.battletank.SettingsManager;
 import com.isabo.battletank.game.GameServer;
 import com.isabo.battletank.game.Player;
 
@@ -24,6 +25,10 @@ public class UpdatePlayerAction extends GameUpdate {
 				player.setMoving(Player.WEST, obj.getBoolean("left"));
 				player.setMoving(Player.EAST, obj.getBoolean("right"));
 				player.setShooting(obj.getBoolean("shoot"));
+				
+				JSONObject aim = obj.getJSONObject("aim");
+				player.setAimX(aim.getInt("x") / SettingsManager.SIZE_RATIO);
+				player.setAimY(aim.getInt("y") / SettingsManager.SIZE_RATIO);
 			}
 		}
 	}

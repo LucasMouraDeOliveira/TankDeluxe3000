@@ -47,6 +47,11 @@ public class MovePlayerAction extends GameUpdate {
 	        	player.applyForce(f1, p1);			// Apply a force to the top going left
 	        	player.applyForce(f2, p2);			// Apply a force to the bottom going right
 			}
+			
+			// Turret move
+			Vector2 aimDirection = new Vector2(player.getAimX() - player.getX(), player.getAimY() - player.getY());
+			
+			player.setTurretAngle(Math.atan2(aimDirection.y, aimDirection.x) + (Math.PI / 2));
 		}
 	}
 

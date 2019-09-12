@@ -23,8 +23,6 @@ class BulletDrawer {
         let y = bullet.y;
         let a = bullet.angle;
 
-        console.log(x + " " + y + " " + a);
-
         // Rotate context
         this.ctx.save();
         this.ctx.translate(x, y);
