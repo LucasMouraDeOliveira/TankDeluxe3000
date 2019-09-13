@@ -13,7 +13,6 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -26,7 +25,6 @@ import com.isabo.battletank.listener.TankBulletListener;
 @Component
 public class GameServer {
 	
-	@Autowired
 	private LevelBuilder levelBuilder;
 	
 	private static final int FPS = 20;
@@ -41,21 +39,38 @@ public class GameServer {
 	private World world;
 	private List<Wall> walls;
 	private Random random;
+	private Level level;
 	
 	public GameServer() {
 		this.players = new HashMap<>();
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
 		this.walls = new ArrayList<>();
-		this.availableColor = new LinkedList<Color>(Arrays.asList(Color.values()));
+		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
+		this.levelBuilder = new LevelBuilder();
+		
+		this.world = new World();
+		
+		this.world.addListener(new TankBulletListener(this));
+		this.world.addListener(new BulletBulletListener(this));
+		this.world.addListener(new BulletWallListener());
+		
+		this.world.setGravity(World.ZERO_GRAVITY);
+		this.level = this.levelBuilder.getSpecialLevel();
+		this.walls = this.level.getObstalces(); 
+		
+		this.walls.stream().forEach(wall -> this.world.addBody(wall));
 	}
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
 		Color playerColor = this.availableColor.remove(0);
 		Player newPlayer = new Player(playerName, playerColor);
 		
-		newPlayer.translate(random.nextInt((int)SettingsManager.WORLD_WIDTH), random.nextInt((int)SettingsManager.WORLD_HEIGHT));
+		List<Coordinate> spone = this.level.getSpone();
+		Coordinate playerSpone = spone.get(random.nextInt(spone.size()));
+		
+		newPlayer.translate(playerSpone.getX(), playerSpone.getY());
 		this.players.put(session, newPlayer);
 		
 		if(this.world != null) {
@@ -86,18 +101,7 @@ public class GameServer {
 	}
 	
 	public void start() {
-		this.world = new World();
-		
-		this.world.addListener(new TankBulletListener(this));
-		this.world.addListener(new BulletBulletListener(this));
-		this.world.addListener(new BulletWallListener());
-		
-		this.world.setGravity(World.ZERO_GRAVITY);
-		this.walls = this.levelBuilder.getSpecialLevel();
-		
-		this.walls.stream().forEach(wall -> this.world.addBody(wall));
-		
-		this.players.entrySet().stream().forEach(entry -> this.world.addBody(entry.getValue()));
+//		this.players.entrySet().stream().forEach(entry -> this.world.addBody(entry.getValue()));
 		
 		new GameLoop(this, 1000 / FPS).start();
 	}

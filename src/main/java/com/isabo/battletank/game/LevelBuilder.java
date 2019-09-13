@@ -3,11 +3,8 @@ package com.isabo.battletank.game;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.isabo.battletank.SettingsManager;
 
-@Service
 public class LevelBuilder {
 	
 	boolean [][] level = new boolean[][] {{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,true,true,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,true,true,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,true,true,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,true,true,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,true,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,true,false,false,false,true},{true,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true},{true,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true},{true,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true},{true,false,false,false,true,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,true,false,false,false,true},{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,true,true,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,true,true,false,false,false,false,false,false,true},{true,false,false,false,true,true,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,true,true,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},{false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false}};
@@ -28,8 +25,9 @@ public class LevelBuilder {
 		return walls;
 	}
 	
-	public List<Wall> getSpecialLevel() {
+	public Level getSpecialLevel() {
 		List<Wall> walls = new ArrayList<>();
+		Level specialLevel = new Level();
 		
 		for (int i = 0; i < level.length; i++) {
 			for (int j = 0; j < level[0].length; j++) {
@@ -39,7 +37,17 @@ public class LevelBuilder {
 			}
 		}
 		
-		return walls;
+		specialLevel.setObstalces(walls);
+		
+		specialLevel.addSpone(new Coordinate(10,9));
+		specialLevel.addSpone(new Coordinate(60,9));
+		specialLevel.addSpone(new Coordinate(110,9));
+		
+		specialLevel.addSpone(new Coordinate(10,72));
+		specialLevel.addSpone(new Coordinate(60,72));
+		specialLevel.addSpone(new Coordinate(110,72));
+		
+		return specialLevel;
 	}
 	
 	public Wall createWall(double x, double y) {
