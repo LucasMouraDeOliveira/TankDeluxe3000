@@ -68,12 +68,12 @@
 			scoreDiv.empty();
 			
 			if(bestPlayer) {
-				scoreDiv.append($("<p>").text(bestPlayer + " : " + bestScore));
+				scoreDiv.append($("<h3>").text("Meilleur score : " + bestPlayer + " (" + bestScore + ")"));
 			}
 			
 			for(var i in scores.players) {
 				var playerScore = scores.players[i];
-				scoreDiv.append($("<p>").text(playerScore.name + " : " + playerScore.score));
+				scoreDiv.append($("<p>").text(playerScore.name + " (" + playerScore.score + ")"));
 			}
 			
 		}
