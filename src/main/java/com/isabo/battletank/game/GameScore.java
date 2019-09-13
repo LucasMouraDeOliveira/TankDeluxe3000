@@ -21,7 +21,9 @@ public class GameScore {
 	}
 	
 	public void increaseScore(Player player) {
-		this.scores.computeIfPresent(player, (p, score) -> this.scores.put(p, score++));
+		if(this.scores.containsKey(player)) {
+			this.scores.put(player, this.scores.get(player) + 1);
+		}
 		this.calculateAllTimeHigh();
 	}
 
