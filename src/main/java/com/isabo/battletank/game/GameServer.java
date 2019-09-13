@@ -13,7 +13,6 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -26,7 +25,6 @@ import com.isabo.battletank.listener.TankBulletListener;
 @Component
 public class GameServer {
 	
-	@Autowired
 	private LevelBuilder levelBuilder;
 	
 	private static final int FPS = 20;
