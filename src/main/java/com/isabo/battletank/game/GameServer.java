@@ -67,7 +67,7 @@ public class GameServer {
 		Color playerColor = this.availableColor.remove(0);
 		Player newPlayer = new Player(playerName, playerColor);
 		
-		List<Coordinate> spone = this.level.getSpone();
+		List<Coordinate> spone = this.level.getSpawn();
 		Coordinate playerSpone = spone.get(random.nextInt(spone.size()));
 		
 		newPlayer.translate(playerSpone.getX(), playerSpone.getY());

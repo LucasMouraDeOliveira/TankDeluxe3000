@@ -39,13 +39,13 @@ public class LevelBuilder {
 		
 		specialLevel.setObstalces(walls);
 		
-		specialLevel.addSpone(new Coordinate(10,9));
-		specialLevel.addSpone(new Coordinate(60,9));
-		specialLevel.addSpone(new Coordinate(110,9));
+		specialLevel.addSpawn(new Coordinate(10,9));
+		specialLevel.addSpawn(new Coordinate(60,9));
+		specialLevel.addSpawn(new Coordinate(110,9));
 		
-		specialLevel.addSpone(new Coordinate(10,72));
-		specialLevel.addSpone(new Coordinate(60,72));
-		specialLevel.addSpone(new Coordinate(110,72));
+		specialLevel.addSpawn(new Coordinate(10,72));
+		specialLevel.addSpawn(new Coordinate(60,72));
+		specialLevel.addSpawn(new Coordinate(110,72));
 		
 		return specialLevel;
 	}

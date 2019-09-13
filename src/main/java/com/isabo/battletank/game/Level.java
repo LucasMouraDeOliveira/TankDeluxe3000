@@ -5,31 +5,31 @@ import java.util.List;
 
 public class Level {
 	
-	private List<Coordinate> spone;
+	private List<Coordinate> spawn;
 	
 	private List<Wall> obstalces;
 	
 	
 	public Level() {
-		this.spone = new ArrayList<>();
+		this.spawn = new ArrayList<>();
 	}
 	
 	public Level(List<Wall> walls) {
-		this.spone = new ArrayList<>();
+		this.spawn = new ArrayList<>();
 		this.obstalces = walls;
 	}
 
 	
-	public void addSpone(Coordinate c) {
-		this.spone.add(c);
+	public void addSpawn(Coordinate c) {
+		this.spawn.add(c);
 	}
 	
-	public void removeSpone(Coordinate c) {
-		this.spone.remove(c);
+	public void removeSpawn(Coordinate c) {
+		this.spawn.remove(c);
 	}
 	
-	public List<Coordinate> getSpone() {
-		return spone;
+	public List<Coordinate> getSpawn() {
+		return spawn;
 	}
 
 	public List<Wall> getObstalces() {
