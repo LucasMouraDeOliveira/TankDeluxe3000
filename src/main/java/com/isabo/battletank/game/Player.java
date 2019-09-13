@@ -15,6 +15,7 @@ public class Player extends Body {
 	private boolean moving[];
 	private boolean shooting;
 	private List<Bullet> bullets;
+	private int nbSield;
 	private int maxBullet;
 	private int cooldown;
 	private Color color;
@@ -37,6 +38,7 @@ public class Player extends Body {
 		this.bullets = new ArrayList<>();
 		this.maxBullet = SettingsManager.MAX_BULLET;
 		this.color = color;
+		this.nbSield = 0;
 		
 		this.addFixture(Geometry.createRectangle(SettingsManager.TANK_WIDTH, SettingsManager.TANK_HEIGHT), 1, 0.5, 0);
 		this.setMass(MassType.NORMAL);
