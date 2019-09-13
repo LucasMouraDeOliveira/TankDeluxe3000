@@ -5,17 +5,22 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function connect() {
-	ws = new WebSocket("ws://10.1.7.43:8080/ws");
+	ws = new WebSocket("ws://localhost:8080/ws");
 	ws.onmessage = receiveMessage;
 	ws.onopen = function(){
+		
+		var pseudo = window.prompt("Pseudo");
+		ws.send(JSON.stringify({type: "name", name : pseudo}));
+		
 		initControls();
 		startUpdating();
 	};
 }
 
 function receiveMessage(wsMessage) {
-	var data = wsMessage.data;
-	drawForeground(JSON.parse(data));
+	var data = JSON.parse(wsMessage.data);
+	drawForeground(data);
+	updateScoreDiv(data.scores);
 }
 
 function sendMessage(wsMessage) {

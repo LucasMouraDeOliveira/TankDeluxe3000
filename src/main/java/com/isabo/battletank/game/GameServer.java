@@ -42,13 +42,16 @@ public class GameServer {
 	private List<Wall> walls;
 	private Random random;
 	
+	private GameScore gameScore;
+	
 	public GameServer() {
 		this.players = new HashMap<>();
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
 		this.walls = new ArrayList<>();
-		this.availableColor = new LinkedList<Color>(Arrays.asList(Color.values()));
+		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
+		this.gameScore = new GameScore();
 	}
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
@@ -61,12 +64,16 @@ public class GameServer {
 		if(this.world != null) {
 			this.world.addBody(newPlayer);
 		}
+		
+		this.gameScore.initScore(newPlayer);
+		
 	}
 
 	public void removePlayer(WebSocketSession session) {
 		this.availableColor.add(this.players.get(session).getColor());
 		Player p = this.players.remove(session);
 		this.world.removeBody(p);
+		this.gameScore.removeScore(p);
 	}
 	
 	public Player getPlayer(WebSocketSession session) {
@@ -120,6 +127,7 @@ public class GameServer {
 		JSONArray jsonPlayers = new JSONArray();
 		JSONArray jsonBullets = new JSONArray();
 		JSONArray jsonLevel = new JSONArray();
+		JSONObject jsonScore = new JSONObject();
 		
 		JSONObject jsonPlayer;
 		for(Player player : this.players.values()) {
@@ -149,12 +157,28 @@ public class GameServer {
 			jsonWall.put("y", wall.getTransform().getTranslationY() * SettingsManager.SIZE_RATIO);
 			jsonWalls.put(jsonWall);
 		}
+		
+		JSONArray jsonPlayerScores = new JSONArray();
+		for(Map.Entry<Player, Integer> entry : this.gameScore.getScores().entrySet()) {
+			JSONObject jsonPlayerScore = new JSONObject();
+			jsonPlayerScore.put("name", entry.getKey().getName());
+			jsonPlayerScore.put("score", entry.getValue());
+			jsonPlayerScores.put(jsonPlayerScore);
+		}
+		jsonScore.put("players", jsonPlayerScores);
+		
+		Player bestPlayer = this.gameScore.getBestPlayer();
+		if(bestPlayer != null) {
+			jsonScore.put("bestPlayer", bestPlayer.getName());
+			jsonScore.put("bestScore", this.gameScore.getAllTimeHighScore());
+		}
 
 		JSONObject gameData = new JSONObject();
 		gameData.put("players", jsonPlayers);
 		gameData.put("bullets", jsonBullets);
 		gameData.put("level", jsonLevel);
 		gameData.put("walls", jsonWalls);
+		gameData.put("scores", jsonScore);
 		
 		for(WebSocketSession session : this.players.keySet()) {
 			new Thread(() -> {
@@ -198,4 +222,9 @@ public class GameServer {
 			this.world.removeBody(player);
 		}
 	}
+	
+	public GameScore getGameScore() {
+		return gameScore;
+	}
+	
 }

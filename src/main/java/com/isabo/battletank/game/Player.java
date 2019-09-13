@@ -18,6 +18,7 @@ public class Player extends Body {
 	private int maxBullet;
 	private int cooldown;
 	private Color color;
+	private int score;
 	
 	private int aimX;
 	private int aimY;
@@ -139,6 +140,14 @@ public class Player extends Body {
 
 	public void setTurretAngle(double turretAngle) {
 		this.turretAngle = turretAngle;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 }

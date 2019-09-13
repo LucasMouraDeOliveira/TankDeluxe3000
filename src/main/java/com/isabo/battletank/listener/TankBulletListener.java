@@ -26,6 +26,14 @@ public class TankBulletListener extends ContactAdapter {
 				this.gameServer.removeBullet(b);
 				b.getShooter().getBullets().remove(b);
 				
+				//If another player killed him, he's score increases
+				if(!p.equals(b.getShooter())) {
+					this.gameServer.getGameScore().increaseScore(b.getShooter());
+				}
+				
+				//The killed player score drops to zero
+				this.gameServer.getGameScore().initScore(p);
+				
 				break;
 			}
 		}
