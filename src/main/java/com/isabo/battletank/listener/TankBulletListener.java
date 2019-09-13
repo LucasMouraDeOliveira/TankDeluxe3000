@@ -32,7 +32,7 @@ public class TankBulletListener extends ContactAdapter {
 				}
 				
 				//The killed player score drops to zero
-				this.gameServer.getGameScore().initScore(p);
+				this.gameServer.getGameScore().removeScore(p);
 				
 				break;
 			}
