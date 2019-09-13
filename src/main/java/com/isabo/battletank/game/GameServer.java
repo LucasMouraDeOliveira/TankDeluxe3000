@@ -94,16 +94,6 @@ public class GameServer {
 		
 		this.world.setGravity(World.ZERO_GRAVITY);
 		this.walls = this.levelBuilder.getSpecialLevel();
-//		this.walls = this.levelBuilder.getNewBorderedLevel();
-//		this.levelBuilder.addRectangle(this.walls, 5, 5, 12, 5);
-//		this.levelBuilder.addRectangle(this.walls, 12, 4, 12, 8);
-//		this.levelBuilder.addRectangle(this.walls, 14, 11, 18, 11);
-//		this.levelBuilder.addRectangle(this.walls, 8, 12, 9, 13);
-//		this.levelBuilder.addRectangle(this.walls, 8, 17, 9, 18);
-//		this.levelBuilder.addRectangle(this.walls, 23, 5, 24, 6);
-//		this.levelBuilder.addRectangle(this.walls, 20, 18, 21, 19);
-//		this.levelBuilder.addRectangle(this.walls, 22, 12, 25, 12);
-//		this.levelBuilder.addRectangle(this.walls, 27, 15, 27, 19);
 		
 		this.walls.stream().forEach(wall -> this.world.addBody(wall));
 		
