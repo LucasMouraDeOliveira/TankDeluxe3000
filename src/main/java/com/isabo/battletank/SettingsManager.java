@@ -23,7 +23,7 @@ public class SettingsManager {
 	
 	
 	// Player
-	public static final int SHOOT_COOLDOWN = 400;
+	public static final int SHOOT_COOLDOWN = 200;
 	public static final int MAX_BULLET = 3;
 	
 	// Bullet

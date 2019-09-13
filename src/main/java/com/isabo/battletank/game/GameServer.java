@@ -41,6 +41,7 @@ public class GameServer {
 	private World world;
 	private List<Wall> walls;
 	private Random random;
+	private Level level;
 	
 	private GameScore gameScore;
 	
@@ -52,13 +53,29 @@ public class GameServer {
 		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
 		this.gameScore = new GameScore();
+		this.levelBuilder = new LevelBuilder();
+		
+		this.world = new World();
+		
+		this.world.addListener(new TankBulletListener(this));
+		this.world.addListener(new BulletBulletListener(this));
+		this.world.addListener(new BulletWallListener());
+		
+		this.world.setGravity(World.ZERO_GRAVITY);
+		this.level = this.levelBuilder.getSpecialLevel();
+		this.walls = this.level.getObstalces(); 
+		
+		this.walls.stream().forEach(wall -> this.world.addBody(wall));
 	}
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
 		Color playerColor = this.availableColor.remove(0);
 		Player newPlayer = new Player(playerName, playerColor);
 		
-		newPlayer.translate(random.nextInt((int)SettingsManager.WORLD_WIDTH), random.nextInt((int)SettingsManager.WORLD_HEIGHT));
+		List<Coordinate> spone = this.level.getSpawn();
+		Coordinate playerSpone = spone.get(random.nextInt(spone.size()));
+		
+		newPlayer.translate(playerSpone.getX(), playerSpone.getY());
 		this.players.put(session, newPlayer);
 		
 		if(this.world != null) {
@@ -93,29 +110,6 @@ public class GameServer {
 	}
 	
 	public void start() {
-		this.world = new World();
-		
-		this.world.addListener(new TankBulletListener(this));
-		this.world.addListener(new BulletBulletListener(this));
-		this.world.addListener(new BulletWallListener());
-		
-		this.world.setGravity(World.ZERO_GRAVITY);
-		this.walls = this.levelBuilder.getSpecialLevel();
-//		this.walls = this.levelBuilder.getNewBorderedLevel();
-//		this.levelBuilder.addRectangle(this.walls, 5, 5, 12, 5);
-//		this.levelBuilder.addRectangle(this.walls, 12, 4, 12, 8);
-//		this.levelBuilder.addRectangle(this.walls, 14, 11, 18, 11);
-//		this.levelBuilder.addRectangle(this.walls, 8, 12, 9, 13);
-//		this.levelBuilder.addRectangle(this.walls, 8, 17, 9, 18);
-//		this.levelBuilder.addRectangle(this.walls, 23, 5, 24, 6);
-//		this.levelBuilder.addRectangle(this.walls, 20, 18, 21, 19);
-//		this.levelBuilder.addRectangle(this.walls, 22, 12, 25, 12);
-//		this.levelBuilder.addRectangle(this.walls, 27, 15, 27, 19);
-		
-		this.walls.stream().forEach(wall -> this.world.addBody(wall));
-		
-		this.players.entrySet().stream().forEach(entry -> this.world.addBody(entry.getValue()));
-		
 		new GameLoop(this, 1000 / FPS).start();
 	}
 	
