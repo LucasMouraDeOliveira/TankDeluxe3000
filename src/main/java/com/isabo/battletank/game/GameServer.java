@@ -128,6 +128,7 @@ public class GameServer {
 			jsonPlayer.put("y", player.getY() * SettingsManager.SIZE_RATIO);
 			jsonPlayer.put("angle", player.getAngle());
 			jsonPlayer.put("turretAngle", player.getTurretAngle());
+			jsonPlayer.put("nbShield", player.getNbShield());
 			jsonPlayer.put("color", player.getColor());
 			jsonPlayers.put(jsonPlayer);
 		}

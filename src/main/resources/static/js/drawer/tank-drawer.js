@@ -14,6 +14,7 @@ var machineGunYellow;
 var machineGunTurquoise;
 var machineGunPurple;
 var machineGunGreen;
+var shield;
 
 
 class TankDrawer {
@@ -40,6 +41,9 @@ class TankDrawer {
         machineGunPurple = new Image();
         machineGunGreen = new Image();
         
+        // Equipment
+        shield = new Image();
+        
     	// Assets loading
     	wheelFrontRight.src = "/assets/img/wheel-front-right-S.png";
     	wheelFrontLeft.src = "/assets/img/wheel-front-left-S.png";
@@ -57,6 +61,8 @@ class TankDrawer {
     	machineGunTurquoise.src = "/assets/img/barrel-S-turquoise.png";
     	machineGunPurple.src = "/assets/img/barrel-S-purple.png";
     	machineGunGreen.src = "/assets/img/barrel-S-green.png";
+    	
+    	shield.src = "/assets/img/shield-S.png";
     }
 
     initParts() {
@@ -94,7 +100,6 @@ class TankDrawer {
         let y = tank.y;
         let a = tank.angle;
         let tAngle = tank.turretAngle;
-        console.log(tAngle);
 
         // Rotate context
         this.ctx.save();
@@ -155,37 +160,55 @@ class TankDrawer {
         switch(tank.color){
         case "BLUE":
         	this.ctx.drawImage(tankBodyBlue, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        	this.ctx.rotate(tAngle - a);
+        	this.ctx.rotate(-a);
+        	this.drawShield(tank.nbShield);
+        	this.ctx.rotate(tAngle);
         	this.centerAround(machineGunBlue, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
         	break;
         case "ORANGE":
         	this.ctx.drawImage(tankBodyOrange, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        	this.ctx.rotate(tAngle - a);
+        	this.ctx.rotate(-a);
+        	this.drawShield(tank.nbShield);
+        	this.ctx.rotate(tAngle);
         	this.centerAround(machineGunOrange, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
         	break;
         case "YELLOW":
         	this.ctx.drawImage(tankBodyYellow, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        	this.ctx.rotate(tAngle - a);
+        	this.ctx.rotate(-a);
+        	this.drawShield(tank.nbShield);
+        	this.ctx.rotate(tAngle);
         	this.centerAround(machineGunYellow, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
         	break;
         case "GREEN":
         	this.ctx.drawImage(tankBodyGreen, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        	this.ctx.rotate(tAngle - a);
+        	this.ctx.rotate(-a);
+        	this.drawShield(tank.nbShield);
+        	this.ctx.rotate(tAngle);
         	this.centerAround(machineGunGreen, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
         	break;
         case "PURPLE":
         	this.ctx.drawImage(tankBodyPurple, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        	this.ctx.rotate(tAngle - a);
+        	this.ctx.rotate(-a);
+        	this.drawShield(tank.nbShield);
+        	this.ctx.rotate(tAngle);
         	this.centerAround(machineGunPurple, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
         	break;
         case "TURQUOISE":
 	        this.ctx.drawImage(tankBodyTurquoise, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-	        this.ctx.rotate(tAngle - a);
+	        this.ctx.rotate(-a);
+	        this.drawShield(tank.nbShield);
+	        this.ctx.rotate(tAngle);
 	        this.centerAround(machineGunTurquoise, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
         	break;
         }
         
-        this.ctx.restore();
+    	this.ctx.restore();
+    }
+    
+    drawShield(nbShield) {
+    	for (var i = 0; i < nbShield; i++) {
+			this.ctx.drawImage(shield, i * 10, this.TANK_HEIGHT / 2, 10, 11);
+		}
     }
 
 }

@@ -22,17 +22,23 @@ public class TankBulletListener extends ContactAdapter {
 				p.equals(point.getBody2()) && point.getBody1() instanceof Bullet) {
 				Bullet b = (point.getBody1() instanceof Bullet ? (Bullet) point.getBody1() : (Bullet) point.getBody2());
 				
-				this.gameServer.killPlayer(p);
 				this.gameServer.removeBullet(b);
 				b.getShooter().getBullets().remove(b);
-				
-				//If another player killed him, he's score increases
-				if(!p.equals(b.getShooter())) {
-					this.gameServer.getGameScore().increaseScore(b.getShooter());
+
+				// If player has shield, do nothing except decrease shield count
+				if(p.getNbShield() > 0) {
+					p.removeOneShield();
+				} else {
+					this.gameServer.killPlayer(p);
+
+					//If another player killed him, he's score increases
+					if(!p.equals(b.getShooter())) {
+						this.gameServer.getGameScore().increaseScore(b.getShooter());
+					}
+					
+					//The killed player score drops to zero
+					this.gameServer.getGameScore().removeScore(p);
 				}
-				
-				//The killed player score drops to zero
-				this.gameServer.getGameScore().removeScore(p);
 				
 				break;
 			}

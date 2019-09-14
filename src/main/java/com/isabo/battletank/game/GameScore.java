@@ -22,8 +22,17 @@ public class GameScore {
 	
 	public void increaseScore(Player player) {
 		if(this.scores.containsKey(player)) {
-			this.scores.put(player, this.scores.get(player) + 1);
+			int playerScore = this.scores.get(player);
+			
+			playerScore++;
+			this.scores.put(player, playerScore);
+
+			if(playerScore % 3 == 0) {
+				player.addShield();
+			}
 		}
+		
+		
 		this.calculateAllTimeHigh();
 	}
 
