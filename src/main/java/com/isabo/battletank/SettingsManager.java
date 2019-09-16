@@ -2,6 +2,7 @@ package com.isabo.battletank;
 
 public class SettingsManager {
 
+	public static final int FPS = 20;
 	public static final int SIZE_RATIO = 10;
 	
 	// Canvas

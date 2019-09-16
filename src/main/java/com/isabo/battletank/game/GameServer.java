@@ -27,8 +27,6 @@ public class GameServer {
 	
 	private LevelBuilder levelBuilder;
 	
-	private static final int FPS = 20;
-	
 	private Map<WebSocketSession, Player> players;
 	
 	private Map<Player, JSONObject> playerActions;
@@ -108,7 +106,7 @@ public class GameServer {
 	}
 	
 	public void start() {
-		new GameLoop(this, 1000 / FPS).start();
+		new GameLoop(this, 1000 / SettingsManager.FPS).start();
 	}
 	
 	public void updateWorld(int elapsedTime) {

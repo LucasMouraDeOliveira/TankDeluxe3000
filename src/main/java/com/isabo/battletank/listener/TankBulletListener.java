@@ -18,6 +18,11 @@ public class TankBulletListener extends ContactAdapter {
  	@Override
 	public boolean begin(ContactPoint point) {
 		for (Player p : this.gameServer.getPlayers()) {
+			// If already dead
+			if(!p.isAlive()) {
+				continue;
+			}
+			
 			if(p.equals(point.getBody1()) && point.getBody2() instanceof Bullet ||
 				p.equals(point.getBody2()) && point.getBody1() instanceof Bullet) {
 				Bullet b = (point.getBody1() instanceof Bullet ? (Bullet) point.getBody1() : (Bullet) point.getBody2());
