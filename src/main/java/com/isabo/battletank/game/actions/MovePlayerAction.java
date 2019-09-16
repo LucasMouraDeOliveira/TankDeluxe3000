@@ -17,6 +17,11 @@ public class MovePlayerAction extends GameUpdate {
 		double force = SettingsManager.TANK_VELOCITY * delta;
 		
 		for(Player player : this.gameServer.getPlayers()) {
+			
+			if(!player.isAlive()) {
+				continue;
+			}
+			
 			Vector2 r = new Vector2(player.getTransform().getRotation() + Math.PI * 0.5);
 			Vector2 c = player.getWorldCenter();
 			

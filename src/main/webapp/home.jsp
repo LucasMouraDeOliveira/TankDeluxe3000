@@ -49,6 +49,11 @@
 			<div id="scoreWrapper"></div>
 		</div>
 	</div>
+	
+	<div id="respawnModal" style="display: none;">
+		<p>Vous êtes mort. Cliquez ici pour réapparaitre</p>
+		<button onclick="window.location.reload();">Respawn</button>	
+	</div>
 
 	<script type="text/javascript" src="js/drawer/tank-drawer.js"></script>
 	<script type="text/javascript" src="js/drawer/bullet-drawer.js"></script>
@@ -58,6 +63,8 @@
 	<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
 	
 	<script type="text/javascript">
+	
+		var playerDied = false;
 	
 		function updateScoreDiv(scores) {
 			
@@ -76,6 +83,25 @@
 				scoreDiv.append($("<p>").text(playerScore.name + " (" + playerScore.score + ")"));
 			}
 			
+		}
+		
+		function checkDeath(players) {
+			
+			if(playerDied) {
+				return;
+			}
+			
+			for(var i in players) {
+				var p = players[i];
+				if(!p.alive && p.name == name) {
+					playerDied = true;
+					displayRespawnModal();
+				}
+			}
+		}
+		
+		function displayRespawnModal() {
+			$("#respawnModal").css("display", "block");
 		}
 	
 	</script>

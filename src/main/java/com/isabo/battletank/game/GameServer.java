@@ -130,6 +130,8 @@ public class GameServer {
 			jsonPlayer.put("turretAngle", player.getTurretAngle());
 			jsonPlayer.put("nbShield", player.getNbShield());
 			jsonPlayer.put("color", player.getColor());
+			jsonPlayer.put("alive", player.isAlive());
+			jsonPlayer.put("name", player.getName());
 			jsonPlayers.put(jsonPlayer);
 		}
 		
@@ -200,20 +202,8 @@ public class GameServer {
 	}
 
 	public void killPlayer(Player player) {
-		this.availableColor.add(player.getColor());
-		this.playerActions.remove(player);
-		
-		Map.Entry<WebSocketSession, Player> toBeRemove = null;
-		for(Map.Entry<WebSocketSession, Player> session : this.players.entrySet()) {
-			if(session.getValue().equals(player)) {
-				toBeRemove = session;
-			}
-		}
-		
-		if(toBeRemove != null) {
-			this.players.remove(toBeRemove.getKey());
-			this.world.removeBody(player);
-		}
+		this.gameScore.initScore(player);
+		player.setAlive(false);
 	}
 	
 	public GameScore getGameScore() {

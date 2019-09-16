@@ -38,6 +38,11 @@ public class ShootAction extends GameUpdate {
 
 		// Create new bullet
 		for (Player p : super.gameServer.getPlayers()) {
+			
+			if(!p.isAlive()) {
+				continue;
+			}
+			
 			p.setCooldown(p.getCooldown() - delta);
 
 			// Only if cooldown is respected

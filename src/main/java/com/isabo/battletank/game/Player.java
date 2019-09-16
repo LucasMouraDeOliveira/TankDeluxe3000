@@ -20,6 +20,7 @@ public class Player extends Body {
 	private int cooldown;
 	private Color color;
 	private int score;
+	private boolean alive;
 	
 	private int aimX;
 	private int aimY;
@@ -39,6 +40,7 @@ public class Player extends Body {
 		this.maxBullet = SettingsManager.MAX_BULLET;
 		this.color = color;
 		this.nbShield = 0;
+		this.alive = true;
 		
 		this.addFixture(Geometry.createRectangle(SettingsManager.TANK_WIDTH, SettingsManager.TANK_HEIGHT), 1, 0.5, 0);
 		this.setMass(MassType.NORMAL);
@@ -164,6 +166,14 @@ public class Player extends Body {
 
 	public int getNbShield() {
 		return this.nbShield;
+	}
+	
+	public boolean isAlive() {
+		return alive;
+	}
+	
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 
 }
