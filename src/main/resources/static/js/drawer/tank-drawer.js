@@ -1,3 +1,8 @@
+var explosion_1;
+var explosion_2;
+var explosion_3;
+var explosion_4;
+
 var wheelFrontRight;
 var wheelFrontLeft;
 var wheelBackRight;
@@ -15,6 +20,7 @@ var machineGunTurquoise;
 var machineGunPurple;
 var machineGunGreen;
 var shield;
+
 
 
 class TankDrawer {
@@ -44,6 +50,11 @@ class TankDrawer {
         // Equipment
         shield = new Image();
         
+        explosion_1 = new Image();
+        explosion_2 = new Image();
+        explosion_3 = new Image();
+        explosion_4 = new Image();
+        
     	// Assets loading
     	wheelFrontRight.src = "/assets/img/wheel-front-right-S.png";
     	wheelFrontLeft.src = "/assets/img/wheel-front-left-S.png";
@@ -63,6 +74,11 @@ class TankDrawer {
     	machineGunGreen.src = "/assets/img/barrel-S-green.png";
     	
     	shield.src = "/assets/img/shield-S.png";
+    	
+    	explosion_1.src = "/assets/img/explosion_1_S.png";
+    	explosion_2.src = "/assets/img/explosion_2_S.png";
+    	explosion_3.src = "/assets/img/explosion_3_S.png";
+    	explosion_4.src = "/assets/img/explosion_4_S.png";
     }
 
     initParts() {
@@ -95,7 +111,6 @@ class TankDrawer {
     }
 
     draw(tank) {
-
         let x = tank.x;
         let y = tank.y;
         let a = tank.angle;
@@ -167,7 +182,12 @@ class TankDrawer {
         	break;
         }
         
-    	this.ctx.restore();
+        this.ctx.restore();
+
+        if(!alive) {
+        	this.drawExplosion(currentStepNumber, tank);
+        }
+        
     }
     
     drawShield(nbShield) {
@@ -176,7 +196,7 @@ class TankDrawer {
 		}
     }
     
-    drawAnimatedWheels(currentStepNumber) {
+    drawAnimatedWheels(currentStepNumbern) {
     	 switch(currentStepNumber) {
          case 0:
          case 1:
@@ -226,6 +246,21 @@ class TankDrawer {
         this.centerAround(wheelBackLeft, this.BOT_LEFT_WHEEL_X, this.BOT_LEFT_WHEEL_Y, this.WHEEL_WIDTH, this.WHEEL_HEIGHT);
         this.centerAround(wheelFrontRight, this.TOP_RIGHT_WHEEL_X, this.TOP_RIGHT_WHEEL_Y, this.WHEEL_WIDTH, this.WHEEL_HEIGHT);
         this.centerAround(wheelFrontLeft, this.TOP_LEFT_WHEEL_X, this.TOP_LEFT_WHEEL_Y, this.WHEEL_WIDTH, this.WHEEL_HEIGHT);
+    }
+    
+    drawExplosion(currentStepNumber, tank) {
+    	let tmpX = tank.x + this.TANK_WIDTH / 2;
+    	let tmpY = tank.y + this.TANK_HEIGHT / 2;
+    	
+		if(currentStepNumber < 5) {
+			this.centerAround(explosion_1, tmpX, tmpY, explosion_1.width, explosion_1.height);
+		} else if(currentStepNumber < 10) {
+			this.centerAround(explosion_2, tmpX, tmpY, explosion_2.width, explosion_2.height);
+		} else if(currentStepNumber < 15) {
+			this.centerAround(explosion_3, tmpX, tmpY, explosion_3.width, explosion_3.height);
+		} else if(currentStepNumber <= 20) {
+			this.centerAround(explosion_4, tmpX, tmpY, explosion_4.width, explosion_4.height);
+		}
     }
 
 }
