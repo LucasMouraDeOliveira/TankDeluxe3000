@@ -173,7 +173,7 @@ public class GameServer {
 		gameData.put("walls", jsonWalls);
 		gameData.put("scores", jsonScore);
 		
-		for(WebSocketSession session : this.players.keySet()) {
+		for(WebSocketSession session : new HashMap<>(this.players).keySet()) {
 			new Thread(() -> {
 				try {
 					session.sendMessage(new TextMessage(gameData.toString()));
