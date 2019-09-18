@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,7 +34,6 @@ public class GameServer {
 	private List<Color> availableColor;
 	
 	private World world;
-	private List<Wall> walls;
 	private Random random;
 	private Level level;
 	
@@ -45,7 +43,6 @@ public class GameServer {
 		this.players = new HashMap<>();
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
-		this.walls = new ArrayList<>();
 		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
 		this.gameScore = new GameScore();
@@ -59,9 +56,11 @@ public class GameServer {
 		
 		this.world.setGravity(World.ZERO_GRAVITY);
 		this.level = this.levelBuilder.getSpecialLevel();
-		this.walls = this.level.getObstalces(); 
 		
-		this.walls.stream().forEach(wall -> this.world.addBody(wall));
+		List<Cell> cells = this.level.getCells(); 
+		cells.stream().forEach(cell -> { if(cell.hasWall()) {
+			this.world.addBody(cell.getWall());
+		}});
 	}
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
@@ -143,12 +142,14 @@ public class GameServer {
 		}
 		
 		
-		JSONArray jsonWalls = new JSONArray();
-		for(Body wall : this.walls) {
-			JSONObject jsonWall = new JSONObject();
-			jsonWall.put("x", wall.getTransform().getTranslationX() * SettingsManager.SIZE_RATIO);
-			jsonWall.put("y", wall.getTransform().getTranslationY() * SettingsManager.SIZE_RATIO);
-			jsonWalls.put(jsonWall);
+		JSONArray jsonCells = new JSONArray();
+		for(Cell cell : this.level.getCells()) {
+			JSONObject jsonCell = new JSONObject();
+			jsonCell.put("x", cell.getX());
+			jsonCell.put("y", cell.getY());
+			jsonCell.put("floorId", cell.getFloorId());
+			jsonCell.put("obstacle", cell.hasWall());
+			jsonCells.put(jsonCell);
 		}
 		
 		JSONArray jsonPlayerScores = new JSONArray();
@@ -170,7 +171,7 @@ public class GameServer {
 		gameData.put("players", jsonPlayers);
 		gameData.put("bullets", jsonBullets);
 		gameData.put("level", jsonLevel);
-		gameData.put("walls", jsonWalls);
+		gameData.put("walls", jsonCells);
 		gameData.put("scores", jsonScore);
 		
 		for(WebSocketSession session : new HashMap<>(this.players).keySet()) {

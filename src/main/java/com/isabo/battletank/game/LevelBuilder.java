@@ -65,19 +65,22 @@ public class LevelBuilder {
 	}
 	
 	public Level getSpecialLevel() {
-		List<Wall> walls = new ArrayList<>();
+		List<Cell> cells = new ArrayList<>();
 		Level specialLevel = new Level();
 		
+		Cell cell;
 		for (int i = 0; i < level.length; i++) {
 			for (int j = 0; j < level[0].length; j++) {
+				cell = new Cell(i, j);
+				cell.setFloorId(1);
 				if(this.level[i][j]) {
-					walls.add(createWall(i * SettingsManager.OBSTACLE_WIDTH, j * SettingsManager.OBSTACLE_HEIGHT));
+					cell.setWall(createWall(i * SettingsManager.OBSTACLE_WIDTH, j * SettingsManager.OBSTACLE_HEIGHT));
 				}
+				cells.add(cell);
 			}
 		}
 		
-		specialLevel.setObstalces(walls);
-		
+		specialLevel.setCells(cells);
 		specialLevel.addSpawn(new Coordinate(10,9));
 		specialLevel.addSpawn(new Coordinate(60,9));
 		specialLevel.addSpawn(new Coordinate(110,9));
