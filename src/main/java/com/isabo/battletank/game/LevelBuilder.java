@@ -7,7 +7,7 @@ import com.isabo.battletank.SettingsManager;
 
 public class LevelBuilder {
 	
-	boolean [][] level = new boolean[][] {	{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},
+	boolean [][] level2 = new boolean[][] {	{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},
 											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
 											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
 											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
@@ -46,6 +46,8 @@ public class LevelBuilder {
 											{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},
 											{false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false}};
 	
+	boolean [][] level = new boolean[][] {{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},{true,false,false,false,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,true},{true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,true},{true,true,true,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,true,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,true,true,false,false,false,false,false,true,false,false,false,false,false,false,true,true,false,false,true},{true,false,false,false,false,false,false,true,true,false,false,false,false,true,false,false,false,false,false,false,true,true,false,false,true},{true,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,true,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,true,true,true,false,false,false,false,false,true},{true,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true,true,true,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,true,true},{true,false,false,false,true,true,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true},{true,false,false,true,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true},{true,true,true,true,false,false,false,false,false,false,true,true,false,false,false,false,false,false,true,true,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,true,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,true,true,false,false,false,false,false,true},{true,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,false,false,true},{true,false,false,false,false,true,true,true,false,false,false,true,true,false,false,false,true,true,false,false,false,false,false,false,true},{true,false,false,false,true,true,true,true,false,false,false,false,true,true,true,true,true,false,false,false,false,true,false,false,true},{true,false,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,true,true,true,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,true},{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true}};
+											
 	public List<Wall> getNewBorderedLevel() {
 		List<Wall> walls = new ArrayList<>();
 		int width = (int) (SettingsManager.WORLD_WIDTH / SettingsManager.OBSTACLE_WIDTH);
@@ -63,19 +65,22 @@ public class LevelBuilder {
 	}
 	
 	public Level getSpecialLevel() {
-		List<Wall> walls = new ArrayList<>();
+		List<Cell> cells = new ArrayList<>();
 		Level specialLevel = new Level();
 		
+		Cell cell;
 		for (int i = 0; i < level.length; i++) {
 			for (int j = 0; j < level[0].length; j++) {
+				cell = new Cell(i, j);
+				cell.setFloorId(1);
 				if(this.level[i][j]) {
-					walls.add(createWall(i * SettingsManager.OBSTACLE_WIDTH, j * SettingsManager.OBSTACLE_HEIGHT));
+					cell.setWall(createWall(i * SettingsManager.OBSTACLE_WIDTH, j * SettingsManager.OBSTACLE_HEIGHT));
 				}
+				cells.add(cell);
 			}
 		}
 		
-		specialLevel.setObstalces(walls);
-		
+		specialLevel.setCells(cells);
 		specialLevel.addSpawn(new Coordinate(10,9));
 		specialLevel.addSpawn(new Coordinate(60,9));
 		specialLevel.addSpawn(new Coordinate(110,9));

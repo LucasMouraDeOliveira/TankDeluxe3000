@@ -89,7 +89,9 @@ function drawForeground(gameState) {
 
 	for(var i in walls) {
 		var wall = walls[i];
-		fCtx.drawImage(obstacle, wall.x - 16, wall.y - 16);
+		if(wall.obstacle) {
+			fCtx.drawImage(obstacle, wall.x * 32, wall.y * 32);
+		}
 	}
 	
 	// Draw tanks

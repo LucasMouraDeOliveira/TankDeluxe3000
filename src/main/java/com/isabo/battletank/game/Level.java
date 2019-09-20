@@ -7,16 +7,15 @@ public class Level {
 	
 	private List<Coordinate> spawn;
 	
-	private List<Wall> obstalces;
-	
+	private List<Cell> cells;
 	
 	public Level() {
 		this.spawn = new ArrayList<>();
 	}
 	
-	public Level(List<Wall> walls) {
+	public Level(List<Cell> cells) {
 		this.spawn = new ArrayList<>();
-		this.obstalces = walls;
+		this.cells = cells;
 	}
 
 	
@@ -32,12 +31,12 @@ public class Level {
 		return spawn;
 	}
 
-	public List<Wall> getObstalces() {
-		return obstalces;
+	public List<Cell> getCells() {
+		return cells;
 	}
 
-	public void setObstalces(List<Wall> obstalces) {
-		this.obstalces = obstalces;
+	public void setCells(List<Cell> cells) {
+		this.cells = cells;
 	}
 
 	
