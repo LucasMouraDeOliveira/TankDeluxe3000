@@ -1,5 +1,4 @@
 var ws;
-var name;
 
 document.addEventListener("DOMContentLoaded", function() {
   connect();
@@ -7,12 +6,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function connect() {
 	
-	name = window.prompt("Pseudo");
-	
 	ws = new WebSocket("ws://localhost:8080/ws");
 	ws.onmessage = receiveMessage;
 	ws.onopen = function(){
-		ws.send(JSON.stringify({type: "name", name : name}));
+		ws.send(JSON.stringify({type: "name", name : login}));
 		initControls();
 		startUpdating();
 	};

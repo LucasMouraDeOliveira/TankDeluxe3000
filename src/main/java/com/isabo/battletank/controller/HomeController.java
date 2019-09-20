@@ -12,5 +12,5 @@ public class HomeController {
 	public String loadView() {
 		return "home";
 	}
-
+	
 }
