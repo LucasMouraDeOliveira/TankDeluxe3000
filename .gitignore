@@ -34,4 +34,4 @@ build/
 ### Maven ###
 mvn*
 /.mvn/
-
+bin
