@@ -1,5 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
     <head>
         <title>TankDeluxe3000</title>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
@@ -8,7 +9,7 @@
 		<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 		
 		<!-- CSS -->
-		<link rel="stylesheet" th:href="/css/main.css" />
+		<link rel="stylesheet" href="/css/main.css" />
 		<link rel="stylesheet" href="/webjars/font-awesome/css/font-awesome.min.css"/>
 		<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
         
@@ -47,7 +48,7 @@
 
 	<body>
 
-		<div th:replace="header :: header"></div>
+		<jsp:include page="/jsp/header.jsp"></jsp:include>
 		
 		<div id="mainDiv">
 			<canvas id="backgroundCanvas" width=1200 height=800></canvas>
@@ -60,7 +61,7 @@
 		</div>
 		
 		<div id="respawnModal" style="display: none;">
-			<p>Vous êtes mort. Cliquez ici pour réapparaitre</p>
+			<p>Vous Ãªtes mort. Cliquez ici pour rÃ©apparaitre</p>
 			<button onclick="window.location.reload();">Respawn</button>	
 		</div>
 	
@@ -71,13 +72,9 @@
 		<script type="text/javascript" src="js/websocket.js"></script>
 		<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
 		
-		<script th:inline="javascript">
+		<script type="text/javascript">
 		
-			/*<![CDATA[*/
-			
-			var login = /*[[${login}]]*/;
-
-			/*]]>*/
+			var login = "${login}";
 		
 			var playerDied = false;
 			var webSocketClient = new WebSocketClient();
