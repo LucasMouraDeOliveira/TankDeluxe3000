@@ -27,7 +27,7 @@ public class RegisterController {
 	}
 	
 	@PostMapping
-	public String registerUser(/*Map<String, Object> model, */RedirectAttributes redirectAttributes, HttpServletRequest request) {
+	public String registerUser(RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		
 		//On récupère les paramètres de la requête
 		String username = request.getParameter("username");

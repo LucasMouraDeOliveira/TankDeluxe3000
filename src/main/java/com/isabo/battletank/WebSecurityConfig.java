@@ -1,9 +1,7 @@
 package com.isabo.battletank;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,21 +10,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.isabo.battletank.service.UserSecurityService;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
-	private DataSource dataSource;
-	
-	@Value("${spring.queries.users-query}")
-	private String usersQuery;
-	
-	@Value("${spring.queries.roles-query}")
-	private String rolesQuery;
+	private UserSecurityService userDetailService;
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -54,13 +45,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
     @Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    	auth
-    		.jdbcAuthentication()
-    			.usersByUsernameQuery(usersQuery)
-    			.authoritiesByUsernameQuery(rolesQuery)
-    			.dataSource(dataSource)
-    			.passwordEncoder(bCryptPasswordEncoder);
+    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
+    }
+	
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder(){
+	    return new BCryptPasswordEncoder();
 	}
     
 }
