@@ -31,7 +31,7 @@ function initCanvas() {
 	// Ground assets
 	ground = new Image();
 	obstacle = new Image();
-	ground.src = "/assets/img/ground-1.jpg";
+	ground.src = "/assets/img/grass.png";
 	obstacle.src = "/assets/img/wood-S.png";
 	
 	// Draw background once

@@ -1,5 +1,6 @@
 package com.isabo.battletank.game;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.Random;
 import org.dyn4j.dynamics.World;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -24,7 +26,7 @@ import com.isabo.battletank.listener.TankBulletListener;
 @Component
 public class GameServer {
 	
-	private LevelBuilder levelBuilder;
+	private TextFileLevelBuilder levelBuilder;
 	
 	private Map<WebSocketSession, Player> players;
 	
@@ -46,7 +48,7 @@ public class GameServer {
 		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
 		this.gameScore = new GameScore();
-		this.levelBuilder = new LevelBuilder();
+		this.levelBuilder = new TextFileLevelBuilder();
 		
 		this.world = new World();
 		
@@ -55,12 +57,23 @@ public class GameServer {
 		this.world.addListener(new BulletWallListener());
 		
 		this.world.setGravity(World.ZERO_GRAVITY);
-		this.level = this.levelBuilder.getSpecialLevel();
 		
+	    loadLevel("forest");
+	    
 		List<Cell> cells = this.level.getCells(); 
 		cells.stream().forEach(cell -> { if(cell.hasWall()) {
 			this.world.addBody(cell.getWall());
 		}});
+	}
+
+	private void loadLevel(String levelName) {
+		try {
+	    	ClassPathResource resource = new ClassPathResource("static/map/" + levelName);
+			File file = resource.getFile();
+			this.level = this.levelBuilder.loadLevel(file.toPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void addPlayer(WebSocketSession session, String playerName) {
