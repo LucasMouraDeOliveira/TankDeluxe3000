@@ -16,7 +16,7 @@ function initControls() {
 
 function startUpdating() {
 	setInterval(function() {
-		sendMessage(JSON.stringify(controls));
+		webSocketClient.sendMessage(JSON.stringify(controls));
 	}, 50);
 }
 
