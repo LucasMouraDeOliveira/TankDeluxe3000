@@ -1,0 +1,22 @@
+{
+	"name": "tank",
+	"assets" : [
+		{"name" : "wheelFrontRight", "url" : "/assets/img/wheel-front-right-S.png"},
+		{"name" : "wheelFrontLeft", "url" : "/assets/img/wheel-front-left-S.png"},
+		{"name" : "wheelBackRight", "url" : "/assets/img/wheel-back-right-S.png"},
+		{"name" : "wheelBackLeft", "url" : "/assets/img/wheel-back-left-S.png"},
+		{"name" : "tankBodyBlue", "url" : "/assets/img/tank-body-S-blue.png"},
+		{"name" : "tankBodyOrange", "url" : "/assets/img/tank-body-S-orange.png"},
+		{"name" : "tankBodyYellow", "url" : "/assets/img/tank-body-S-yellow.png"},
+		{"name" : "tankBodyTurquoise", "url" : "/assets/img/tank-body-S-turquoise.png"},
+		{"name" : "tankBodyGreen", "url" : "/assets/img/tank-body-S-green.png"},
+		{"name" : "tankBodyPurple", "url" : "/assets/img/tank-body-S-purple.png"},
+		{"name" : "machineGunBlue", "url" : "/assets/img/barrel-S-blue.png"},
+		{"name" : "machineGunOrange", "url" : "/assets/img/barrel-S-orange.png"},
+		{"name" : "machineGunYellow", "url" : "/assets/img/barrel-S-yellow.png"},
+		{"name" : "machineGunTurquoise", "url" : "/assets/img/barrel-S-turquoise.png"},
+		{"name" : "machineGunPurple", "url" : "/assets/img/barrel-S-purple.png"},
+		{"name" : "machineGunGreen", "url" : "/assets/img/barrel-S-green.png"},
+		{"name" : "shield", "url" : "/assets/img/shield-S.png"}
+	]
+}

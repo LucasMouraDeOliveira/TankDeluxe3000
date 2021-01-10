@@ -5,35 +5,37 @@
 		<meta charset="UTF-8">
 		<title>Battle Tank</title>
 		
+		<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+		
 		<style>
-		
-			#mainDiv {
-				width: 1200px;
-				height: 800px;
-				margin: auto;
-				border: 1px solid black;
-				background-color: white;
-				position: relative;
+			canvas {
+				position: absolute;
 			}
-			
-	 		#mainDiv canvas {
-	 			position: absolute;
-	 			top: 0;
-	 			left: 0;
-	 		}
-		
 		</style>
-		
 	</head>
 	<body>
-	
-		<div id="mainDiv">
-			<canvas id="backgroundCanvas" width=1200 height=800></canvas>
-			<canvas id="foregroundCanvas" width=1200 height=800></canvas>
+		
+		<div class="row p-2">
+			<div class="col-10 canvasContainer">
+				<canvas id="backgroundCanvas" width=1200 height=800></canvas>
+				<canvas id="foregroundCanvas" width=1200 height=800></canvas>
+			</div>
+			<div class="col-2">
+				<h1>Assets</h1>
+			</div>
 		</div>
 	
+		<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="js/draw.js"></script>
 		<script type="text/javascript" src="js/editor.js"></script>
+		<script type="text/javascript" src="js/assetsManager.js"></script>
+		<script type="text/javascript">
+			
+			var assetsManager = new AssetsManager();
+
+			// Load all assets
+			assetsManager.loadAssets(() => console.log(assetsManager.models));
+		</script>
 	
 	</body>
 </html>
