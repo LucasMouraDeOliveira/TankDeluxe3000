@@ -1,6 +1,9 @@
 class WebSocketClient {
 	
-	constructor() {
+	constructor(drawer, controls) {
+		this.drawer = drawer;
+		this.controls = controls;
+		
 		this.connect();
 	}
 	
@@ -10,14 +13,14 @@ class WebSocketClient {
 		
 		this.ws.onopen = () => {
 			this.ws.send(JSON.stringify({type: "name", name : login}));
-			initControls();
-			startUpdating();
+			this.controls.initControls();
+			this.controls.startUpdating(this);
 		};
 	}
 	
 	receiveMessage = (wsMessage) => {
 		let data = JSON.parse(wsMessage.data);
-		drawForeground(data);
+		this.drawer.drawForeground(data);
 		updateScoreDiv(data.scores);
 		checkDeath(data.players);
 	}

@@ -77,7 +77,9 @@
 			var login = "${login}";
 		
 			var playerDied = false;
-			var webSocketClient = new WebSocketClient();
+			var drawer = new Drawer();
+			var controls = new Controls();
+			var webSocketClient = new WebSocketClient(drawer, controls);
 		
 			function updateScoreDiv(scores) {
 				

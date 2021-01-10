@@ -2,8 +2,9 @@ var bulletSprite;
 
 class BulletDrawer {
 	
-    constructor(ctx) {
+    constructor(ctx, drawer) {
         this.ctx = ctx;
+		this.drawer = drawer;
         this.initParts();
         
         bulletSprite = new Image();
@@ -12,12 +13,12 @@ class BulletDrawer {
         bulletSprite.src = "/assets/img/circle-bullet.png";
     }
 
-    initParts() {
+    initParts = () => {
         this.BULLET_WIDTH = 12;
         this.BULLET_HEIGHT = 12;
     }
     
-    draw(bullet) {
+    draw = (bullet) => {
 
         let x = bullet.x;
         let y = bullet.y;
@@ -36,7 +37,7 @@ class BulletDrawer {
 
         // Tank Drawing
         // Animation switch
-        switch(currentStepNumber) {
+        switch(this.drawer.currentStepNumber) {
         case 0:
         case 1:
         case 2:
@@ -61,11 +62,6 @@ class BulletDrawer {
             break;
         }
         
-//        this.ctx.beginPath();
-//        this.ctx.arc(x, y, 10, 0, 2 * Math.PI);
-//        this.ctx.fill();
-//        this.ctx.stroke();
-
         this.ctx.restore();
     }
 

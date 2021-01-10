@@ -25,8 +25,9 @@ var shield;
 
 class TankDrawer {
 	
-    constructor(ctx) {
+    constructor(ctx, drawer) {
         this.ctx = ctx;
+		this.drawer = drawer;
         this.initParts();
         
         // Tank assets
@@ -81,7 +82,7 @@ class TankDrawer {
     	explosion_4.src = "/assets/img/explosion_4_S.png";
     }
 
-    initParts() {
+    initParts = () => {
         this.WHEEL_HEIGHT = 38;
         this.WHEEL_WIDTH = 21;
 
@@ -106,11 +107,11 @@ class TankDrawer {
         this.BOT_RIGHT_WHEEL_Y = 54;
     }
 
-    centerAround(img, x, y, width, height) {
+    centerAround = (img, x, y, width, height) => {
         this.ctx.drawImage(img, x - (width / 2) - (this.TANK_WIDTH / 2) , y - (height / 2) - (this.TANK_HEIGHT / 2));
     }
 
-    draw(tank) {
+    draw = (tank) => {
         let x = tank.x;
         let y = tank.y;
         let a = tank.angle;
@@ -132,7 +133,7 @@ class TankDrawer {
         // Animation switch
         
         if(alive) {
-        	this.drawAnimatedWheels(currentStepNumber);
+        	this.drawAnimatedWheels();
         } else {
         	this.drawStaticWheels();
         }
@@ -185,19 +186,19 @@ class TankDrawer {
         this.ctx.restore();
 
         if(!alive) {
-        	this.drawExplosion(currentStepNumber, tank);
+        	this.drawExplosion(tank);
         }
         
     }
     
-    drawShield(nbShield) {
+    drawShield = (nbShield) => {
     	for (var i = 0; i < nbShield; i++) {
 			this.ctx.drawImage(shield, i * 10, this.TANK_HEIGHT / 2, 10, 11);
 		}
     }
     
-    drawAnimatedWheels(currentStepNumbern) {
-    	 switch(currentStepNumber) {
+    drawAnimatedWheels = () => {
+    	 switch(this.drawer.currentStepNumber) {
          case 0:
          case 1:
          case 2:
@@ -241,24 +242,24 @@ class TankDrawer {
          }
     }
     
-    drawStaticWheels() {
+    drawStaticWheels = () => {
     	this.centerAround(wheelBackRight, this.BOT_RIGHT_WHEEL_X, this.BOT_RIGHT_WHEEL_Y, this.WHEEL_WIDTH, this.WHEEL_HEIGHT);
         this.centerAround(wheelBackLeft, this.BOT_LEFT_WHEEL_X, this.BOT_LEFT_WHEEL_Y, this.WHEEL_WIDTH, this.WHEEL_HEIGHT);
         this.centerAround(wheelFrontRight, this.TOP_RIGHT_WHEEL_X, this.TOP_RIGHT_WHEEL_Y, this.WHEEL_WIDTH, this.WHEEL_HEIGHT);
         this.centerAround(wheelFrontLeft, this.TOP_LEFT_WHEEL_X, this.TOP_LEFT_WHEEL_Y, this.WHEEL_WIDTH, this.WHEEL_HEIGHT);
     }
     
-    drawExplosion(currentStepNumber, tank) {
+    drawExplosion = (tank) => {
     	let tmpX = tank.x + this.TANK_WIDTH / 2;
     	let tmpY = tank.y + this.TANK_HEIGHT / 2;
     	
-		if(currentStepNumber < 5) {
+		if(this.drawer.currentStepNumber < 5) {
 			this.centerAround(explosion_1, tmpX, tmpY, explosion_1.width, explosion_1.height);
-		} else if(currentStepNumber < 10) {
+		} else if(this.drawer.currentStepNumber < 10) {
 			this.centerAround(explosion_2, tmpX, tmpY, explosion_2.width, explosion_2.height);
-		} else if(currentStepNumber < 15) {
+		} else if(this.drawer.currentStepNumber < 15) {
 			this.centerAround(explosion_3, tmpX, tmpY, explosion_3.width, explosion_3.height);
-		} else if(currentStepNumber <= 20) {
+		} else if(this.drawer.currentStepNumber <= 20) {
 			this.centerAround(explosion_4, tmpX, tmpY, explosion_4.width, explosion_4.height);
 		}
     }
