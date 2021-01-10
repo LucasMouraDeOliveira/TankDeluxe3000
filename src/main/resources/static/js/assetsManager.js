@@ -10,9 +10,14 @@ class AssetsManager {
 		$.get(this.MODELS_URL)
 		.done((models) => {
 			Promise.all(models.map(model => this.loadModel(model)))
-					.then((values) => values.forEach((value) => value.assets.map((part) => {name: part.name, image: this.createImageFromUrl(part.url)} ).then((loaded) => this.models.set(value.name, loaded))))
+					.then((jsonModels) => jsonModels.forEach((model) => this.models.set(model.name, model.assets)))
+					.then(this.loadModelsImages)
 					.then(assetsLoadedCallback);
 		});
+	}
+	
+	getModel = (modelName) => {
+		return this.models.get(modelName);
 	}
 	
 	loadModel = (modelName) => {
@@ -25,6 +30,10 @@ class AssetsManager {
 		image.src = url;
 		
 		return image;
+	}
+	
+	loadModelsImages = () => {
+		this.models.forEach((parts, key) => this.models.set(key, parts.map((part) => { return {name: part.name, image: this.createImageFromUrl(part.url)}})));
 	}
 	
 }

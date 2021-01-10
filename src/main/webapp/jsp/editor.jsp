@@ -34,7 +34,7 @@
 			var assetsManager = new AssetsManager();
 
 			// Load all assets
-			assetsManager.loadAssets(() => console.log(assetsManager.models));
+			assetsManager.loadAssets(() => console.log(assetsManager.getModel("tank")));
 		</script>
 	
 	</body>
