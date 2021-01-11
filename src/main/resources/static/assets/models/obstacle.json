@@ -1,6 +1,6 @@
 {
 	"name": "obstacle",
 	"assets" : [
-		{"name" : "wood", "url" : "/assets/img/wood-S.png"}
+		{"name" : "wood", "code" : "0015", "url" : "/assets/img/wood-S.png"}
 	]
 }

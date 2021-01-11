@@ -23,20 +23,22 @@ class AssetsManager {
 		return $.get(this.MODELS_URL + "/" + modelName);
 	}
 	
+	loadModelsImages = () => {
+		this.models.forEach((parts, key) => {
+			let images = {};
+			parts.forEach(part => {
+				images[part.name] = {sprite: this.createImageFromUrl(part.url), code: part.code};
+			});
+			this.models.set(key, images);
+		});
+	}
+	
 	createImageFromUrl = (url) => {
 		let image = new Image();
 		
 		image.src = url;
 		
 		return image;
-	}
-	
-	loadModelsImages = () => {
-		this.models.forEach((parts, key) => {
-			let images = {};
-			parts.forEach((part) => images[part.name] = this.createImageFromUrl(part.url));
-			this.models.set(key, images);
-		});
 	}
 	
 }

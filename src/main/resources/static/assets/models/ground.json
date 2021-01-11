@@ -1,6 +1,6 @@
 {
 	"name": "ground",
 	"assets" : [
-		{"name" : "grass", "url" : "/assets/img/grass.png"}
+		{"name" : "grass", "code" : "0016", "url" : "/assets/img/grass.png"}
 	]
 }

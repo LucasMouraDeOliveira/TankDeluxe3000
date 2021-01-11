@@ -18,8 +18,8 @@ class Drawer {
 		this.bCtx = this.bCanvas.getContext("2d");
 		
 		// Ground assets
-		this.ground = this.assetsManager.get("ground").grass;
-		this.obstacle = this.assetsManager.get("obstacle").wood;
+		this.ground = this.assetsManager.get("ground").grass.sprite;
+		this.obstacle = this.assetsManager.get("obstacle").wood.sprite;
 		
 		// Draw background once
 		this.ground.onload = () => {
