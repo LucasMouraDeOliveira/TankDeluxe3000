@@ -18,7 +18,7 @@
 		{"name" : "machineGunPurple", "code": "000E", "url" : "/assets/img/barrel-S-purple.png"},
 		{"name" : "machineGunGreen", "code": "000F", "url" : "/assets/img/barrel-S-green.png"},
 		{"name" : "shield", "code": "0010", "url" : "/assets/img/shield-S.png"},
-		{"name" : "explosion_1", "code": "0011", "url" : "/assets/img/explosion_4.png"},
+		{"name" : "explosion_1", "code": "0011", "url" : "/assets/img/explosion_1_S.png"},
 		{"name" : "explosion_2", "code": "0012", "url" : "/assets/img/explosion_2_S.png"},
 		{"name" : "explosion_3", "code": "0013", "url" : "/assets/img/explosion_3_S.png"},
 		{"name" : "explosion_4", "code": "0014", "url" : "/assets/img/explosion_4_S.png"}

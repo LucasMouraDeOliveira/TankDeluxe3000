@@ -18,16 +18,16 @@ class Drawer {
 		this.bCtx = this.bCanvas.getContext("2d");
 		
 		// Ground assets
-		this.ground = this.assetsManager.get("ground").grass.sprite;
-		this.obstacle = this.assetsManager.get("obstacle").wood.sprite;
+		this.ground = this.assetsManager.get("ground").grass;
+		this.obstacle = this.assetsManager.get("obstacle").wood;
 		
 		// Draw background once
 		this.ground.onload = () => {
 			//this.drawBackground();
 		}
 	
-		this.tankDrawer = new TankDrawer(this.fCtx, this);
-		this.bulletDrawer = new BulletDrawer(this.fCtx, this);
+		this.tankDrawer = new TankDrawer(this.fCtx, this, this.assetsManager);
+		this.bulletDrawer = new BulletDrawer(this.fCtx, this, this.assetsManager);
 	}
 	
 	drawForeground = (gameState) => {
