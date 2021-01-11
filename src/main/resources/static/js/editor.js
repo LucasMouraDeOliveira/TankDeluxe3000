@@ -43,6 +43,16 @@ function initCanvas() {
 		level[i] = new Array(nbBlockY);
 	}
 	
+	for (var x = 0; x < level.length; x++) {
+		level[x][0] = true;
+		level[x][level[0].length - 1] = true;
+	}
+	for (var y = 0; y < level[0].length; y++) {
+		level[0][y] = true;
+		level[level.length - 1][y] = true;
+	}
+	
+	drawForeground();
 }
 
 function clickEvent(event) {
@@ -56,8 +66,17 @@ function clickEvent(event) {
 	}
 	
 	drawForeground();
-	
-	console.log(JSON.stringify(level).replace(/null/g, "false").replace(/\[/g, "{").replace(/\]/g, "}"));
+}
+
+function printMap() {
+	let str = "";
+	for (var i = 0; i < level[0].length; i++) {
+		for(var j = 0; j < level.length; j++) {
+			str += level[j][i] ?  1 : 0;
+		}
+		str += "\n";
+	}
+	console.log(str);
 }
 
 function drawForeground() {

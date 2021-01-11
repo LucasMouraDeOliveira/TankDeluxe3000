@@ -41,7 +41,7 @@ public class TextFileLevelBuilder {
 	
 	private Cell createCell(int col, int row, char c) {
 		Cell cell = new Cell(col, row);
-		cell.setFloorId((int)c);
+		cell.setFloorId(Integer.valueOf(c + ""));
 		return cell;
 	}
 	

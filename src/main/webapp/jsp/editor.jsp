@@ -24,6 +24,8 @@
 				<h1>Assets</h1>
 			</div>
 		</div>
+		
+		<button onclick="printMap()">Générer</button>
 	
 		<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="js/draw.js"></script>
