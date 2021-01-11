@@ -17,6 +17,10 @@
 		{"name" : "machineGunTurquoise", "url" : "/assets/img/barrel-S-turquoise.png"},
 		{"name" : "machineGunPurple", "url" : "/assets/img/barrel-S-purple.png"},
 		{"name" : "machineGunGreen", "url" : "/assets/img/barrel-S-green.png"},
-		{"name" : "shield", "url" : "/assets/img/shield-S.png"}
+		{"name" : "shield", "url" : "/assets/img/shield-S.png"},
+		{"name" : "explosion_1", "url" : "/assets/img/explosion_4.png"},
+		{"name" : "explosion_2", "url" : "/assets/img/explosion_2_S.png"},
+		{"name" : "explosion_3", "url" : "/assets/img/explosion_3_S.png"},
+		{"name" : "explosion_4", "url" : "/assets/img/explosion_4_S.png"}
 	]
 }

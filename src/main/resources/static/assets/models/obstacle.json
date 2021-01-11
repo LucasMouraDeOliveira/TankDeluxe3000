@@ -1,0 +1,6 @@
+{
+	"name": "obstacle",
+	"assets" : [
+		{"name" : "wood", "url" : "/assets/img/wood-S.png"}
+	]
+}

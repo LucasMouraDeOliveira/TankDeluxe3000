@@ -2,7 +2,6 @@ class AssetsManager {
 	
 	constructor() {
 		this.MODELS_URL = "/assets/models";
-		this.ASSETS_URL = "/assets/img";
 		this.models = new Map();
 	}
 	
@@ -16,7 +15,7 @@ class AssetsManager {
 		});
 	}
 	
-	getModel = (modelName) => {
+	get = (modelName) => {
 		return this.models.get(modelName);
 	}
 	
@@ -33,7 +32,11 @@ class AssetsManager {
 	}
 	
 	loadModelsImages = () => {
-		this.models.forEach((parts, key) => this.models.set(key, parts.map((part) => { return {name: part.name, image: this.createImageFromUrl(part.url)}})));
+		this.models.forEach((parts, key) => {
+			let images = {};
+			parts.forEach((part) => images[part.name] = this.createImageFromUrl(part.url));
+			this.models.set(key, images);
+		});
 	}
 	
 }

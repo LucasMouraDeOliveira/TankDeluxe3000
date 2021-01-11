@@ -68,6 +68,7 @@
 		<script type="text/javascript" src="js/drawer/tank-drawer.js"></script>
 		<script type="text/javascript" src="js/drawer/bullet-drawer.js"></script>
 		<script type="text/javascript" src="js/controls.js"></script>
+		<script type="text/javascript" src="js/assetsManager.js"></script>
 		<script type="text/javascript" src="js/draw.js"></script>
 		<script type="text/javascript" src="js/websocket.js"></script>
 		<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
@@ -75,12 +76,24 @@
 		<script type="text/javascript">
 		
 			var login = "${login}";
-		
 			var playerDied = false;
-			var drawer = new Drawer();
+			var assetsManager = new AssetsManager();
+			var drawer = new Drawer(assetsManager);
 			var controls = new Controls();
-			var webSocketClient = new WebSocketClient(drawer, controls);
-		
+			var webSocketClient;
+			
+			// Load all assets
+			assetsManager.loadAssets(assetsLoaded);
+
+			// Once assets are loaded
+			function assetsLoaded() {
+				// Init game canvas
+				drawer.initCanvas();
+
+				// Plug view on websocket
+				webSocketClient = new WebSocketClient(drawer, controls);
+			}
+			
 			function updateScoreDiv(scores) {
 				
 				var bestPlayer = scores.bestPlayer;

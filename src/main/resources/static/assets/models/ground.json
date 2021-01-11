@@ -1,0 +1,6 @@
+{
+	"name": "ground",
+	"assets" : [
+		{"name" : "grass", "url" : "/assets/img/grass.png"}
+	]
+}

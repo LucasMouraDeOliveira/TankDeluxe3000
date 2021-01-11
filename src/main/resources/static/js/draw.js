@@ -1,12 +1,10 @@
 class Drawer {
 	
-	constructor() {
+	constructor(assetsManager) {
 		// Configuration
 		this.MAX_ANIMATION_STEP = 20;
 		
-		document.addEventListener("DOMContentLoaded", () => {
-			this.initCanvas();
-		});
+		this.assetsManager = assetsManager;
 	}
 	
 	initCanvas = () => {
@@ -20,10 +18,8 @@ class Drawer {
 		this.bCtx = this.bCanvas.getContext("2d");
 		
 		// Ground assets
-		this.ground = new Image();
-		this.obstacle = new Image();
-		this.ground.src = "/assets/img/grass.png";
-		this.obstacle.src = "/assets/img/wood-S.png";
+		this.ground = this.assetsManager.get("ground").grass;
+		this.obstacle = this.assetsManager.get("obstacle").wood;
 		
 		// Draw background once
 		this.ground.onload = () => {
