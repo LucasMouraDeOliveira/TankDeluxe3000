@@ -1,6 +1,10 @@
 {
 	"name": "obstacle",
 	"assets" : [
-		{"name" : "wood", "code" : "0015", "url" : "/assets/img/wood-S.png"}
+		{"name" : "wood", "code" : "0015", "url" : "/assets/img/wood-S.png"},
+		{"name" : "Corner A", "code" : "0017", "url" : "/assets/img/wood-S-corner-br.png"},
+		{"name" : "Corner B", "code" : "0018", "url" : "/assets/img/wood-S-corner-bl.png"},
+		{"name" : "Corner C", "code" : "0019", "url" : "/assets/img/wood-S-corner-tr.png"},
+		{"name" : "Corner D", "code" : "001A", "url" : "/assets/img/wood-S-corner-tl.png"}
 	]
 }

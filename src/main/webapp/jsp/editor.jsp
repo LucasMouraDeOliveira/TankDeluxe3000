@@ -6,6 +6,7 @@
 		<title>Battle Tank</title>
 		
 		<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="/css/tank-delux.css"/>
 		
 		<style>
 			canvas {
@@ -14,12 +15,13 @@
 		</style>
 	</head>
 	<body>
-		
-		<div class="row p-2">
-			<div class="col-8 canvasContainer">
-				<canvas id="backgroundCanvas" width=1200 height=800></canvas>
-				<canvas id="foregroundCanvas" width=1200 height=800></canvas>
-				<canvas id="gridCanvas" width=1200 height=800></canvas>
+		<div class="row p-2 h-100">
+			<div class="col-8 scrollable-x scrollable-y" style="min-height: 832px">
+				<div class="">
+					<canvas id="backgroundCanvas" width=1200 height=800></canvas>
+					<canvas id="foregroundCanvas" width=1200 height=800></canvas>
+					<canvas id="gridCanvas" width=1200 height=800></canvas>
+				</div>
 			</div>
 			<div id="assetsPanel" class="col-4">
 				<button class="float-right btn btn-primary" data-toggle="modal" data-target=".bd-export-modal-lg" >Générer</button>
@@ -63,6 +65,7 @@
 				        </button>
 					</div>
 					<div class="modal-body">
+						<textarea id="exportLevelTextArea" class="w-100" style="height: 200px"></textarea>
 		     		</div>
 				</div>
 			</div>

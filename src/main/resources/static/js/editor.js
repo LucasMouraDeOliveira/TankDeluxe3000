@@ -12,6 +12,8 @@ var nbBlockY = 800 / 32;
 var selectedAssetCode;
 var selectedLayout;
 
+var clickInfo;
+
 var assetsManager = new AssetsManager();
 
 // Load all assets
@@ -22,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 $('#exportLevelModal').on('show.bs.modal', function () {
-	$(this).find(".modal-body").empty().append(calculateMap());
+	$("#exportLevelTextArea").empty().append(calculateMap());
 });
 
 function initCanvas() {
@@ -36,7 +38,9 @@ function initCanvas() {
 	drawGrid();
 	
 	// Click event
-	document.querySelector("#gridCanvas").addEventListener('mousedown', clickEvent);
+	document.querySelector("#gridCanvas").addEventListener('mousedown', mouseDown);
+	document.querySelector("#gridCanvas").addEventListener('mousemove', mouseMove);
+	document.querySelector("#gridCanvas").addEventListener('mouseup', mouseUp);
 	
 	selectedLayout = "ground";
 }
@@ -48,6 +52,7 @@ function setupAssetsPanel() {
 
 function addAssetPanel(layoutName, assets) {
 	let assetPanel = $("#"+ layoutName +"-assets");
+	let row = $("<div>").addClass("row");
 	
 	Object.keys(assets).forEach(assetName => {
 		let assetImage = assets[assetName];
@@ -62,34 +67,59 @@ function addAssetPanel(layoutName, assets) {
 		assetCard.find(".card-title").append(assetName);
 		assetCard.find(".card-body").append(assetImage);
 		
-		assetPanel.append(assetCard);
+		row.append(assetCard);
 	});
+	assetPanel.append(row);
 }
 
-function clickEvent(event) {
+function mouseDown(event) {
+	// Get coordinates
 	let x = parseInt(event.offsetX / 32);
 	let y = parseInt(event.offsetY / 32);
-	let layout;
-	let refreshFunction;
+	let action = getSelectedLayout()[x][y] == undefined ? "fill" : "clean"; 
 	
-	if(selectedLayout == "ground") {
-		layout = bLayout;
-		refreshFunction = drawBackground;
-	} else if(selectedLayout == "obstacle") {
-		layout = fLayout;
-		refreshFunction = drawForeground;
-	} else {
-		console.error("Unknwon layout " + selectedLayout);
-		return;
+	clickInfo = {
+		startX: x,
+		startY: y,
+		x: x,
+		y: y,
+		action: action,
+	};
+	
+}
+
+function mouseMove(event) {
+	if(clickInfo) {
+		let x = parseInt(event.offsetX / 32);
+		let y = parseInt(event.offsetY / 32);
+		
+		if(x != clickInfo.x || y != clickInfo.y) {
+			clickInfo.x = x;
+			clickInfo.y = y;
+			
+			getRefreshFunction()();
+		}
 	}
-	
-	if(layout[x][y]) {
-		layout[x][y] = undefined;
-	} else {
-		layout[x][y] = selectedAssetCode;
+}
+
+function mouseUp() {
+	fill();
+	clickInfo = undefined;
+	getRefreshFunction()();
+}
+
+
+function fill() {
+	let layout = getSelectedLayout();
+	let assetCode = clickInfo.action == "fill" ? selectedAssetCode : undefined;
+	let coord = reorderCoords(clickInfo.startX, clickInfo.startY, clickInfo.x, clickInfo.y);
+	 
+	// Fill by copying top left corner
+	for(let x = coord.x1; x <= coord.x2; x++) {
+		for(let y = coord.y1; y <= coord.y2; y++) {
+			layout[x][y] = assetCode;
+		}
 	}
-	
-	refreshFunction();
 }
 
 function drawGrid() {
@@ -114,12 +144,19 @@ function drawGrid() {
 }
 
 function drawForeground() {
+	// Selected area
+	let coord = clickInfo ? reorderCoords(clickInfo.startX, clickInfo.startY, clickInfo.x, clickInfo.y) : undefined;
+
 	fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
 	
 	// fLayout
-	for (var x = 0; x < fLayout.length; x++) {
-		for (var y = 0; y < fLayout[0].length; y++) {
-			if(fLayout[x][y]) {
+	for (let x = 0; x < fLayout.length; x++) {
+		for (let y = 0; y < fLayout[0].length; y++) {
+			if(selectedLayout == "obstacle" && clickInfo && x >= coord.x1 && x <= coord.x2 && y >= coord.y1 && y <= coord.y2) {
+				if(clickInfo.action == "fill") {
+					fCtx.drawImage(assetsManager.getImage(selectedAssetCode), x * 32, y * 32);
+				}
+			} else if(fLayout[x][y]) {
 				fCtx.drawImage(assetsManager.getImage(fLayout[x][y]), x * 32, y * 32);
 			}
 		}
@@ -127,26 +164,33 @@ function drawForeground() {
 }
 
 function drawBackground() {
+	// Selected area
+	let coord = clickInfo ? reorderCoords(clickInfo.startX, clickInfo.startY, clickInfo.x, clickInfo.y) : undefined;
+	
 	bCtx.clearRect(0, 0, bCanvas.width, bCanvas.height);
 	
 	// bLayout
-	for (var x = 0; x < bLayout.length; x++) {
-		for (var y = 0; y < bLayout[0].length; y++) {
-			if(bLayout[x][y]) {
+	for (let x = 0; x < bLayout.length; x++) {
+		for (let y = 0; y < bLayout[0].length; y++) {
+			if(selectedLayout == "ground" && clickInfo && x >= coord.x1 && x <= coord.x2 && y >= coord.y1 && y <= coord.y2) {
+				if(clickInfo.action == "fill") {
+					bCtx.drawImage(assetsManager.getImage(selectedAssetCode), x * 32, y * 32);
+				}
+			} else if(bLayout[x][y]) {
 				bCtx.drawImage(assetsManager.getImage(bLayout[x][y]), x * 32, y * 32);
-			}
+			} 
 		}
 	}
 }
 
 function initializeLevel() {
 	fLayout = new Array(nbBlockX);
-	for (var i = 0; i < fLayout.length; i++) {
+	for (let i = 0; i < fLayout.length; i++) {
 		fLayout[i] = new Array(nbBlockY);
 	}
 	
 	bLayout = new Array(nbBlockX);
-	for (var i = 0; i < bLayout.length; i++) {
+	for (let i = 0; i < bLayout.length; i++) {
 		bLayout[i] = new Array(nbBlockY);
 	}
 }
@@ -170,14 +214,46 @@ function selectCard(card, layoutName) {
 	selectedLayout = layoutName;
 }
 
-function calculateMap() {
-	let str = "";
-	for (var i = 0; i < fLayout[0].length; i++) {
-		for(var j = 0; j < fLayout.length; j++) {
-			str += fLayout[j][i] ?  1 : 0;
-		}
-		str += "\n";
+function getSelectedLayout() {
+	if(selectedLayout == "ground") {
+		return bLayout;
+	} else if(selectedLayout == "obstacle") {
+		return fLayout;
+	} else {
+		console.error("Unknwon layout " + selectedLayout);
+		return;
 	}
+}
+
+function getRefreshFunction() {
+	if(selectedLayout == "ground") {
+		return drawBackground;
+	} else if(selectedLayout == "obstacle") {
+		return drawForeground;
+	} else {
+		console.error("Unknwon layout " + selectedLayout);
+		return;
+	}
+}
+
+function calculateMap() {
+	let map = {
+		widht: nbBlockX,
+		height: nbBlockY,
+		ground: bLayout,
+		obstacle: fLayout
+	};
 	
-	return str;
+	return window.btoa(JSON.stringify(map));
+}
+
+function reorderCoords(x1, y1, x2, y2) {
+	let coords = {};
+	
+	coords.x1 = Math.min(x1, x2);
+	coords.y1 = Math.min(y1, y2);
+	coords.x2 = Math.max(x1, x2);
+	coords.y2 = Math.max(y1, y2);
+	
+	return coords;
 }

@@ -1,0 +1,7 @@
+.scrollable-y {
+	overflow-y: scroll !important;
+}
+
+.scrollable-x {
+	overflow-x: scroll !important;
+}

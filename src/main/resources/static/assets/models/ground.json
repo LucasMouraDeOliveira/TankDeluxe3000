@@ -1,6 +1,12 @@
 {
 	"name": "ground",
 	"assets" : [
-		{"name" : "grass", "code" : "0016", "url" : "/assets/img/grass.png"}
+		{"name" : "grass", "code" : "0016", "url" : "/assets/img/grass.png"},
+		{"name" : "Stone A", "code" : "001B", "url" : "/assets/img/stone_1.png"},
+		{"name" : "Stone B", "code" : "001C", "url" : "/assets/img/stone_2.png"},
+		{"name" : "Stone C", "code" : "001D", "url" : "/assets/img/stone_3.png"},
+		{"name" : "Grass A", "code" : "001E", "url" : "/assets/img/grass_2.png"},
+		{"name" : "Grass B", "code" : "001F", "url" : "/assets/img/grass_3.png"},
+		{"name" : "Grass C", "code" : "0020", "url" : "/assets/img/grass_4.png"}
 	]
 }
