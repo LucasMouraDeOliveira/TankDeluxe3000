@@ -23,8 +23,17 @@ document.addEventListener("DOMContentLoaded", function(){
 	initCanvas();
 });
 
-$('#exportLevelModal').on('show.bs.modal', function () {
-	$("#exportLevelTextArea").empty().append(calculateMap());
+$('#exportLevelModal').on('show.bs.modal', function (e) {
+	let action = $(e.relatedTarget).data("action");
+	
+	if(action == "export") {
+		$(this).find("textarea").empty().append(calculateMap());
+		$(this).find(".modal-footer").hide();
+		
+	} else if(action == "import") {
+		$(this).find("textarea").empty();
+		$(this).find(".modal-footer").show();
+	}
 });
 
 function initCanvas() {
@@ -245,6 +254,18 @@ function calculateMap() {
 	};
 	
 	return window.btoa(JSON.stringify(map));
+}
+
+function importLevel() {
+	let map = JSON.parse(window.atob($("#exportLevelTextArea").val()));
+	
+	nbBlockX = map.width;
+	nbBlockY = map.height;
+	bLayout = map.ground;
+	fLayout = map.obstacle;
+	
+	drawBackground();
+	drawForeground();
 }
 
 function reorderCoords(x1, y1, x2, y2) {

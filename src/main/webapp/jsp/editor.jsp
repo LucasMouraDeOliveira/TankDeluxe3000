@@ -24,7 +24,8 @@
 				</div>
 			</div>
 			<div id="assetsPanel" class="col-4">
-				<button class="float-right btn btn-primary" data-toggle="modal" data-target=".bd-export-modal-lg" >Générer</button>
+				<button class="float-right btn btn-primary" data-toggle="modal" data-target=".bd-export-modal-lg" data-action="export">Exporter</button>
+				<button class="float-right btn btn-primary mr-2" data-toggle="modal" data-target=".bd-export-modal-lg" data-action="import">Importer</button>
 				
 				<h1>Assets</h1>
 				<hr>
@@ -66,6 +67,9 @@
 					</div>
 					<div class="modal-body">
 						<textarea id="exportLevelTextArea" class="w-100" style="height: 200px"></textarea>
+		     		</div>
+		     		<div class="modal-footer">
+		     			<button onClick="importLevel()" data-dismiss="modal">Valider</button>
 		     		</div>
 				</div>
 			</div>

@@ -13,6 +13,7 @@
 				<ul class="navbar-nav mr-auto">
 <!-- 					<th:block sec:authorize="isAuthenticated()"> -->
 						<li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
+						<li class="nav-item"><a class="nav-link" href="/editor">Editeur</a></li>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown">
 								Play
