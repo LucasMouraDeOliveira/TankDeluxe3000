@@ -65,14 +65,13 @@
 			<button onclick="window.location.reload();">Respawn</button>	
 		</div>
 	
+		<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="js/drawer/tank-drawer.js"></script>
 		<script type="text/javascript" src="js/drawer/bullet-drawer.js"></script>
 		<script type="text/javascript" src="js/controls.js"></script>
 		<script type="text/javascript" src="js/assetsManager.js"></script>
 		<script type="text/javascript" src="js/draw.js"></script>
 		<script type="text/javascript" src="js/websocket.js"></script>
-		<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
-		
 		<script type="text/javascript">
 		
 			var login = "${login}";

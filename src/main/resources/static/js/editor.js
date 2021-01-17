@@ -247,7 +247,7 @@ function getRefreshFunction() {
 
 function calculateMap() {
 	let map = {
-		widht: nbBlockX,
+		width: nbBlockX,
 		height: nbBlockY,
 		ground: bLayout,
 		obstacle: fLayout

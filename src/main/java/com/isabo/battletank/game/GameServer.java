@@ -1,6 +1,5 @@
 package com.isabo.battletank.game;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,12 +12,13 @@ import java.util.Random;
 import org.dyn4j.dynamics.World;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.isabo.battletank.SettingsManager;
+import com.isabo.battletank.game.level.Layout;
 import com.isabo.battletank.listener.BulletBulletListener;
 import com.isabo.battletank.listener.BulletWallListener;
 import com.isabo.battletank.listener.TankBulletListener;
@@ -26,7 +26,10 @@ import com.isabo.battletank.listener.TankBulletListener;
 @Component
 public class GameServer {
 	
-	private TextFileLevelBuilder levelBuilder;
+	@Autowired
+	private LevelBuilder levelBuilder;
+	
+//	private TextFileLevelBuilder levelBuilder;
 	
 	private Map<WebSocketSession, Player> players;
 	
@@ -48,7 +51,7 @@ public class GameServer {
 		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
 		this.gameScore = new GameScore();
-		this.levelBuilder = new TextFileLevelBuilder();
+//		this.levelBuilder = new TextFileLevelBuilder();
 		
 		this.world = new World();
 		
@@ -58,24 +61,36 @@ public class GameServer {
 		
 		this.world.setGravity(World.ZERO_GRAVITY);
 		
-	    loadLevel("forest");
+//	    loadLevel("forest");
 	    
-		List<Cell> cells = this.level.getCells(); 
-		cells.stream().forEach(cell -> { if(cell.hasWall()) {
-			this.world.addBody(cell.getWall());
-		}});
+	    
+//		List<Cell> cells = this.level.getCells(); 
+//		cells.stream().forEach(cell -> { if(cell.hasWall()) {
+//			this.world.addBody(cell.getWall());
+//		}});
 	}
 
-	private void loadLevel(String levelName) {
-		try {
-	    	ClassPathResource resource = new ClassPathResource("static/map/" + levelName);
-			File file = resource.getFile();
-			this.level = this.levelBuilder.loadLevel(file.toPath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	private void loadLevel(String levelName) {
+//		try {
+//	    	ClassPathResource resource = new ClassPathResource("static/map/" + levelName);
+//			File file = resource.getFile();
+//			this.level = this.levelBuilder.loadLevel(file.toPath());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
+	public void loadLevel(String levelName) throws IOException {
+		this.level = this.levelBuilder.loadLevel(levelName);
+		
+		List<Cell> cells = this.level.getLayouts().get(1).getCells();	// TODO manage many layout 
+		cells.stream().forEach(cell -> { 
+			if(cell.getBody() != null) {
+				this.world.addBody(cell.getBody());
+			}
+		});
+	}
+
 	public void addPlayer(WebSocketSession session, String playerName) {
 		Color playerColor = this.availableColor.remove(0);
 		Player newPlayer = new Player(playerName, playerColor);
@@ -156,15 +171,17 @@ public class GameServer {
 		
 		
 		JSONArray jsonCells = new JSONArray();
-		for(Cell cell : this.level.getCells()) {
-			JSONObject jsonCell = new JSONObject();
-			jsonCell.put("x", cell.getX());
-			jsonCell.put("y", cell.getY());
-			jsonCell.put("floorId", cell.getFloorId());
-			jsonCell.put("obstacle", cell.hasWall());
-			jsonCells.put(jsonCell);
+		for(Layout l : this.level.getLayouts()) {
+			for(Cell cell : l.getCells()) {
+				JSONObject jsonCell = new JSONObject();
+				jsonCell.put("x", cell.getX());
+				jsonCell.put("y", cell.getY());
+	//			jsonCell.put("floorId", cell.getFloorId());
+	//			jsonCell.put("obstacle", true);
+				jsonCell.put("code", cell.getCode());
+				jsonCells.put(jsonCell);
+			}
 		}
-		
 		JSONArray jsonPlayerScores = new JSONArray();
 		for(Map.Entry<Player, Integer> entry : this.gameScore.getScores().entrySet()) {
 			JSONObject jsonPlayerScore = new JSONObject();
@@ -222,4 +239,7 @@ public class GameServer {
 		return gameScore;
 	}
 	
+	public Level getLevel() {
+		return this.level;
+	}
 }

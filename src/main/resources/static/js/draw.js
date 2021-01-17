@@ -44,11 +44,9 @@ class Drawer {
 		let walls = gameState.walls;
 		
 		// First loop to draw floors
-		for(var i in walls) {
+		for(let i in walls) {
 			let wall = walls[i];
-			if(wall.floorId == 1) {
-				this.fCtx.drawImage(this.ground, wall.x * 32, wall.y * 32);
-			}
+			this.fCtx.drawImage(this.assetsManager.getImage(wall.code), wall.x * 32, wall.y * 32);
 		}
 	
 		this.fCtx.shadowOffsetX = 1;
@@ -57,12 +55,12 @@ class Drawer {
 		this.fCtx.shadowBlur = 6;
 		
 		// Second loop to draw walls
-		for(let i in walls) {
-			let wall = walls[i];
-			if(wall.obstacle) {
-				this.fCtx.drawImage(this.obstacle, wall.x * 32, wall.y * 32);
-			}
-		}
+//		for(let i in walls) {
+//			let wall = walls[i];
+//			if(wall.obstacle) {
+//				this.fCtx.drawImage(this.obstacle, wall.x * 32, wall.y * 32);
+//			}
+//		}
 		
 		// Draw tanks
 		gameState.players.forEach(tank => this.tankDrawer.draw(tank));

@@ -3,41 +3,50 @@ package com.isabo.battletank.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.isabo.battletank.game.level.Layout;
+
 public class Level {
+	
+	private int width;
+	
+	private int height;
 	
 	private List<Coordinate> spawn;
 	
-	private List<Cell> cells;
+	private List<Layout> layouts;
+	
 	
 	public Level() {
 		this.spawn = new ArrayList<>();
-	}
-	
-	public Level(List<Cell> cells) {
-		this.spawn = new ArrayList<>();
-		this.cells = cells;
+		this.layouts = new ArrayList<>(10);
 	}
 
 	
+	public void addLayout(Layout layout) {
+		this.layouts.add(layout.getzIndex(), layout);
+	}
+	public int getWidth() {
+		return width;
+	}
+	public void setWidth(int width) {
+		this.width = width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public void setHeight(int height) {
+		this.height = height;
+	}
 	public void addSpawn(Coordinate c) {
 		this.spawn.add(c);
 	}
-	
 	public void removeSpawn(Coordinate c) {
 		this.spawn.remove(c);
 	}
-	
 	public List<Coordinate> getSpawn() {
 		return spawn;
 	}
-
-	public List<Cell> getCells() {
-		return cells;
+	public List<Layout> getLayouts() {
+		return this.layouts;
 	}
-
-	public void setCells(List<Cell> cells) {
-		this.cells = cells;
-	}
-
-	
 }

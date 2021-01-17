@@ -22,7 +22,7 @@ public class TextFileLevelBuilder {
 	}
 
 	private void loadFloor(Level level, List<String> lines) {
-		level.setCells(loadCells(lines));
+//		level.setCells(loadCells(lines));
 	}
 	
 	private List<Cell> loadCells(List<String> lines) {
@@ -41,7 +41,7 @@ public class TextFileLevelBuilder {
 	
 	private Cell createCell(int col, int row, char c) {
 		Cell cell = new Cell(col, row);
-		cell.setFloorId(Integer.valueOf(c + ""));
+//		cell.setFloorId(Integer.valueOf(c + ""));
 		return cell;
 	}
 	
@@ -57,8 +57,8 @@ public class TextFileLevelBuilder {
 			int col = 0;
 			for(char c : line.toCharArray()) {
 				if(c == '1') {
-					Cell cell = getCell(level, col, row, w);
-					cell.setWall(new Wall(col * SettingsManager.OBSTACLE_WIDTH, row * SettingsManager.OBSTACLE_HEIGHT));
+//					Cell cell = getCell(level, col, row, w);
+//					cell.setWall(new Square(col * SettingsManager.OBSTACLE_WIDTH, row * SettingsManager.OBSTACLE_HEIGHT));
 				}
 				col++;
 			}
@@ -66,9 +66,9 @@ public class TextFileLevelBuilder {
 		}
 	}
 	
-	private Cell getCell(Level level, int col, int row, int w) {
-		return level.getCells().get(row * w + col);
-	}
+//	private Cell getCell(Level level, int col, int row, int w) {
+////		return level.getCells().get(row * w + col);
+//	}
 
 	private void addSpawns(Level level, List<String> lines) {
 		int row = 0;

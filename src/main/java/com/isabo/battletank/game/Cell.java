@@ -1,14 +1,16 @@
 package com.isabo.battletank.game;
 
+import org.dyn4j.dynamics.Body;
+
 public class Cell {
 	
 	private final int x;
 	
 	private final int y;
 	
-	private int floorId;
+	private String code;
 	
-	private Wall wall;
+	private Body body;
 	
 	public Cell(int x, int y) {
 		this.x = x;
@@ -23,24 +25,24 @@ public class Cell {
 		return y;
 	}
 	
-	public int getFloorId() {
-		return floorId;
-	}
-	
-	public void setFloorId(int floorId) {
-		this.floorId = floorId;
-	}
-	
-	public Wall getWall() {
-		return wall;
-	}
-	
-	public void setWall(Wall wall) {
-		this.wall = wall;
+	public String getCode() {
+		return code;
 	}
 
-	public boolean hasWall() {
-		return wall != null;
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public Body getBody() {
+		return body;
+	}
+
+	public void setBody(Body body) {
+		this.body = body;
+	}
+
+	public boolean hasBody() {
+		return body != null;
 	}
 
 }

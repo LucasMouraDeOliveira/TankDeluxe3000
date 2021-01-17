@@ -1,111 +1,89 @@
 package com.isabo.battletank.game;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 
-import com.isabo.battletank.SettingsManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.isabo.battletank.SettingsManager;
+import com.isabo.battletank.entity.dto.LevelDTO;
+import com.isabo.battletank.game.level.Layout;
+import com.isabo.battletank.game.physical.Obstacle;
+import com.isabo.battletank.service.BodyFactory;
+
+@Service
 public class LevelBuilder {
 	
-	boolean [][] level2 = new boolean[][] {	{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},
-											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true},
-											{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,true,true,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,true,true,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,true,true,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,true,true,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,true,false,false,true,false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true},
-											{true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true},
-											{true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true},
-											{true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true},
-											{true,false,false,false,false,true,false,false,true,false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,true,true,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,true,true,false,false,false,false,false,false,true},
-											{true,false,false,false,true,true,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,true,true,false,false,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true},
-											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true},
-											{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},
-											{false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false}};
+	@Autowired
+	private BodyFactory bodyFactory;
 	
-	boolean [][] level = new boolean[][] {{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},{true,false,false,false,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,true},{true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,true},{true,true,true,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,true,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,true,true,false,false,false,false,false,true,false,false,false,false,false,false,true,true,false,false,true},{true,false,false,false,false,false,false,true,true,false,false,false,false,true,false,false,false,false,false,false,true,true,false,false,true},{true,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,true,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,true,true,true,false,false,false,false,false,true},{true,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true,true,true,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,true,true},{true,false,false,false,true,true,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true},{true,false,false,true,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true},{true,true,true,true,false,false,false,false,false,false,true,true,false,false,false,false,false,false,true,true,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,true,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,true,true,false,false,false,false,false,true},{true,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,false,false,true},{true,false,false,false,false,true,true,true,false,false,false,true,true,false,false,false,true,true,false,false,false,false,false,false,true},{true,false,false,false,true,true,true,true,false,false,false,false,true,true,true,true,true,false,false,false,false,true,false,false,true},{true,false,false,false,true,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,true,true,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,false,false,true,true,true,false,false,false,false,false,false,false,false,false,false,false,true},{true,false,false,false,false,false,false,false,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,true},{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true},{true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true}};
-											
-	public List<Wall> getNewBorderedLevel() {
-		List<Wall> walls = new ArrayList<>();
-		int width = (int) (SettingsManager.WORLD_WIDTH / SettingsManager.OBSTACLE_WIDTH);
-		int height = (int) (SettingsManager.WORLD_HEIGHT / SettingsManager.OBSTACLE_HEIGHT);
+	@Value("${app.map.location}")
+	private String mapLocation;
+	
+	
+	public Level loadLevel(String levelName) throws IOException {
 		
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				if(i == 0 || j == 0 || i == width - 1 || j == height - 1) {
-					walls.add(createWall(i * SettingsManager.OBSTACLE_WIDTH, j * SettingsManager.OBSTACLE_HEIGHT));
+		String levelString = Files.readString(Paths.get(mapLocation, levelName));
+		levelString = new String(Base64.getDecoder().decode(levelString));
+		LevelDTO levelDTO = new ObjectMapper().readValue(levelString, LevelDTO.class);
+		
+		
+		return this.loadLevel(levelDTO);
+	}
+	
+	public Level loadLevel(LevelDTO levelDTO) {
+		Level level = new Level();
+		
+		level.setHeight(levelDTO.getHeight());
+		level.setWidth(levelDTO.getWidth());
+		
+		Layout ground = new Layout(0);
+		Layout obstacle = new Layout(1);
+		
+		List<List<String>> groundData = levelDTO.getGround();
+		List<List<String>> obstacleData = levelDTO.getObstacle();
+
+		// TODO optimize
+		for (int x = 0; x < levelDTO.getWidth(); x++) {
+			for (int y = 0; y < levelDTO.getHeight(); y++) {
+				String groundSpriteCode = groundData.get(x).get(y);
+				String obstacleSpriteCode = obstacleData.get(x).get(y);
+				
+				// Just assets
+				if(groundSpriteCode != null) {
+					Cell cell = new Cell(x, y);
+					
+					cell.setCode(groundSpriteCode);
+					
+					ground.addCell(cell);
+				}
+				
+				// Assets and body
+				if(obstacleSpriteCode != null) {
+					Cell cell = new Cell(x, y);
+					Obstacle body = this.bodyFactory.buildObstacle(obstacleSpriteCode, x * SettingsManager.OBSTACLE_WIDTH, y * SettingsManager.OBSTACLE_HEIGHT);
+
+					cell.setCode(obstacleSpriteCode);
+					cell.setBody(body);
+					
+					obstacle.addCell(cell);
 				}
 			}
 		}
 		
-		return walls;
+		level.addLayout(ground);
+		level.addLayout(obstacle);
+		
+		// Set spawn
+		level.addSpawn(new Coordinate(6, 6));
+
+		return level;
 	}
 	
-	public Level getSpecialLevel() {
-		List<Cell> cells = new ArrayList<>();
-		Level specialLevel = new Level();
-		
-		Cell cell;
-		for (int i = 0; i < level.length; i++) {
-			for (int j = 0; j < level[0].length; j++) {
-				cell = new Cell(i, j);
-				cell.setFloorId(1);
-				if(this.level[i][j]) {
-					cell.setWall(createWall(i * SettingsManager.OBSTACLE_WIDTH, j * SettingsManager.OBSTACLE_HEIGHT));
-				}
-				cells.add(cell);
-			}
-		}
-		
-		specialLevel.setCells(cells);
-		specialLevel.addSpawn(new Coordinate(10,9));
-		specialLevel.addSpawn(new Coordinate(60,9));
-		specialLevel.addSpawn(new Coordinate(110,9));
-		
-		specialLevel.addSpawn(new Coordinate(10,72));
-		specialLevel.addSpawn(new Coordinate(60,72));
-		specialLevel.addSpawn(new Coordinate(110,72));
-		
-		return specialLevel;
-	}
-	
-	public Wall createWall(double x, double y) {
-		return new Wall(x, y);
-	}
-	
-	public void addRectangle(List<Wall> walls, int x1, int y1, int x2, int y2) {
-		int width = (int) (SettingsManager.WORLD_WIDTH / SettingsManager.OBSTACLE_WIDTH);
-		int height = (int) (SettingsManager.WORLD_HEIGHT / SettingsManager.OBSTACLE_HEIGHT);
-		
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				if(i >= x1 && i <= x2 && j >= y1 && j <= y2) {
-					walls.add(this.createWall(i * SettingsManager.OBSTACLE_WIDTH, j * SettingsManager.OBSTACLE_HEIGHT));
-				}
-			}
-		}
-	}
 }
