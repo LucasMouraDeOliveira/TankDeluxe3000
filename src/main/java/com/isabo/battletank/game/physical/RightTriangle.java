@@ -11,11 +11,10 @@ public class RightTriangle extends Obstacle {
 		super(x, y);
 		
 		// To put the right angle to the origin of the cell
-		this.translate(SettingsManager.OBSTACLE_WIDTH / 4D, SettingsManager.OBSTACLE_WIDTH / 4D);
+		this.translate((1 / 3D) * SettingsManager.OBSTACLE_WIDTH, (1 / 3D) * SettingsManager.OBSTACLE_HEIGHT);
 
 		// Rotate around the center of the cell
 		this.rotate(theta, x + SettingsManager.OBSTACLE_WIDTH / 2D, y + SettingsManager.OBSTACLE_HEIGHT / 2D);
-		
 	}
 
 	@Override
