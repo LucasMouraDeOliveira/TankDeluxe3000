@@ -24,7 +24,7 @@ public class JoinGameController {
 		
 		if(gameServer.getLevel() == null) {
 			try {
-				this.gameServer.loadLevel("Octogone");
+				this.gameServer.loadLevel("Crossfire");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

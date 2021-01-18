@@ -81,7 +81,12 @@ public class LevelBuilder {
 		level.addLayout(obstacle);
 		
 		// Set spawn
-		level.addSpawn(new Coordinate(6, 6));
+		level.addSpawn(new Coordinate(12, 15));
+		level.addSpawn(new Coordinate(12, 68));
+		level.addSpawn(new Coordinate(58, 8));
+		level.addSpawn(new Coordinate(58, 65));
+		level.addSpawn(new Coordinate(108, 15));
+		level.addSpawn(new Coordinate(108, 68));
 
 		return level;
 	}
