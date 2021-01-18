@@ -30,8 +30,8 @@ public class BattleTankApplication {
 		user2.setPassword("panzani");
 		userService.createUser(user2);
 		User user3 = new User();
-		user3.setLogin("DocteurBellamy");
-		user3.setPassword("123456");
+		user3.setLogin("Dizturbz");
+		user3.setPassword("azer");
 		userService.createUser(user3);
 	}
 
