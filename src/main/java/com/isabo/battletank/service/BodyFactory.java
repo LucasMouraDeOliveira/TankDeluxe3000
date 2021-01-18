@@ -13,19 +13,13 @@ public class BodyFactory {
 		if(code.equals("0015")) {
 			return new Square(x, y);
 		} else if(code.equals("0017")) {
-			RightTriangle t = new RightTriangle(x, y);
-			t.rotateAboutCenter(Math.PI);
-			return t;
+			return new RightTriangle(x, y, Math.PI);
 		} else if(code.equals("0018")) {
-			RightTriangle t = new RightTriangle(x, y);
-			t.rotateAboutCenter(- Math.PI / 2);
-			return t;
+			return new RightTriangle(x, y, -Math.PI / 2);
 		} else if(code.equals("0019")) {
-			RightTriangle t = new RightTriangle(x, y);
-			t.rotateAboutCenter(Math.PI / 2);
-			return t;
+			return new RightTriangle(x, y, Math.PI / 2);
 		} else if(code.equals("001A")) {
-			return new RightTriangle(x, y);
+			return new RightTriangle(x, y, 0);
 		}
 		
 		throw new IllegalArgumentException("Unkown code "+ code +". Can't build associated body.");

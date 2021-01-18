@@ -9,6 +9,8 @@ public class Square extends Obstacle {
 
 	public Square(double x, double y) {
 		super(x, y);
+		
+		this.translate(SettingsManager.OBSTACLE_WIDTH / 2D, SettingsManager.OBSTACLE_HEIGHT / 2D);
 	}
 
 	public Polygon getFixture() {
