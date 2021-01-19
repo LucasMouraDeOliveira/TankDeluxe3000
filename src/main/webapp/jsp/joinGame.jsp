@@ -16,11 +16,16 @@
 		<style>
 		
 			#mainDiv {
-				width: 1200px;
-				height: 800px;
+				width: 100vw;
+				height: 100vh;
 				border: 1px solid black;
 				background-color: white;
 				position: relative;
+				overflow: scroll;
+			}
+			
+			#mainDiv::-webkit-scrollbar {
+				  display: none;
 			}
 			
 	 		#mainDiv canvas {
@@ -48,17 +53,17 @@
 
 	<body>
 
-		<jsp:include page="/jsp/header.jsp"></jsp:include>
+<%-- 		<jsp:include page="/jsp/header.jsp"></jsp:include> --%>
 		
 		<div id="mainDiv">
 			<canvas id="backgroundCanvas" width=1200 height=800></canvas>
 			<canvas id="foregroundCanvas" width=1200 height=800></canvas>
-			<div id="scoreDiv">
-				<h1>Scores : </h1>
-				<br/>
-				<div id="scoreWrapper"></div>
-			</div>
 		</div>
+<!-- 		<div id="scoreDiv"> -->
+<!-- 			<h1>Scores : </h1> -->
+<!-- 			<br/> -->
+<!-- 			<div id="scoreWrapper"></div> -->
+<!-- 		</div> -->
 		
 		<div id="respawnModal" style="display: none;">
 			<p>Vous êtes mort. Cliquez ici pour réapparaitre</p>
