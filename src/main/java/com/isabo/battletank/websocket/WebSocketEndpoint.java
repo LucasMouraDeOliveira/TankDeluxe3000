@@ -23,8 +23,12 @@ public class WebSocketEndpoint extends TextWebSocketHandler {
 		String payload = message.getPayload();
 		JSONObject object = new JSONObject(payload);
 		
-		if(object.has("type") && object.get("type").equals("name")) {
-			gameServer.getPlayer(session).setName(object.getString("name"));
+		if(object.has("type")) {
+			if(object.get("type").equals("name")) {
+				gameServer.getPlayer(session).setName(object.getString("name"));
+			} else if(object.get("type").equals("respawn")) {
+				gameServer.respawnPlayer(session);
+			}
 		} else {
 			gameServer.updatePlayerAction(gameServer.getPlayer(session), object);
 		}

@@ -4,9 +4,6 @@
     <head>
         <title>TankDeluxe3000</title>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <!-- JS -->
-		<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 		
 		<!-- CSS -->
 		<link rel="stylesheet" href="/css/main.css" />
@@ -59,18 +56,29 @@
 			<canvas id="backgroundCanvas" width=1200 height=800></canvas>
 			<canvas id="foregroundCanvas" width=1200 height=800></canvas>
 		</div>
-<!-- 		<div id="scoreDiv"> -->
-<!-- 			<h1>Scores : </h1> -->
-<!-- 			<br/> -->
-<!-- 			<div id="scoreWrapper"></div> -->
-<!-- 		</div> -->
+		<div id="scoreDiv">
+			<h1>Scores : </h1>
+			<br/>
+			<div id="scoreWrapper"></div>
+		</div>
 		
-		<div id="respawnModal" style="display: none;">
-			<p>Vous êtes mort. Cliquez ici pour réapparaitre</p>
-			<button onclick="window.location.reload();">Respawn</button>	
+		
+		<!-- Respawn Modal -->
+		<div id="respawnModal" class="modal fade show" tabindex="-1" aria-labelledby="respawnModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="respawnModalLabel">Respawn ?</h5>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-info" onclick="respawn()" data-dismiss="modal">Yeah !</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	
-		<script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/drawer/tank-drawer.js"></script>
 		<script type="text/javascript" src="js/drawer/bullet-drawer.js"></script>
 		<script type="text/javascript" src="js/controls.js"></script>
@@ -114,7 +122,6 @@
 					var playerScore = scores.players[i];
 					scoreDiv.append($("<p>").text(playerScore.name + " (" + playerScore.score + ")"));
 				}
-				
 			}
 			
 			function checkDeath(players) {
@@ -125,7 +132,7 @@
 				
 				for(var i in players) {
 					var p = players[i];
-					if(!p.alive && p.name == name) {
+					if(!p.alive && p.name == login) {
 						playerDied = true;
 						displayRespawnModal();
 					}
@@ -133,9 +140,13 @@
 			}
 			
 			function displayRespawnModal() {
-				$("#respawnModal").css("display", "block");
+				$("#respawnModal").modal("show");
 			}
-		
+
+			function respawn() {
+				webSocketClient.sendMessage(JSON.stringify({type: "respawn"}));
+				playerDied = false;
+			}
 		</script>
 	
 	</body>

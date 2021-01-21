@@ -106,7 +106,23 @@ public class GameServer {
 		}
 		
 		this.gameScore.initScore(newPlayer);
+	}
+	
+	public void respawnPlayer(WebSocketSession session) {
+		Player player = this.players.get(session);
 		
+		this.world.removeBody(player);
+		this.gameScore.removeScore(player);
+		
+		List<Coordinate> spone = this.level.getSpawn();
+		Coordinate playerSpone = spone.get(random.nextInt(spone.size()));
+		
+		player.translate(playerSpone.getX(), playerSpone.getY());
+		player.setActive(true);
+		player.setAlive(true);
+		
+		this.world.addBody(player);
+		this.gameScore.initScore(player);
 	}
 
 	public void removePlayer(WebSocketSession session) {
