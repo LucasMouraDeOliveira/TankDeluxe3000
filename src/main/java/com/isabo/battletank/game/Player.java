@@ -1,5 +1,6 @@
 package com.isabo.battletank.game;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class Player extends Body {
 	private Color color;
 	private int score;
 	private boolean alive;
+	private boolean invincible;
+	private ZonedDateTime aliveSince;
 	
 	private int aimX;
 	private int aimY;
@@ -174,6 +177,22 @@ public class Player extends Body {
 	
 	public void setAlive(boolean alive) {
 		this.alive = alive;
+	}
+
+	public boolean isInvincible() {
+		return invincible;
+	}
+
+	public void setInvincible(boolean invincible) {
+		this.invincible = invincible;
+	}
+
+	public ZonedDateTime getAliveSince() {
+		return aliveSince;
+	}
+
+	public void setAliveSince(ZonedDateTime aliveSince) {
+		this.aliveSince = aliveSince;
 	}
 
 }

@@ -9,28 +9,28 @@ class TankDrawer {
     }
 
     initParts = () => {
-        this.WHEEL_HEIGHT = 38;
-        this.WHEEL_WIDTH = 21;
+        this.WHEEL_HEIGHT = 30;
+        this.WHEEL_WIDTH = 17;
 
-        this.TANK_WIDTH = 60;
-        this.TANK_HEIGHT = 76;
+        this.TANK_WIDTH = 48;
+        this.TANK_HEIGHT = 61;
 
-        this.TURRET_WIDTH = 29;
-        this.TURRET_HEIGHT = 66;
-        this.TURRET_X = 30;
-        this.TURRET_Y = 20;
+        this.TURRET_WIDTH = 23;
+        this.TURRET_HEIGHT = 53;
+        this.TURRET_X = 24;
+        this.TURRET_Y = 16;
 
-        this.TOP_LEFT_WHEEL_X = 7;
-        this.TOP_LEFT_WHEEL_Y = 14;
+        this.TOP_LEFT_WHEEL_X = 6;
+        this.TOP_LEFT_WHEEL_Y = 11;
 
-        this.TOP_RIGHT_WHEEL_X = 54;
-        this.TOP_RIGHT_WHEEL_Y = 14;
+        this.TOP_RIGHT_WHEEL_X = 43;
+        this.TOP_RIGHT_WHEEL_Y = 11;
 
-        this.BOT_LEFT_WHEEL_X = 7;
-        this.BOT_LEFT_WHEEL_Y = 54;
+        this.BOT_LEFT_WHEEL_X = 6;
+        this.BOT_LEFT_WHEEL_Y = 43;
 
-        this.BOT_RIGHT_WHEEL_X = 54;
-        this.BOT_RIGHT_WHEEL_Y = 54;
+        this.BOT_RIGHT_WHEEL_X = 43;
+        this.BOT_RIGHT_WHEEL_Y = 43;
     }
 
     centerAround = (img, x, y, width, height) => {
@@ -109,11 +109,14 @@ class TankDrawer {
         	break;
         }
         
+
         this.ctx.restore();
 
         if(!alive) {
         	this.drawExplosion(tank);
-        }
+        } else if(tank.invincible) {
+			this.ctx.drawImage(this.tankModel.bubbleShield, x-(this.TANK_WIDTH / 2)-15, y-(this.TANK_HEIGHT / 2)-10, this.TANK_HEIGHT + 20, this.TANK_HEIGHT + 20);
+		}
         
     }
     

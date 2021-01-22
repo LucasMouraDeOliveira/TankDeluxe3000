@@ -7,6 +7,7 @@ import com.isabo.battletank.game.actions.GameUpdate;
 import com.isabo.battletank.game.actions.MovePlayerAction;
 import com.isabo.battletank.game.actions.ShootAction;
 import com.isabo.battletank.game.actions.UpdatePlayerAction;
+import com.isabo.battletank.game.actions.UpdatePlayerStateAction;
 
 public class GameLoop extends Thread {
 	
@@ -27,6 +28,7 @@ public class GameLoop extends Thread {
 	
 	private void initUpdates() {
 		this.updates = new ArrayList<>();
+		this.updates.add(new UpdatePlayerStateAction(gameServer));
 		this.updates.add(new UpdatePlayerAction(gameServer));
 		this.updates.add(new MovePlayerAction(gameServer));
 		this.updates.add(new ShootAction(gameServer));

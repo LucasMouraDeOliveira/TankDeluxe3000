@@ -39,7 +39,7 @@ public class ShootAction extends GameUpdate {
 		// Create new bullet
 		for (Player p : super.gameServer.getPlayers()) {
 			
-			if(!p.isAlive()) {
+			if(!p.isAlive() || p.isInvincible()) {
 				continue;
 			}
 			

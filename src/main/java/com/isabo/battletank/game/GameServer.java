@@ -1,6 +1,7 @@
 package com.isabo.battletank.game;
 
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -97,8 +98,10 @@ public class GameServer {
 		Transform playerTransform = player.getTransform();
 		playerTransform.setRotation(0);
 		playerTransform.setTranslation(playerSpone.getX(), playerSpone.getY());
+		player.setAliveSince(ZonedDateTime.now());
 		player.setAlive(true);
 		player.setShooting(false);
+		player.setInvincible(true);
 		
 		if(this.world != null) {
 			this.world.addBody(player);
@@ -153,6 +156,7 @@ public class GameServer {
 			jsonPlayer.put("nbShield", player.getNbShield());
 			jsonPlayer.put("color", player.getColor());
 			jsonPlayer.put("alive", player.isAlive());
+			jsonPlayer.put("invincible", player.isInvincible());
 			jsonPlayer.put("name", player.getName());
 			jsonPlayers.put(jsonPlayer);
 		}
