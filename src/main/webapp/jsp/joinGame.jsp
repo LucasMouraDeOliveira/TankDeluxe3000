@@ -12,17 +12,44 @@
         
 		<style>
 		
+/* 			#mainDiv { */
+/* 				width: 100vw; */
+/* 				height: 100vh; */
+/* 				border: 1px solid black; */
+/* 				background-color: white; */
+/* 				position: relative; */
+/* 				overflow: scroll; */
+/* 			} */
+			
+/* 			#mainDiv::-webkit-scrollbar { */
+/* 				  display: none; */
+/* 			} */
+			
+/* 	 		#mainDiv canvas { */
+/* 	 			position: absolute; */
+/* 	 			top: 0; */
+/* 	 			left: 0; */
+/* 	 		} */
+	 		
+/* 	 		#scoreDiv { */
+/* 		 		width: 400px; */
+/* 		    	height: 800px; */
+/* 		    	border: 1px solid black; */
+/* 		    	position: absolute; */
+/* 		    	left: 1200px; */
+/* 		    	background-color: lightsalmon; */
+/* 	 		} */
+	 		
+/* 	 		#scoreDiv h1 { */
+/* 	 			text-align: center; */
+/* 	 		} */
+
 			#mainDiv {
-				width: 100vw;
-				height: 100vh;
+				width: 1200px;
+				height: 800px;
 				border: 1px solid black;
 				background-color: white;
 				position: relative;
-				overflow: scroll;
-			}
-			
-			#mainDiv::-webkit-scrollbar {
-				  display: none;
 			}
 			
 	 		#mainDiv canvas {
@@ -55,16 +82,16 @@
 		<div id="mainDiv">
 			<canvas id="backgroundCanvas" width=1200 height=800></canvas>
 			<canvas id="foregroundCanvas" width=1200 height=800></canvas>
-		</div>
-		<div id="scoreDiv">
-			<h1>Scores : </h1>
-			<br/>
-			<div id="scoreWrapper"></div>
+			<div id="scoreDiv">
+				<h1>Scores : </h1>
+				<br/>
+				<div id="scoreWrapper"></div>
+			</div>
 		</div>
 		
 		
 		<!-- Respawn Modal -->
-		<div id="respawnModal" class="modal fade show" tabindex="-1" aria-labelledby="respawnModalLabel" aria-hidden="true">
+		<div id="respawnModal" class="modal fade show" tabindex="-1" aria-labelledby="respawnModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">

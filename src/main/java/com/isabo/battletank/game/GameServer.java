@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Transform;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,6 @@ public class GameServer {
 	
 	@Autowired
 	private LevelBuilder levelBuilder;
-	
-//	private TextFileLevelBuilder levelBuilder;
 	
 	private Map<WebSocketSession, Player> players;
 	
@@ -51,7 +50,6 @@ public class GameServer {
 		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
 		this.gameScore = new GameScore();
-//		this.levelBuilder = new TextFileLevelBuilder();
 		
 		this.world = new World();
 		
@@ -60,25 +58,7 @@ public class GameServer {
 		this.world.addListener(new BulletWallListener());
 		
 		this.world.setGravity(World.ZERO_GRAVITY);
-		
-//	    loadLevel("forest");
-	    
-	    
-//		List<Cell> cells = this.level.getCells(); 
-//		cells.stream().forEach(cell -> { if(cell.hasWall()) {
-//			this.world.addBody(cell.getWall());
-//		}});
 	}
-
-//	private void loadLevel(String levelName) {
-//		try {
-//	    	ClassPathResource resource = new ClassPathResource("static/map/" + levelName);
-//			File file = resource.getFile();
-//			this.level = this.levelBuilder.loadLevel(file.toPath());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
 	
 	public void loadLevel(String levelName) throws IOException {
 		this.level = this.levelBuilder.loadLevel(levelName);
@@ -94,18 +74,10 @@ public class GameServer {
 	public void addPlayer(WebSocketSession session, String playerName) {
 		Color playerColor = this.availableColor.remove(0);
 		Player newPlayer = new Player(playerName, playerColor);
-		
-		List<Coordinate> spone = this.level.getSpawn();
-		Coordinate playerSpone = spone.get(random.nextInt(spone.size()));
-		
-		newPlayer.translate(playerSpone.getX(), playerSpone.getY());
+
 		this.players.put(session, newPlayer);
 		
-		if(this.world != null) {
-			this.world.addBody(newPlayer);
-		}
-		
-		this.gameScore.initScore(newPlayer);
+		this.initializePlayer(newPlayer);
 	}
 	
 	public void respawnPlayer(WebSocketSession session) {
@@ -114,14 +86,23 @@ public class GameServer {
 		this.world.removeBody(player);
 		this.gameScore.removeScore(player);
 		
+		this.initializePlayer(player);
+	}
+	
+	// TODO create playerService
+	public void initializePlayer(Player player) {
 		List<Coordinate> spone = this.level.getSpawn();
 		Coordinate playerSpone = spone.get(random.nextInt(spone.size()));
 		
-		player.translate(playerSpone.getX(), playerSpone.getY());
-		player.setActive(true);
+		Transform playerTransform = player.getTransform();
+		playerTransform.setRotation(0);
+		playerTransform.setTranslation(playerSpone.getX(), playerSpone.getY());
 		player.setAlive(true);
+		player.setShooting(false);
 		
-		this.world.addBody(player);
+		if(this.world != null) {
+			this.world.addBody(player);
+		}
 		this.gameScore.initScore(player);
 	}
 
@@ -192,8 +173,6 @@ public class GameServer {
 				JSONObject jsonCell = new JSONObject();
 				jsonCell.put("x", cell.getX());
 				jsonCell.put("y", cell.getY());
-	//			jsonCell.put("floorId", cell.getFloorId());
-	//			jsonCell.put("obstacle", true);
 				jsonCell.put("code", cell.getCode());
 				jsonCells.put(jsonCell);
 			}
