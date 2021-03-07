@@ -12,64 +12,9 @@
         
 		<style>
 		
-/* 			#mainDiv { */
-/* 				width: 100vw; */
-/* 				height: 100vh; */
-/* 				border: 1px solid black; */
-/* 				background-color: white; */
-/* 				position: relative; */
-/* 				overflow: scroll; */
-/* 			} */
-			
-/* 			#mainDiv::-webkit-scrollbar { */
-/* 				  display: none; */
-/* 			} */
-			
-/* 	 		#mainDiv canvas { */
-/* 	 			position: absolute; */
-/* 	 			top: 0; */
-/* 	 			left: 0; */
-/* 	 		} */
-	 		
-/* 	 		#scoreDiv { */
-/* 		 		width: 400px; */
-/* 		    	height: 800px; */
-/* 		    	border: 1px solid black; */
-/* 		    	position: absolute; */
-/* 		    	left: 1200px; */
-/* 		    	background-color: lightsalmon; */
-/* 	 		} */
-	 		
-/* 	 		#scoreDiv h1 { */
-/* 	 			text-align: center; */
-/* 	 		} */
-
-			#mainDiv {
-				width: 1200px;
-				height: 800px;
-				border: 1px solid black;
-				background-color: white;
-				position: relative;
+			html, body {
+				height: 100%;
 			}
-			
-	 		#mainDiv canvas {
-	 			position: absolute;
-	 			top: 0;
-	 			left: 0;
-	 		}
-	 		
-	 		#scoreDiv {
-		 		width: 400px;
-		    	height: 800px;
-		    	border: 1px solid black;
-		    	position: absolute;
-		    	left: 1200px;
-		    	background-color: lightsalmon;
-	 		}
-	 		
-	 		#scoreDiv h1 {
-	 			text-align: center;
-	 		}
 		
 		</style>
 	
@@ -78,17 +23,23 @@
 	<body>
 
 <%-- 		<jsp:include page="/jsp/header.jsp"></jsp:include> --%>
-		
-		<div id="mainDiv">
-			<canvas id="backgroundCanvas" width=1200 height=800></canvas>
-			<canvas id="foregroundCanvas" width=1200 height=800></canvas>
-			<div id="scoreDiv">
-				<h1>Scores : </h1>
-				<br/>
-				<div id="scoreWrapper"></div>
+
+		<div class="container-fluid h-100">
+			<div class="row h-100" style="background-color: darkslategrey;">
+				<div class="col-9 h-100 w-100 my-auto text-center">
+					<canvas id="foregroundCanvas" class="mt-5" width=1200 height=800></canvas>
+				</div>
+				<div class="col-3">
+					<div class="card mt-5 mr-3">
+						<div class="card-title mt-2">
+							<h1 class="text-center">Scores</h1>
+						</div>
+						<div id="scoreWrapper" class="card-body">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		
 		
 		<!-- Respawn Modal -->
 		<div id="respawnModal" class="modal fade show" tabindex="-1" aria-labelledby="respawnModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -147,7 +98,12 @@
 				
 				for(var i in scores.players) {
 					var playerScore = scores.players[i];
-					scoreDiv.append($("<p>").text(playerScore.name + " (" + playerScore.score + ")"));
+					let content = $("<div>");
+					let name = $("<strong>").append(playerScore.name);
+					let score = $("<span>").text(" " + playerScore.score + " points");
+					content.append(name);
+					content.append(score);
+					scoreDiv.append(content);
 				}
 			}
 			

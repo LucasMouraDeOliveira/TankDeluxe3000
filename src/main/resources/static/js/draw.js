@@ -13,9 +13,9 @@ class Drawer {
 		
 		// Get canvas
 		this.fCanvas = document.querySelector("#foregroundCanvas");
-		this.bCanvas = document.querySelector("#backgroundCanvas");
+		//this.bCanvas = document.querySelector("#backgroundCanvas");
 		this.fCtx = this.fCanvas.getContext("2d");
-		this.bCtx = this.bCanvas.getContext("2d");
+		//this.bCtx = this.bCanvas.getContext("2d");
 		
 		// Ground assets
 		this.ground = this.assetsManager.get("ground").grass;
@@ -71,10 +71,10 @@ class Drawer {
 	}
 	
 	drawBackground = () => {
-		let groundPattern = this.bCtx.createPattern(this.ground, 'repeat');
-		
-		this.bCtx.fillStyle = groundPattern;
-		this.bCtx.fillRect(0, 0, this.bCanvas.width, this.bCanvas.height);
+//		let groundPattern = this.bCtx.createPattern(this.ground, 'repeat');
+//		
+//		this.bCtx.fillStyle = groundPattern;
+//		this.bCtx.fillRect(0, 0, this.bCanvas.width, this.bCanvas.height);
 	}
 	
 }
