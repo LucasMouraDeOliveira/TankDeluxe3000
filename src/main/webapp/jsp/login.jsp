@@ -1,3 +1,4 @@
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,7 +13,9 @@
     </head>
     <body>
     
-         <div class="container m-2">
+    	<jsp:include page="/jsp/header.jsp"></jsp:include>	
+    
+        <div class="container m-2">
         	<div class="row justify-content">
 				<div class="col-md-8">
 					<div class="card">
@@ -40,9 +43,11 @@
 					            </div>
        						</form>
        					</div>
-       					 <div class="card-footer">
-       					 	<span class="text-danger">Invalid username and password</span>
-				        </div>
+       					<c:if test="${param.error ne null}">
+	       					 <div class="card-footer">
+	       					 	<span class="text-danger">Invalid username and password</span>
+					        </div>
+       					</c:if>
        				</div>
        			</div>
        		</div>
