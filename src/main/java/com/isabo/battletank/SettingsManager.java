@@ -27,6 +27,8 @@ public class SettingsManager {
 	public static final int SHOOT_COOLDOWN = 200;
 	public static final int MAX_BULLET = 3;
 	public static final int SPAWN_INVICIBLE_DURATION = 3;
+	public static final double DASH_VELOCITY = 300;
+	public static final int DASH_COOLDOWN = 2000;
 	
 	// Bullet
 	public static final int BULLET_VELOCITY = 50;

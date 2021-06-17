@@ -3,6 +3,7 @@ package com.isabo.battletank.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.isabo.battletank.game.actions.DashAction;
 import com.isabo.battletank.game.actions.GameUpdate;
 import com.isabo.battletank.game.actions.MovePlayerAction;
 import com.isabo.battletank.game.actions.ShootAction;
@@ -32,6 +33,7 @@ public class GameLoop extends Thread {
 		this.updates.add(new UpdatePlayerAction(gameServer));
 		this.updates.add(new MovePlayerAction(gameServer));
 		this.updates.add(new ShootAction(gameServer));
+		this.updates.add(new DashAction(gameServer));
 	}
 	
 	@Override

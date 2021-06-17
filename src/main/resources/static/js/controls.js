@@ -17,6 +17,7 @@ class Controls {
 		this.controls.left = false;
 		this.controls.right = false;
 		this.controls.shoot = false;
+		this.controls.dash = false;
 		this.controls.aim = {x: 0, y: 0};
 	
 		this.addPressEvent();
@@ -47,7 +48,7 @@ class Controls {
 				this.controls.left = true;
 			}
 			if (touch === ' ') {
-				this.controls.shoot = true;
+				this.controls.dash = true;
 			}
 		}, false);
 	}
@@ -68,7 +69,7 @@ class Controls {
 				this.controls.left = false;
 			}
 			if (touch === ' ') {
-				this.controls.shoot = false;
+				this.controls.dash = false;
 			}
 		}, false);
 	}

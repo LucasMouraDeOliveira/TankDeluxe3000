@@ -15,6 +15,8 @@ public class Player extends Body {
 	private String name;
 	private boolean moving[];
 	private boolean shooting;
+	private boolean dashing;
+	private int dashCooldown;
 	private List<Bullet> bullets;
 	private int nbShield;
 	private int maxBullet;
@@ -39,6 +41,8 @@ public class Player extends Body {
 		this.name = name;
 		this.moving = new boolean[4];
 		this.shooting = false;
+		this.dashing = false;
+		this.dashCooldown = 0;
 		this.bullets = new ArrayList<>();
 		this.maxBullet = SettingsManager.MAX_BULLET;
 		this.color = color;
@@ -195,4 +199,19 @@ public class Player extends Body {
 		this.aliveSince = aliveSince;
 	}
 
+	public boolean isDashing() {
+		return dashing;
+	}
+
+	public void setDashing(boolean dashing) {
+		this.dashing = dashing;
+	}
+
+	public int getDashCooldown() {
+		return dashCooldown;
+	}
+
+	public void setDashCooldown(int dashCooldown) {
+		this.dashCooldown = dashCooldown;
+	}
 }

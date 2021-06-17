@@ -25,6 +25,7 @@ public class UpdatePlayerAction extends GameUpdate {
 				player.setMoving(Player.WEST, obj.getBoolean("left"));
 				player.setMoving(Player.EAST, obj.getBoolean("right"));
 				player.setShooting(obj.getBoolean("shoot"));
+				player.setDashing(obj.getBoolean("dash"));
 				
 				JSONObject aim = obj.getJSONObject("aim");
 				player.setAimX(aim.getInt("x") / SettingsManager.SIZE_RATIO);
