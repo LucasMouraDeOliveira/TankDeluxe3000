@@ -137,6 +137,7 @@ public class GameServer {
 	}
 	
 	public void updateWorld(int elapsedTime) {
+		// TODO Exception in thread "Thread-9" java.util.ConcurrentModificationException
 		this.world.update(elapsedTime);
 	}
 
