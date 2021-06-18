@@ -47,7 +47,7 @@ class Controls {
 			if (touch === 'ArrowLeft' || touch === 'Q' || touch === 'q') {
 				this.controls.left = true;
 			}
-			if (touch === ' ') {
+			if (touch === ' ' || touch === 'Control') {
 				this.controls.dash = true;
 			}
 		}, false);
@@ -68,7 +68,7 @@ class Controls {
 			if (touch === 'ArrowLeft' || touch === 'Q' || touch === 'q') {
 				this.controls.left = false;
 			}
-			if (touch === ' ') {
+			if (touch === ' ' || touch === 'Control') {
 				this.controls.dash = false;
 			}
 		}, false);
