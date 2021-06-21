@@ -5,7 +5,7 @@ import com.isabo.battletank.game.Color;
 public class Sniper extends Player {
 
 	public Sniper(String name, Color color) {
-		super(name, color);
+		super(name, color, PlayerSpecialization.SNIPER);
 		
 		this.bulletPathEnable = true;
 	}

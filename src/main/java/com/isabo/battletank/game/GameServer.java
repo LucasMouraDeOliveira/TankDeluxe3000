@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Transform;
@@ -21,7 +23,12 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.isabo.battletank.SettingsManager;
 import com.isabo.battletank.game.level.Layout;
+import com.isabo.battletank.game.player.Miner;
 import com.isabo.battletank.game.player.Player;
+import com.isabo.battletank.game.player.PlayerSpecialization;
+import com.isabo.battletank.game.player.Quicker;
+import com.isabo.battletank.game.player.Shooter;
+import com.isabo.battletank.game.player.Sniper;
 import com.isabo.battletank.listener.BulletBulletListener;
 import com.isabo.battletank.listener.BulletWallListener;
 import com.isabo.battletank.listener.TankBulletListener;
@@ -73,9 +80,21 @@ public class GameServer {
 		});
 	}
 
-	public void addPlayer(WebSocketSession session, String playerName) {
+	public void addPlayer(WebSocketSession session, String playerName, PlayerSpecialization specialization) {
 		Color playerColor = this.availableColor.remove(0);
-		Player newPlayer = new Player(playerName, playerColor);
+		Player newPlayer = null;
+		
+		if(specialization == PlayerSpecialization.SHOOTER) {
+			newPlayer = new Shooter(playerName, playerColor);
+		} else if(specialization == PlayerSpecialization.MINER) {
+			newPlayer = new Miner(playerName, playerColor);
+		} else if(specialization == PlayerSpecialization.SNIPER) {
+			newPlayer = new Sniper(playerName, playerColor);
+		} else if(specialization == PlayerSpecialization.QUICKER) {
+			newPlayer = new Quicker(playerName, playerColor);
+		} else {
+			throw new IllegalArgumentException("Unknwon player speicialization " + specialization);
+		}
 
 		this.players.put(session, newPlayer);
 		
@@ -122,7 +141,7 @@ public class GameServer {
 	}
 	
 	public List<Player> getPlayers() {
-		return new ArrayList<>(this.players.values());
+		return this.players.values().stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
 	
 	public Map<Player, JSONObject> getPlayerActions() {
@@ -149,7 +168,7 @@ public class GameServer {
 		JSONObject jsonScore = new JSONObject();
 		
 		JSONObject jsonPlayer;
-		for(Player player : this.players.values()) {
+		for(Player player : this.getPlayers()) {
 			jsonPlayer = new JSONObject();
 			jsonPlayer.put("x", player.getX() * SettingsManager.SIZE_RATIO);
 			jsonPlayer.put("y", player.getY() * SettingsManager.SIZE_RATIO);
@@ -242,5 +261,9 @@ public class GameServer {
 	
 	public Level getLevel() {
 		return this.level;
+	}
+
+	public void newPlayerConnected(WebSocketSession session) {
+		this.players.put(session, null);
 	}
 }

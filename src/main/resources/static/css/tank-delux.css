@@ -5,3 +5,8 @@
 .scrollable-x {
 	overflow-x: scroll !important;
 }
+
+.disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}

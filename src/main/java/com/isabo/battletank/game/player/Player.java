@@ -15,6 +15,7 @@ import com.isabo.battletank.game.Color;
 public class Player extends Body {
 	
 	private String name;
+	private PlayerSpecialization specialization;
 	private boolean moving[];
 	private boolean shooting;
 	private boolean dashing;
@@ -45,7 +46,7 @@ public class Player extends Body {
 	public static final int WEST = 3;
 	
 	
-	public Player(String name, Color color) {
+	public Player(String name, Color color, PlayerSpecialization specialization) {
 		this.name = name;
 		this.moving = new boolean[4];
 		this.shooting = false;
@@ -232,6 +233,14 @@ public class Player extends Body {
 
 	public void setBulletVelocity(int bulletVelocity) {
 		this.bulletVelocity = bulletVelocity;
+	}
+
+	public PlayerSpecialization getSpecialization() {
+		return specialization;
+	}
+
+	public void setSpecialization(PlayerSpecialization specialization) {
+		this.specialization = specialization;
 	}
 
 }

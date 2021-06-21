@@ -9,6 +9,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.isabo.battletank.game.GameServer;
+import com.isabo.battletank.game.player.PlayerSpecialization;
 
 @Component
 public class WebSocketEndpoint extends TextWebSocketHandler {
@@ -24,9 +25,11 @@ public class WebSocketEndpoint extends TextWebSocketHandler {
 		JSONObject object = new JSONObject(payload);
 		
 		if(object.has("type")) {
-			if(object.get("type").equals("name")) {
-				gameServer.getPlayer(session).setName(object.getString("name"));
+			if(object.get("type").equals("initializePlayer")) {
+				// Initialize new payer
+				gameServer.addPlayer(session, object.getString("name"), PlayerSpecialization.valueOf(object.getString("specialization")));
 			} else if(object.get("type").equals("respawn")) {
+				// Respawn player
 				gameServer.respawnPlayer(session);
 			}
 		} else {
@@ -37,7 +40,8 @@ public class WebSocketEndpoint extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		gameServer.addPlayer(session, "Player " + playerCount);
+		gameServer.newPlayerConnected(session);
+		
 		if(playerCount == 0) {
 			gameServer.start();
 		}
