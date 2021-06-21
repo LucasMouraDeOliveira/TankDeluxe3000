@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import com.isabo.battletank.SettingsManager;
 import com.isabo.battletank.game.GameServer;
-import com.isabo.battletank.game.Player;
+import com.isabo.battletank.game.player.Player;
 
 public class UpdatePlayerAction extends GameUpdate {
 

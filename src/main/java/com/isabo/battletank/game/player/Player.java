@@ -1,4 +1,4 @@
-package com.isabo.battletank.game;
+package com.isabo.battletank.game.player;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -9,6 +9,8 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 
 import com.isabo.battletank.SettingsManager;
+import com.isabo.battletank.game.Bullet;
+import com.isabo.battletank.game.Color;
 
 public class Player extends Body {
 	
@@ -19,7 +21,6 @@ public class Player extends Body {
 	private int dashCooldown;
 	private List<Bullet> bullets;
 	private int nbShield;
-	private int maxBullet;
 	private int cooldown;
 	private Color color;
 	private int score;
@@ -31,11 +32,18 @@ public class Player extends Body {
 	private int aimY;
 
 	private double turretAngle;
+
+	protected int maxBullet;
+	protected int bulletVelocity;
+	protected boolean bulletPathEnable;
+	protected int mineCount;
 	
+	// TODO externalise
 	public static final int NORTH = 0;
 	public static final int EAST = 1;
 	public static final int SOUTH = 2;
 	public static final int WEST = 3;
+	
 	
 	public Player(String name, Color color) {
 		this.name = name;
@@ -48,6 +56,9 @@ public class Player extends Body {
 		this.color = color;
 		this.nbShield = 0;
 		this.alive = true;
+		this.bulletVelocity = SettingsManager.BULLET_VELOCITY;
+		this.bulletPathEnable = false;
+		this.mineCount = 0;
 		
 		this.addFixture(Geometry.createRectangle(SettingsManager.TANK_WIDTH, SettingsManager.TANK_HEIGHT), 1, 0.5, 0);
 		this.setMass(MassType.NORMAL);
@@ -214,4 +225,13 @@ public class Player extends Body {
 	public void setDashCooldown(int dashCooldown) {
 		this.dashCooldown = dashCooldown;
 	}
+
+	public int getBulletVelocity() {
+		return bulletVelocity;
+	}
+
+	public void setBulletVelocity(int bulletVelocity) {
+		this.bulletVelocity = bulletVelocity;
+	}
+
 }

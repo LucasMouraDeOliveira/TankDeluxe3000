@@ -3,6 +3,8 @@ package com.isabo.battletank.game;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.isabo.battletank.game.player.Player;
+
 public class GameScore {
 	
 	private Map<Player, Integer> scores;

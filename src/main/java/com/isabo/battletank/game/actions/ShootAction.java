@@ -6,7 +6,7 @@ import java.util.List;
 import com.isabo.battletank.SettingsManager;
 import com.isabo.battletank.game.Bullet;
 import com.isabo.battletank.game.GameServer;
-import com.isabo.battletank.game.Player;
+import com.isabo.battletank.game.player.Player;
 
 public class ShootAction extends GameUpdate {
 	

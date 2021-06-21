@@ -5,7 +5,7 @@ import org.dyn4j.dynamics.contact.ContactPoint;
 
 import com.isabo.battletank.game.Bullet;
 import com.isabo.battletank.game.GameServer;
-import com.isabo.battletank.game.Player;
+import com.isabo.battletank.game.player.Player;
 
 public class TankBulletListener extends ContactAdapter {
 	

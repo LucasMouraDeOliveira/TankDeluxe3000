@@ -4,7 +4,7 @@ import org.dyn4j.geometry.Vector2;
 
 import com.isabo.battletank.SettingsManager;
 import com.isabo.battletank.game.GameServer;
-import com.isabo.battletank.game.Player;
+import com.isabo.battletank.game.player.Player;
 
 public class MovePlayerAction extends GameUpdate {
 

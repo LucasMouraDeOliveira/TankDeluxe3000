@@ -6,6 +6,7 @@ import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 
 import com.isabo.battletank.SettingsManager;
+import com.isabo.battletank.game.player.Player;
 
 public class Bullet extends Body{
 	
@@ -24,7 +25,7 @@ public class Bullet extends Body{
 		this.addFixture(Geometry.createCircle(0.7), 0.0001, 0, 1);
 		this.translate(shooter.getX() - SettingsManager.TANK_WIDTH * Math.cos(shooter.getTurretAngle() + Math.PI * 0.5), 
 						shooter.getY() - SettingsManager.TANK_HEIGHT * Math.sin(shooter.getTurretAngle() + Math.PI * 0.5));
-		this.setLinearVelocity(r.product(-SettingsManager.BULLET_VELOCITY));
+		this.setLinearVelocity(r.product(-shooter.getBulletVelocity()));
 		this.setMass(MassType.NORMAL);
 		
 	}
