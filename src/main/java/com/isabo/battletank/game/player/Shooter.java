@@ -6,9 +6,11 @@ public class Shooter extends Player {
 
 	public Shooter(String name, Color color) {
 		super(name, color, PlayerSpecialization.SHOOTER);
-		
-		this.maxBullet++;
 	}
 
+	@Override
+	public void applyBuff() {
+		this.maxBullet += 2;
+	}
 	
 }

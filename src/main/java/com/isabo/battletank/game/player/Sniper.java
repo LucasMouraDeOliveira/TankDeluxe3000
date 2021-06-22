@@ -6,8 +6,12 @@ public class Sniper extends Player {
 
 	public Sniper(String name, Color color) {
 		super(name, color, PlayerSpecialization.SNIPER);
-		
-		this.bulletPathEnable = true;
+	}
+
+	@Override
+	public void applyBuff() {
+		this.maxBullet = 1;
+		this.bulletVelocity *= 2.5;
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.isabo.battletank.game;
 
 import java.io.IOException;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,21 +22,21 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.isabo.battletank.SettingsManager;
 import com.isabo.battletank.game.level.Layout;
-import com.isabo.battletank.game.player.Miner;
 import com.isabo.battletank.game.player.Player;
 import com.isabo.battletank.game.player.PlayerSpecialization;
-import com.isabo.battletank.game.player.Quicker;
-import com.isabo.battletank.game.player.Shooter;
-import com.isabo.battletank.game.player.Sniper;
 import com.isabo.battletank.listener.BulletBulletListener;
 import com.isabo.battletank.listener.BulletWallListener;
 import com.isabo.battletank.listener.TankBulletListener;
+import com.isabo.battletank.service.PlayerService;
 
 @Component
 public class GameServer {
 	
 	@Autowired
 	private LevelBuilder levelBuilder;
+	
+	@Autowired
+	private PlayerService playerService;
 	
 	private Map<WebSocketSession, Player> players;
 	
@@ -84,17 +83,7 @@ public class GameServer {
 		Color playerColor = this.availableColor.remove(0);
 		Player newPlayer = null;
 		
-		if(specialization == PlayerSpecialization.SHOOTER) {
-			newPlayer = new Shooter(playerName, playerColor);
-		} else if(specialization == PlayerSpecialization.MINER) {
-			newPlayer = new Miner(playerName, playerColor);
-		} else if(specialization == PlayerSpecialization.SNIPER) {
-			newPlayer = new Sniper(playerName, playerColor);
-		} else if(specialization == PlayerSpecialization.QUICKER) {
-			newPlayer = new Quicker(playerName, playerColor);
-		} else {
-			throw new IllegalArgumentException("Unknwon player speicialization " + specialization);
-		}
+		
 
 		this.players.put(session, newPlayer);
 		
@@ -115,13 +104,9 @@ public class GameServer {
 		List<Coordinate> spone = this.level.getSpawn();
 		Coordinate playerSpone = spone.get(random.nextInt(spone.size()));
 		
-		Transform playerTransform = player.getTransform();
-		playerTransform.setRotation(0);
-		playerTransform.setTranslation(playerSpone.getX(), playerSpone.getY());
-		player.setAliveSince(ZonedDateTime.now());
-		player.setAlive(true);
-		player.setShooting(false);
-		player.setInvincible(true);
+		
+		playerService.initializePlayerPosition(player, playerSpone);
+		playerService.initializeStats(player);
 		
 		if(this.world != null) {
 			this.world.addBody(player);

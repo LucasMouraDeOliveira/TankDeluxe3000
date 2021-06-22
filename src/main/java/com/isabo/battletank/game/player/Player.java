@@ -12,18 +12,24 @@ import com.isabo.battletank.SettingsManager;
 import com.isabo.battletank.game.Bullet;
 import com.isabo.battletank.game.Color;
 
-public class Player extends Body {
+public abstract class Player extends Body {
 	
 	private String name;
 	private PlayerSpecialization specialization;
+	private Color color;
 	private boolean moving[];
+	
+	// Shoot
 	private boolean shooting;
+	private List<Bullet> bullets;
+	private int cooldown;
+	protected int maxBullet;
+	protected int bulletVelocity;
+	private boolean charging;
+	
 	private boolean dashing;
 	private int dashCooldown;
-	private List<Bullet> bullets;
 	private int nbShield;
-	private int cooldown;
-	private Color color;
 	private int score;
 	private boolean alive;
 	private boolean invincible;
@@ -33,10 +39,6 @@ public class Player extends Body {
 	private int aimY;
 
 	private double turretAngle;
-
-	protected int maxBullet;
-	protected int bulletVelocity;
-	protected boolean bulletPathEnable;
 	protected int mineCount;
 	
 	// TODO externalise
@@ -48,24 +50,18 @@ public class Player extends Body {
 	
 	public Player(String name, Color color, PlayerSpecialization specialization) {
 		this.name = name;
-		this.moving = new boolean[4];
-		this.shooting = false;
-		this.dashing = false;
-		this.dashCooldown = 0;
-		this.bullets = new ArrayList<>();
-		this.maxBullet = SettingsManager.MAX_BULLET;
 		this.color = color;
-		this.nbShield = 0;
-		this.alive = true;
-		this.bulletVelocity = SettingsManager.BULLET_VELOCITY;
-		this.bulletPathEnable = false;
-		this.mineCount = 0;
-		
+		this.specialization = specialization;
+
 		this.addFixture(Geometry.createRectangle(SettingsManager.TANK_WIDTH, SettingsManager.TANK_HEIGHT), 1, 0.5, 0);
 		this.setMass(MassType.NORMAL);
 		this.setLinearDamping(6);
 		this.setAngularDamping(8);
 	}
+	
+	public abstract void applyBuff();
+	
+	
 
 	public double getX() {
 		return this.getWorldCenter().x;
@@ -115,6 +111,10 @@ public class Player extends Body {
 	
 	public List<Bullet> getBullets() {
 		return this.bullets;
+	}
+	
+	public void setBullets(List<Bullet> bullets) {
+		this.bullets = new ArrayList<>();
 	}
 
 	public int getMaxBullet() {
@@ -175,6 +175,10 @@ public class Player extends Body {
 	
 	public void addShield() {
 		this.nbShield++;
+	}
+	
+	public void setNbShield(int nbShield) {
+		this.nbShield = nbShield;
 	}
 	
 	public void removeOneShield() {
@@ -241,6 +245,22 @@ public class Player extends Body {
 
 	public void setSpecialization(PlayerSpecialization specialization) {
 		this.specialization = specialization;
+	}
+
+	public boolean isCharging() {
+		return charging;
+	}
+
+	public void setCharging(boolean charging) {
+		this.charging = charging;
+	}
+
+	public int getMineCount() {
+		return mineCount;
+	}
+
+	public void setMineCount(int mineCount) {
+		this.mineCount = mineCount;
 	}
 
 }
