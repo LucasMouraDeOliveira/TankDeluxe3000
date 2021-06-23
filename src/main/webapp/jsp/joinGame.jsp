@@ -71,7 +71,7 @@
 										<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" value="SHOOTER">
 
 										<h5 class="card-title">Shooter</h5>
-										<h6 class="card-subtitle mb-2 text-muted">One more bullet</h6>
+										<h6 class="card-subtitle mb-2 text-muted">Two more bullets</h6>
 									</div>
 									
 								</div>
