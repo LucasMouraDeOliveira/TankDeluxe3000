@@ -25,7 +25,7 @@ public class DashAction extends GameUpdate {
 			if(p.getDashCooldown() > 0) {
 				p.setDashCooldown(p.getDashCooldown() - delta);
 
-			} else if(p.isDashing()) {
+			} else if(p.isDashing() && p.getCharge() <= 0) {
 				Vector2 aimForce = new Vector2(p.getAimX() - p.getX(), p.getAimY() - p.getY());
 				
 				double aimAngle = Math.atan2(aimForce.y, aimForce.x);

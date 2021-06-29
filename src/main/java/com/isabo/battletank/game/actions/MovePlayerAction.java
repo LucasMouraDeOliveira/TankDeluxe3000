@@ -22,6 +22,10 @@ public class MovePlayerAction extends GameUpdate {
 				continue;
 			}
 			
+			if(player.getCharge() > 0) {
+				force /= 2;
+			}
+			
 			Vector2 r = new Vector2(player.getTransform().getRotation() + Math.PI * 0.5);
 			Vector2 c = player.getWorldCenter();
 			
