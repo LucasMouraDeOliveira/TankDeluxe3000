@@ -27,7 +27,7 @@ public class WebSocketEndpoint extends TextWebSocketHandler {
 		if(object.has("type")) {
 			if(object.get("type").equals("initializePlayer")) {
 				// Initialize new payer
-				gameServer.addPlayer(session, object.getString("name"), PlayerSpecialization.valueOf(object.getString("specialization")));
+				gameServer.createPlayer(session, object.getString("name"), PlayerSpecialization.valueOf(object.getString("specialization")));
 			} else if(object.get("type").equals("respawn")) {
 				// Respawn player
 				gameServer.respawnPlayer(session);

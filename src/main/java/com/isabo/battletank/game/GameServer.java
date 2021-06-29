@@ -12,7 +12,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.dyn4j.dynamics.World;
-import org.dyn4j.geometry.Transform;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,31 +78,29 @@ public class GameServer {
 		});
 	}
 
-	public void addPlayer(WebSocketSession session, String playerName, PlayerSpecialization specialization) {
+	public void createPlayer(WebSocketSession session, String playerName, PlayerSpecialization specialization) {
 		Color playerColor = this.availableColor.remove(0);
-		Player newPlayer = null;
-		
-		
 
+		Player newPlayer = this.playerService.createPlayer(playerName, playerColor, specialization);
+		
 		this.players.put(session, newPlayer);
 		
-		this.initializePlayer(newPlayer);
+		this.addPlayerToWorld(newPlayer);
 	}
 	
 	public void respawnPlayer(WebSocketSession session) {
 		Player player = this.players.get(session);
 		
+		this.playerService.initializeStats(player);
 		this.world.removeBody(player);
 		this.gameScore.removeScore(player);
 		
-		this.initializePlayer(player);
+		this.addPlayerToWorld(player);
 	}
 	
-	// TODO create playerService
-	public void initializePlayer(Player player) {
+	public void addPlayerToWorld(Player player) {
 		List<Coordinate> spone = this.level.getSpawn();
 		Coordinate playerSpone = spone.get(random.nextInt(spone.size()));
-		
 		
 		playerService.initializePlayerPosition(player, playerSpone);
 		playerService.initializeStats(player);
@@ -164,6 +161,8 @@ public class GameServer {
 			jsonPlayer.put("alive", player.isAlive());
 			jsonPlayer.put("invincible", player.isInvincible());
 			jsonPlayer.put("name", player.getName());
+			jsonPlayer.put("shooting", player.isShooting());
+			jsonPlayer.put("charge", player.getCharge());
 			jsonPlayers.put(jsonPlayer);
 		}
 		

@@ -22,6 +22,34 @@
 		{"name" : "explosion_2", "code": "0012", "url" : "/assets/img/explosion_2_S.png"},
 		{"name" : "explosion_3", "code": "0013", "url" : "/assets/img/explosion_3_S.png"},
 		{"name" : "explosion_4", "code": "0014", "url" : "/assets/img/explosion_4_S.png"},
-		{"name" : "bubbleShield", "code": "0021", "url" : "/assets/img/bubble-shield-S.png"}
+		{"name" : "bubbleShield", "code": "0021", "url" : "/assets/img/bubble-shield-S.png"},
+		{"name" : "arc1A", "code": "0022", "url" : "/assets/img/arc_elec_bleu_A.png"},
+		{"name" : "arc1B", "code": "0023", "url" : "/assets/img/arc_elec_bleu_B.png"},
+		{"name" : "arc1C", "code": "0024", "url" : "/assets/img/arc_elec_bleu_C.png"},
+		{"name" : "arc1D", "code": "0025", "url" : "/assets/img/arc_elec_bleu_D.png"},
+		{"name" : "arc1E", "code": "0026", "url" : "/assets/img/arc_elec_bleu_E.png"},
+		{"name" : "arc1F", "code": "0027", "url" : "/assets/img/arc_elec_bleu_F.png"},
+		
+		{"name" : "arc2A", "code": "0028", "url" : "/assets/img/arc_elec_vert_A.png"},
+		{"name" : "arc2B", "code": "0029", "url" : "/assets/img/arc_elec_vert_B.png"},
+		{"name" : "arc2C", "code": "0030", "url" : "/assets/img/arc_elec_vert_C.png"},
+		{"name" : "arc2D", "code": "0031", "url" : "/assets/img/arc_elec_vert_D.png"},
+		{"name" : "arc2E", "code": "0032", "url" : "/assets/img/arc_elec_vert_E.png"},
+		{"name" : "arc2F", "code": "0033", "url" : "/assets/img/arc_elec_vert_F.png"},
+		
+		{"name" : "arc3A", "code": "0034", "url" : "/assets/img/arc_elec_rouge_A.png"},
+		{"name" : "arc3B", "code": "0035", "url" : "/assets/img/arc_elec_rouge_B.png"},
+		{"name" : "arc3C", "code": "0036", "url" : "/assets/img/arc_elec_rouge_C.png"},
+		{"name" : "arc3D", "code": "0037", "url" : "/assets/img/arc_elec_rouge_D.png"},
+		{"name" : "arc3E", "code": "0038", "url" : "/assets/img/arc_elec_rouge_E.png"},
+		{"name" : "arc3F", "code": "0039", "url" : "/assets/img/arc_elec_rouge_F.png"},
+
+		{"name" : "barrelHeat1", "code": "0040", "url" : "/assets/img/hot_barrel/10.png"},
+		{"name" : "barrelHeat2", "code": "0041", "url" : "/assets/img/hot_barrel/20.png"},
+		{"name" : "barrelHeat3", "code": "0042", "url" : "/assets/img/hot_barrel/30.png"},
+		{"name" : "barrelHeat4", "code": "0043", "url" : "/assets/img/hot_barrel/40.png"},
+		{"name" : "barrelHeat5", "code": "0044", "url" : "/assets/img/hot_barrel/50.png"},
+		{"name" : "barrelHeat6", "code": "0045", "url" : "/assets/img/hot_barrel/60.png"},
+		{"name" : "barrelHeat7", "code": "0046", "url" : "/assets/img/hot_barrel/70.png"}
 	]
 }

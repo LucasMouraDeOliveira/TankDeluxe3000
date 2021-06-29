@@ -25,7 +25,7 @@ public abstract class Player extends Body {
 	private int cooldown;
 	protected int maxBullet;
 	protected int bulletVelocity;
-	private boolean charging;
+	private int charge;			// In ms
 	
 	private boolean dashing;
 	private int dashCooldown;
@@ -52,6 +52,7 @@ public abstract class Player extends Body {
 		this.name = name;
 		this.color = color;
 		this.specialization = specialization;
+		this.moving = new boolean[4];
 
 		this.addFixture(Geometry.createRectangle(SettingsManager.TANK_WIDTH, SettingsManager.TANK_HEIGHT), 1, 0.5, 0);
 		this.setMass(MassType.NORMAL);
@@ -247,14 +248,6 @@ public abstract class Player extends Body {
 		this.specialization = specialization;
 	}
 
-	public boolean isCharging() {
-		return charging;
-	}
-
-	public void setCharging(boolean charging) {
-		this.charging = charging;
-	}
-
 	public int getMineCount() {
 		return mineCount;
 	}
@@ -263,4 +256,15 @@ public abstract class Player extends Body {
 		this.mineCount = mineCount;
 	}
 
+	public int getCharge() {
+		return charge;
+	}
+
+	public void setCharge(int charge) {
+		this.charge = charge;
+	}
+
+	public void addCharge(int charge) {
+		this.charge += charge;
+	}
 }

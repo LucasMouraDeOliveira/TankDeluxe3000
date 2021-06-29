@@ -43,17 +43,49 @@ public class ShootAction extends GameUpdate {
 				continue;
 			}
 			
-			p.setCooldown(p.getCooldown() - delta);
+			if(p.getCooldown() > 0) {
+				p.setCooldown(p.getCooldown() - delta);
+			}
 
-			// Only if cooldown is respected
-			if(p.isShooting() && p.getMaxBullet() > p.getBullets().size() && p.getCooldown() <= 0) {
-				Bullet newBullet = new Bullet(p);
-				
-				super.gameServer.addBullet(newBullet);
-				p.addBullet(newBullet);
-				
-				p.setCooldown(SettingsManager.SHOOT_COOLDOWN);
+			if(canShoot(p)) {
+				if(p.isShooting()) {
+					p.addCharge(delta);
+				} else if(hasStopedCharging(p)) {
+					makeShoot(p);
+				}
 			}
 		}
+	}
+	
+	private boolean canShoot(Player p) {
+		return p.getMaxBullet() > p.getBullets().size() && p.getCooldown() <= 0;
+	}
+	
+	private boolean hasStopedCharging(Player player) {
+		return player.getCharge() > 0;
+	}
+
+	private void makeShoot(Player p) {
+		Bullet newBullet = new Bullet(p);
+
+		// Update velocity according to charge
+		if(p.getCharge() > 1000) {
+			int bulletVelocity = p.getBulletVelocity();
+
+			if(p.getCharge() < 2000) {
+				bulletVelocity *= 2;
+			} else {
+				bulletVelocity *= 3;
+			}
+
+			newBullet.setVelocity(bulletVelocity);
+		}
+		
+		
+		super.gameServer.addBullet(newBullet);
+		p.addBullet(newBullet);
+		
+		p.setCooldown(SettingsManager.SHOOT_COOLDOWN);
+		p.setCharge(0);
 	}
 }

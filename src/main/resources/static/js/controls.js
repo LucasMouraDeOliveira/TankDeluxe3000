@@ -18,6 +18,7 @@ class Controls {
 		this.controls.right = false;
 		this.controls.shoot = false;
 		this.controls.dash = false;
+		this.controls.charging = false;
 		this.controls.aim = {x: 0, y: 0};
 	
 		this.addPressEvent();
@@ -84,9 +85,11 @@ class Controls {
 	addMouseClickEvent = () => {
 		this.fCanvas.addEventListener('mousedown', () => {
 			this.controls.shoot = true;
+			this.controls.charging = true;
 		});
 		this.fCanvas.addEventListener('mouseup', () => {
 			this.controls.shoot = false;
+			this.controls.charging = false
 		});
 	}
 }

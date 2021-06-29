@@ -12,22 +12,23 @@ public class Bullet extends Body{
 	
 	private Player shooter;
 	private int remainingBounce;
+	private Vector2 angle;
 	
 	public Bullet(Player shooter) {
 		this.shooter = shooter;
 		this.remainingBounce = SettingsManager.MAX_BOUNCE;
 		
-		Vector2 r = new Vector2(shooter.getTurretAngle() + Math.PI * 0.5);
-//		Vector2 t = new Vector2(shooter.getX(), shooter.getY() + SettingsManager.TANK_HEIGHT / 2);
-		
-//		Vector2 p = shooter.getWorldCenter().sum(r.product(-0.9));
+		this.angle = new Vector2(shooter.getTurretAngle() + Math.PI * 0.5);
 
 		this.addFixture(Geometry.createCircle(0.7), 0.0001, 0, 1);
 		this.translate(shooter.getX() - SettingsManager.TANK_WIDTH * Math.cos(shooter.getTurretAngle() + Math.PI * 0.5), 
 						shooter.getY() - SettingsManager.TANK_HEIGHT * Math.sin(shooter.getTurretAngle() + Math.PI * 0.5));
-		this.setLinearVelocity(r.product(-shooter.getBulletVelocity()));
 		this.setMass(MassType.NORMAL);
-		
+		this.setVelocity(shooter.getBulletVelocity());
+	}
+	
+	public void setVelocity(int velocity) {
+		this.setLinearVelocity(angle.product(-velocity));
 	}
 	
 	public Player getShooter() {

@@ -34,7 +34,7 @@ class TankDrawer {
     }
 
     centerAround = (img, x, y, width, height) => {
-        this.ctx.drawImage(img, x - (width / 2) - (this.TANK_WIDTH / 2) , y - (height / 2) - (this.TANK_HEIGHT / 2));
+        this.ctx.drawImage(img, x - (width / 2) - (this.TANK_WIDTH / 2) , y - (height / 2) - (this.TANK_HEIGHT / 2), width, height);
     }
 
     draw = (tank) => {
@@ -43,6 +43,7 @@ class TankDrawer {
         let a = tank.angle;
         let tAngle = tank.turretAngle;
         let alive = tank.alive;
+		let charging = tank.shooting;
 
         // Rotate context
         this.ctx.save();
@@ -64,60 +65,61 @@ class TankDrawer {
         	this.drawStaticWheels();
         }
 
+		let tankBodySprite;
+		let turretSprite;
+		
         switch(tank.color){
         case "BLUE":
-        	this.ctx.drawImage(this.tankModel.tankBodyBlue, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        	this.ctx.rotate(-a);
-        	this.drawShield(tank.nbShield);
-        	this.ctx.rotate(tAngle);
-        	this.centerAround(this.tankModel.machineGunBlue, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+			tankBodySprite = this.tankModel.tankBodyBlue;
+			turretSprite = this.tankModel.machineGunBlue;
         	break;
         case "ORANGE":
-        	this.ctx.drawImage(this.tankModel.tankBodyOrange, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        	this.ctx.rotate(-a);
-        	this.drawShield(tank.nbShield);
-        	this.ctx.rotate(tAngle);
-        	this.centerAround(this.tankModel.machineGunOrange, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+			tankBodySprite = this.tankModel.tankBodyOrange;
+			turretSprite = this.tankModel.machineGunOrange;
         	break;
         case "YELLOW":
-        	this.ctx.drawImage(this.tankModel.tankBodyYellow, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        	this.ctx.rotate(-a);
-        	this.drawShield(tank.nbShield);
-        	this.ctx.rotate(tAngle);
-        	this.centerAround(this.tankModel.machineGunYellow, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+			tankBodySprite = this.tankModel.tankBodyYellow;
+			turretSprite = this.tankModel.machineGunYellow;
         	break;
         case "GREEN":
-        	this.ctx.drawImage(this.tankModel.tankBodyGreen, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        	this.ctx.rotate(-a);
-        	this.drawShield(tank.nbShield);
-        	this.ctx.rotate(tAngle);
-        	this.centerAround(this.tankModel.machineGunGreen, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+			tankBodySprite = this.tankModel.tankBodyGreen;
+			turretSprite = this.tankModel.machineGunGreen;
         	break;
         case "PURPLE":
-        	this.ctx.drawImage(this.tankModel.tankBodyPurple, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-        	this.ctx.rotate(-a);
-        	this.drawShield(tank.nbShield);
-        	this.ctx.rotate(tAngle);
-        	this.centerAround(this.tankModel.machineGunPurple, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+			tankBodySprite = this.tankModel.tankBodyPurple;
+			turretSprite = this.tankModel.machineGunPurple;
         	break;
         case "TURQUOISE":
-	        this.ctx.drawImage(this.tankModel.tankBodyTurquoise, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
-	        this.ctx.rotate(-a);
-	        this.drawShield(tank.nbShield);
-	        this.ctx.rotate(tAngle);
-	        this.centerAround(this.tankModel.machineGunTurquoise, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+			tankBodySprite = this.tankModel.tankBodyTurquoise;
+			turretSprite = this.tankModel.machineGunTurquoise;
         	break;
         }
-        
+ 
+		// Draw tank body
+		this.ctx.drawImage(tankBodySprite, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2));
+		
+		// Draw arc
+		if(alive && charging && !tank.invincible) {
+			this.drawArc(tank);
+		}
 
+		// Draw shield
+		this.ctx.rotate(-a);
+		this.drawShield(tank.nbShield);
+
+		// Draw turret
+		this.ctx.rotate(tAngle);
+		this.centerAround(turretSprite, this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+		if(tank.charge >= 285) {	// 285 = 2000 / 7 (max_charge / nb of heat level)
+			this.centerAround(this.getTurretHeatSprite(tank.charge), this.TURRET_X, this.TURRET_Y, this.TURRET_WIDTH, this.TURRET_HEIGHT);
+		}
         this.ctx.restore();
 
         if(!alive) {
         	this.drawExplosion(tank);
         } else if(tank.invincible) {
 			this.ctx.drawImage(this.tankModel.bubbleShield, x-(this.TANK_WIDTH / 2)-15, y-(this.TANK_HEIGHT / 2)-10, this.TANK_HEIGHT + 20, this.TANK_HEIGHT + 20);
-		}
-        
+		} 
     }
     
     drawShield = (nbShield) => {
@@ -192,5 +194,76 @@ class TankDrawer {
 			this.centerAround(this.tankModel.explosion_4, tmpX, tmpY, this.tankModel.explosion_4.width, this.tankModel.explosion_4.height);
 		}
     }
+
+	drawArc = (tank) => {
+		
+		let arcLevel;
+		if(tank.charge < 285){
+			return;
+		} else if(tank.charge < 1000) {
+			arcLevel = 1;
+		} else if(tank.charge < 2000) {
+			arcLevel = 2;
+		} else {
+			arcLevel = 3;
+		}
+
+		let tmpX = this.TANK_WIDTH / 1.2;
+    	let tmpY = this.TANK_HEIGHT / 1.2;
+		let factor = 1.6;
+		
+		let sprite;
+		switch(this.drawer.currentStepNumber) {
+			case 0:
+			case 1:
+				sprite = this.tankModel["arc"+arcLevel+"A"];
+				break;
+			case 2:
+			case 3:
+				sprite = this.tankModel["arc"+arcLevel+"B"];
+				break;
+			case 4:
+			case 5:
+				sprite = this.tankModel["arc"+arcLevel+"C"];
+				break;
+			case 6:
+			case 7:
+				sprite = this.tankModel["arc"+arcLevel+"D"];
+				break;
+			case 8:
+			case 9:
+				sprite = this.tankModel["arc"+arcLevel+"E"];
+				break;
+			case 10:
+			case 11:
+				sprite = this.tankModel["arc"+arcLevel+"F"];
+				break;
+			case 12:
+			case 13:
+				sprite = this.tankModel["arc"+arcLevel+"A"];
+				break;
+			case 14:
+			case 15:
+				sprite = this.tankModel["arc"+arcLevel+"B"];
+				break;
+			case 16:
+			case 17:
+				sprite = this.tankModel["arc"+arcLevel+"C"];
+				break;
+			case 18:
+			case 19:
+				sprite = this.tankModel["arc"+arcLevel+"D"];
+				break;
+			default:
+				sprite = this.tankModel["arc"+arcLevel+"F"];
+		}
+		
+		this.ctx.drawImage(sprite, -tmpX, -tmpY, sprite.width / factor, sprite.height / factor);
+	}
+	
+	getTurretHeatSprite = (charge) => {
+		let heatLevel = Math.min(7, Math.floor(charge / 285));
+		return this.tankModel["barrelHeat"+ heatLevel];
+	}
 
 }

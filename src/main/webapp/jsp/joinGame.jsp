@@ -150,8 +150,6 @@
 			function specChoosed() {
 				let spec = $('input[name="flexRadioDefault"]:checked').val();
 
-				console.log(spec);
-				
 				// Plug view on websocket
 				webSocketClient = new WebSocketClient(drawer, controls, spec);
 			}
