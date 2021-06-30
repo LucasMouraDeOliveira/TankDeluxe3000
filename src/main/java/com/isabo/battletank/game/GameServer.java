@@ -86,6 +86,8 @@ public class GameServer {
 		this.players.put(session, newPlayer);
 		
 		this.addPlayerToWorld(newPlayer);
+		
+		this.sendMap(session);
 	}
 	
 	public void respawnPlayer(WebSocketSession session) {
@@ -175,17 +177,6 @@ public class GameServer {
 			jsonBullets.put(jsonBullet);
 		}
 		
-		
-		JSONArray jsonCells = new JSONArray();
-		for(Layout l : this.level.getLayouts()) {
-			for(Cell cell : l.getCells()) {
-				JSONObject jsonCell = new JSONObject();
-				jsonCell.put("x", cell.getX());
-				jsonCell.put("y", cell.getY());
-				jsonCell.put("code", cell.getCode());
-				jsonCells.put(jsonCell);
-			}
-		}
 		JSONArray jsonPlayerScores = new JSONArray();
 		for(Map.Entry<Player, Integer> entry : this.gameScore.getScores().entrySet()) {
 			JSONObject jsonPlayerScore = new JSONObject();
@@ -205,20 +196,42 @@ public class GameServer {
 		gameData.put("players", jsonPlayers);
 		gameData.put("bullets", jsonBullets);
 		gameData.put("level", jsonLevel);
-		gameData.put("walls", jsonCells);
 		gameData.put("scores", jsonScore);
 		
 		for(WebSocketSession session : new HashMap<>(this.players).keySet()) {
-			new Thread(() -> {
-				try {
-					session.sendMessage(new TextMessage(gameData.toString()));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}).start();
+			sendWsMessage(gameData, session);
 		}
 	}
 
+	private void sendMap(WebSocketSession playerSession) {
+		
+		JSONArray jsonCells = new JSONArray();
+		for(Layout l : this.level.getLayouts()) {
+			for(Cell cell : l.getCells()) {
+				JSONObject jsonCell = new JSONObject();
+				jsonCell.put("x", cell.getX());
+				jsonCell.put("y", cell.getY());
+				jsonCell.put("code", cell.getCode());
+				jsonCells.put(jsonCell);
+			}
+		}
+		
+		JSONObject gameData = new JSONObject();
+		gameData.put("walls", jsonCells);
+		
+		this.sendWsMessage(gameData, playerSession);
+	}
+
+	private void sendWsMessage(JSONObject gameData, WebSocketSession session) {
+		new Thread(() -> {
+			try {
+				session.sendMessage(new TextMessage(gameData.toString()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}).start();
+	}
+	
 	public void addBullet(Bullet bullet) {
 		this.bullets.add(bullet);
 		this.world.addBody(bullet);

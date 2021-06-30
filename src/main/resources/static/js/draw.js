@@ -41,11 +41,14 @@ class Drawer {
 		this.fCtx.shadowOffsetY = 0;
 		this.fCtx.shadowBlur = 0;
 	
-		let walls = gameState.walls;
+		if(gameState.walls) {
+			this.walls = gameState.walls;
+			return;
+		}
 		
 		// First loop to draw floors
-		for(let i in walls) {
-			let wall = walls[i];
+		for(let i in this.walls) {
+			let wall = this.walls[i];
 			this.fCtx.drawImage(this.assetsManager.getImage(wall.code), wall.x * 32, wall.y * 32);
 		}
 	
