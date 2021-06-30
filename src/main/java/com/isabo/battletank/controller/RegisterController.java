@@ -31,7 +31,7 @@ public class RegisterController {
 		
 		//On récupère les paramètres de la requête
 		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String password = "1234"; // request.getParameter("password");
 		String confirmPassword = request.getParameter("confirm-password");
 		String email = request.getParameter("email");
 		
