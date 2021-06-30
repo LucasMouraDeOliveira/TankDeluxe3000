@@ -1,0 +1,6 @@
+body {
+	background: url('/assets/img/tank-02.jpg');
+	background-color: black !important;
+	background-repeat: no-repeat;
+	background-size: cover;
+}

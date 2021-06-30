@@ -9,7 +9,7 @@
 		<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 		
 		<!-- CSS -->
-		<link rel="stylesheet" href="/css/main.css" />
+		<link rel="stylesheet" href="/css/index.css" />
 		<link rel="stylesheet" href="/webjars/font-awesome/css/font-awesome.min.css"/>
 		<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
         
@@ -18,15 +18,25 @@
     
     	<jsp:include page="/jsp/header.jsp"></jsp:include>
     
-         <div class="container m-2">
+    	
+        <div class="container m-2">
         	<div class="row justify-content">
-				<div>
+        		<div class="col-8">
 					<div class="card">
 						<h5 class="card-header">Bienvenue sur TankDeluxe3000, le meilleur jeu de tank sur navigateur !</h5>
-       					<div class="card-body">
+	   					<div class="card-body">
 							<p>Description du jeu</p>
-       					</div>
-       				</div>
+	   					</div>
+	   				</div>
+   				</div>
+       		</div>
+       		
+       		<div class="row justify-content mt-3">
+       			<div class="col-4">
+	       			<a href="/joinGame" class="btn btn-lg btn-block btn-primary">Play</a>
+       			</div>
+       			<div class="col-4">
+	       			<a href="/editor" class="btn btn-lg btn-block btn-light">Editor</a>
        			</div>
        		</div>
        	</div>
