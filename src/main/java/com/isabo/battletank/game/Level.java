@@ -5,6 +5,10 @@ import java.util.List;
 
 import com.isabo.battletank.game.level.Layout;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class Level {
 	
 	private int width;
@@ -15,38 +19,21 @@ public class Level {
 	
 	private List<Layout> layouts;
 	
-	
 	public Level() {
 		this.spawn = new ArrayList<>();
 		this.layouts = new ArrayList<>(10);
 	}
-
 	
 	public void addLayout(Layout layout) {
-		this.layouts.add(layout.getzIndex(), layout);
+		this.layouts.add(layout.getZIndex(), layout);
 	}
-	public int getWidth() {
-		return width;
-	}
-	public void setWidth(int width) {
-		this.width = width;
-	}
-	public int getHeight() {
-		return height;
-	}
-	public void setHeight(int height) {
-		this.height = height;
-	}
+	
 	public void addSpawn(Coordinate c) {
 		this.spawn.add(c);
 	}
+	
 	public void removeSpawn(Coordinate c) {
 		this.spawn.remove(c);
 	}
-	public List<Coordinate> getSpawn() {
-		return spawn;
-	}
-	public List<Layout> getLayouts() {
-		return this.layouts;
-	}
+	
 }

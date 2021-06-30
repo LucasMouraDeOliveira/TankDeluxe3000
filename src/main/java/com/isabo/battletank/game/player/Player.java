@@ -41,7 +41,7 @@ public abstract class Player extends Body {
 	private double turretAngle;
 	protected int mineCount;
 	
-	// TODO externalise
+	// TODO externalize
 	public static final int NORTH = 0;
 	public static final int EAST = 1;
 	public static final int SOUTH = 2;

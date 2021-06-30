@@ -8,10 +8,12 @@ import org.dyn4j.geometry.Vector2;
 import com.isabo.battletank.SettingsManager;
 import com.isabo.battletank.game.player.Player;
 
-public class Bullet extends Body{
+public class Bullet extends Body {
 	
 	private Player shooter;
+	
 	private int remainingBounce;
+	
 	private Vector2 angle;
 	
 	public Bullet(Player shooter) {
