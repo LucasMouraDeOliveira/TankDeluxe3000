@@ -27,7 +27,7 @@
 		<div class="container-fluid h-100">
 			<div class="row h-100" style="background-color: darkslategrey;">
 				<div class="col-9 h-100 w-100 my-auto text-center">
-					<canvas id="foregroundCanvas" class="mt-5" width=1200 height=800></canvas>
+					<canvas id="foregroundCanvas" class="mt-5" width=1000 height=800></canvas>
 				</div>
 				<div class="col-3">
 					<div class="card mt-5 mr-3">
@@ -131,8 +131,9 @@
 			var login = "${login}";
 			var playerDied = false;
 			var assetsManager = new AssetsManager();
-			var drawer = new Drawer(assetsManager);
-			var controls = new Controls();
+			var camera = {width: 1000, height: 800, offsetX: 0, offsetY: 0};
+			var drawer = new Drawer(assetsManager, camera);
+			var controls = new Controls(camera);
 			var webSocketClient;
 			
 			// Load all assets

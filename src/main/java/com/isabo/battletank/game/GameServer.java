@@ -199,7 +199,16 @@ public class GameServer {
 		gameData.put("scores", jsonScore);
 		
 		for(WebSocketSession session : new HashMap<>(this.players).keySet()) {
-			sendWsMessage(gameData, session);
+			// identify current player
+			Player p = this.players.get(session);
+			if(p != null) {
+				for (int i = 0; i < jsonPlayers.length(); i++) {
+					JSONObject playerJson = jsonPlayers.getJSONObject(i);
+					playerJson.put("self", playerJson.getString("name").equals(p.getName()));
+				}
+			}
+			
+			sendWsMessage(gameData.toString(), session);
 		}
 	}
 
@@ -218,14 +227,16 @@ public class GameServer {
 		
 		JSONObject gameData = new JSONObject();
 		gameData.put("walls", jsonCells);
+		gameData.put("width", this.level.getWidth());
+		gameData.put("height", this.level.getHeight());
 		
-		this.sendWsMessage(gameData, playerSession);
+		this.sendWsMessage(gameData.toString(), playerSession);
 	}
 
-	private void sendWsMessage(JSONObject gameData, WebSocketSession session) {
+	private void sendWsMessage(String gameData, WebSocketSession session) {
 		new Thread(() -> {
 			try {
-				session.sendMessage(new TextMessage(gameData.toString()));
+				session.sendMessage(new TextMessage(gameData));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -2,9 +2,10 @@ var bulletSprite;
 
 class BulletDrawer {
 	
-    constructor(ctx, drawer) {
+    constructor(ctx, drawer, _, camera) {
         this.ctx = ctx;
 		this.drawer = drawer;
+		this.camera = camera;
         this.initParts();
         
         bulletSprite = new Image();
@@ -19,15 +20,17 @@ class BulletDrawer {
     }
     
     draw = (bullet) => {
+		bullet.x -= this.camera.offsetX;
+		bullet.y -= this.camera.offsetY;
 
         let x = bullet.x;
         let y = bullet.y;
         let a = bullet.angle;
 
         // Rotate context
-        this.ctx.save();
-        this.ctx.translate(x, y);
-        this.ctx.rotate(a);
+//        this.ctx.save();
+//        this.ctx.translate(x, y);
+//        this.ctx.rotate(a);
 
         // Shadow
         this.ctx.shadowOffsetX = 5;
@@ -58,11 +61,12 @@ class BulletDrawer {
         case 17:
         case 18:
         case 19:
-        	this.ctx.drawImage(bulletSprite, 0 - Math.round(this.BULLET_WIDTH / 2), 0 - Math.round(this.BULLET_WIDTH / 2), this.BULLET_WIDTH, this.BULLET_HEIGHT);
+        	this.ctx.drawImage(bulletSprite, bullet.x - Math.round(this.BULLET_WIDTH / 2), bullet.y - Math.round(this.BULLET_WIDTH / 2), this.BULLET_WIDTH, this.BULLET_HEIGHT);
             break;
         }
-        
-        this.ctx.restore();
+        console.log(bullet);
+        console.log(this.camera);
+//        this.ctx.restore();
     }
 
 }

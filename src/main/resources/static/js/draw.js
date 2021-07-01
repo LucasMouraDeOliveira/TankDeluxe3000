@@ -1,10 +1,11 @@
 class Drawer {
 	
-	constructor(assetsManager) {
+	constructor(assetsManager, camera) {
 		// Configuration
 		this.MAX_ANIMATION_STEP = 20;
 		
 		this.assetsManager = assetsManager;
+		this.camera = camera;
 	}
 	
 	initCanvas = () => {
@@ -26,8 +27,8 @@ class Drawer {
 			//this.drawBackground();
 		}
 	
-		this.tankDrawer = new TankDrawer(this.fCtx, this, this.assetsManager);
-		this.bulletDrawer = new BulletDrawer(this.fCtx, this, this.assetsManager);
+		this.tankDrawer = new TankDrawer(this.fCtx, this, this.assetsManager, this.camera);
+		this.bulletDrawer = new BulletDrawer(this.fCtx, this, this.assetsManager, this.camera);
 	}
 	
 	drawForeground = (gameState) => {
@@ -43,13 +44,26 @@ class Drawer {
 	
 		if(gameState.walls) {
 			this.walls = gameState.walls;
+			this.mapWidth = gameState.width * 32;
+			this.mapHeight = gameState.height * 32;
 			return;
 		}
+		
+		let currentPlayer = gameState.players.find(p => p.self);
+		
+		this.camera.offsetX = currentPlayer.x - this.camera.width / 2;
+		this.camera.offsetX = Math.max(0, this.camera.offsetX);
+		this.camera.offsetX = Math.min(this.mapWidth - this.camera.width, this.camera.offsetX);
+		
+		this.camera.offsetY = currentPlayer.y - this.camera.height / 2;
+		this.camera.offsetY = Math.max(0, this.camera.offsetY);
+		this.camera.offsetY = Math.min(this.mapHeight - this.camera.height, this.camera.offsetY);
+		console.log(this.camera);
 		
 		// First loop to draw floors
 		for(let i in this.walls) {
 			let wall = this.walls[i];
-			this.fCtx.drawImage(this.assetsManager.getImage(wall.code), wall.x * 32, wall.y * 32);
+			this.fCtx.drawImage(this.assetsManager.getImage(wall.code), wall.x * 32 - this.camera.offsetX, wall.y * 32 - this.camera.offsetY);
 		}
 	
 		this.fCtx.shadowOffsetX = 1;
@@ -78,6 +92,10 @@ class Drawer {
 //		
 //		this.bCtx.fillStyle = groundPattern;
 //		this.bCtx.fillRect(0, 0, this.bCanvas.width, this.bCanvas.height);
+	}
+	
+	transform = (o) => {
+		return {x: o.x - camera.offsetX, y: o.y - camera.offsetY};
 	}
 	
 }

@@ -1,8 +1,9 @@
 class TankDrawer {
 	
-    constructor(ctx, drawer, assetsManager) {
+    constructor(ctx, drawer, assetsManager, camera) {
         this.ctx = ctx;
 		this.drawer = drawer;
+		this.camera = camera;
 		this.tankModel = assetsManager.get("tank");
 		
         this.initParts();
@@ -38,6 +39,9 @@ class TankDrawer {
     }
 
     draw = (tank) => {
+		tank.x = tank.x - this.camera.offsetX;
+		tank.y = tank.y - this.camera.offsetY;
+	
         let x = tank.x;
         let y = tank.y;
         let a = tank.angle;

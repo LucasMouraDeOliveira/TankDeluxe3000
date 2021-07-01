@@ -1,7 +1,8 @@
 class Controls {
 	
-	constructor() {
+	constructor(camera) {
 		this.controls = {};
+		this.camera = camera;
 		
 		document.addEventListener("DOMContentLoaded", () => {
 			this.fCanvas = document.querySelector("#foregroundCanvas");
@@ -77,8 +78,8 @@ class Controls {
 	
 	addTrackMouseEvent = () => {
 		this.fCanvas.addEventListener('mousemove', (event) => {
-			this.controls.aim.x = event.offsetX;
-			this.controls.aim.y = event.offsetY;
+			this.controls.aim.x = event.offsetX + this.camera.offsetX;
+			this.controls.aim.y = event.offsetY + this.camera.offsetY;
 		}, false);
 	}
 	
