@@ -6,8 +6,12 @@ var bCtx;
 var fLayout;
 var bLayout;
 
-var nbBlockX = 1216 / 32;
-var nbBlockY = 800 / 32;
+var blockSize = 32;
+var canvasWidth = 1216;
+var canvasHeight = 800;
+
+var nbBlockX;
+var nbBlockY;
 
 var selectedAssetCode;
 var selectedLayout;
@@ -36,12 +40,32 @@ $('#exportLevelModal').on('show.bs.modal', function (e) {
 	}
 });
 
+function reloadMapSize() {
+	canvasWidth = parseInt($("#mapWidthInput").val()) * blockSize;
+	canvasHeight = parseInt($("#mapHeightInput").val()) * blockSize;
+	console.log(canvasWidth, canvasHeight);
+	
+	initCanvas();
+}
+
 function initCanvas() {
+	nbBlockX = canvasWidth / blockSize;
+	nbBlockY = canvasHeight / blockSize;
+
 	// Get canvas
 	fCanvas = document.querySelector("#foregroundCanvas");
 	bCanvas = document.querySelector("#backgroundCanvas");
 	fCtx = fCanvas.getContext("2d");
 	bCtx = bCanvas.getContext("2d");
+
+	// initialize canvas
+	fCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+	bCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+	fCanvas.width = canvasWidth;
+	fCanvas.height = canvasHeight;
+	bCanvas.width = canvasWidth;
+	bCanvas.height = canvasHeight;
 	
 	initializeLevel();
 	drawGrid();
@@ -132,22 +156,30 @@ function fill() {
 }
 
 function drawGrid() {
-	let gCtx = document.querySelector("#gridCanvas").getContext("2d");
+	let gCanvas = document.querySelector("#gridCanvas")
+	let gCtx = gCanvas.getContext("2d");
+	
+	gCanvas.width = canvasWidth;
+	gCanvas.height = canvasHeight;
+
+	console.log(gCanvas.width, gCanvas.height);
+
+	gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
 	
 	// x
-	for(var i = 32; i < 1200; i += 32) {
+	for(var i = 0; i < canvasWidth; i += 32) {
 		gCtx.beginPath();
 		gCtx.lineWidth = "2";
 		gCtx.strokeStyle = "black";
-		gCtx.rect(i, 0, i, 800);
+		gCtx.rect(i, 0, i, canvasHeight);
 		gCtx.stroke();
 	}
 	// y
-	for(var j = 32; j < 800; j += 32) {
+	for(var j = 0; j < canvasHeight; j += 32) {
 		gCtx.beginPath();
 		gCtx.lineWidth = "2";
 		gCtx.strokeStyle = "black";
-		gCtx.rect(0, j, 1200, j);
+		gCtx.rect(0, j, canvasWidth, j);
 		gCtx.stroke();
 	}
 }

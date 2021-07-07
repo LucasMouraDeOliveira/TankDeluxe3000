@@ -29,6 +29,14 @@
 				
 				<h1>Assets</h1>
 				<hr>
+				<div class="input-group mb-3">
+					<input id="mapWidthInput" type="number" class="form-control" placeholder="Width" aria-label="width" value="38">
+					<input id="mapHeightInput" type="number" class="form-control" placeholder="height" aria-label="height" value="25">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="reloadMapSize()">Reload</button>
+					</div>
+				</div>
+
 				
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 					<li class="nav-item">
