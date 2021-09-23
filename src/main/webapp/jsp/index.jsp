@@ -33,7 +33,7 @@
        		
        		<div class="row justify-content mt-3">
        			<div class="col-4">
-	       			<a href="/joinGame" class="btn btn-lg btn-block btn-primary">Play</a>
+	       			<a href="/selectGame" class="btn btn-lg btn-block btn-primary">Play</a>
        			</div>
        			<div class="col-4">
 	       			<a href="/editor" class="btn btn-lg btn-block btn-light">Editor</a>
