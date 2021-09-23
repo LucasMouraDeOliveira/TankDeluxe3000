@@ -16,6 +16,12 @@ import com.luma.tankdeluxe.game.player.Quicker;
 import com.luma.tankdeluxe.game.player.Shooter;
 import com.luma.tankdeluxe.game.player.Sniper;
 
+/**
+ * 
+ * Manager player manipulation. Need to be thread-safe !
+ * @author Matthieu Bellamy
+ *
+ */
 @Service
 public class PlayerService {
 

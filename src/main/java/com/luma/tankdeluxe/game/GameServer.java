@@ -9,33 +9,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.dyn4j.dynamics.World;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.game.level.Layout;
 import com.luma.tankdeluxe.game.player.Player;
-import com.luma.tankdeluxe.game.player.PlayerSpecialization;
 import com.luma.tankdeluxe.listener.BulletBulletListener;
 import com.luma.tankdeluxe.listener.BulletWallListener;
 import com.luma.tankdeluxe.listener.TankBulletListener;
 import com.luma.tankdeluxe.service.PlayerService;
 
-@Component
 public class GameServer {
 	
-	@Autowired
-	private LevelBuilder levelBuilder;
-	
-	@Autowired
-	private PlayerService playerService;
+	private UUID id;
+	private String name;
+	private World world;
+	private Random random;
+	private Level level;
 	
 	private Map<WebSocketSession, Player> players;
 	
@@ -44,13 +41,15 @@ public class GameServer {
 	private List<Bullet> bullets;
 	private List<Color> availableColor;
 	
-	private World world;
-	private Random random;
-	private Level level;
+	private PlayerService playerService;
+	
 	
 	private GameScore gameScore;
 	
-	public GameServer() {
+	public GameServer(String name, Level level, PlayerService playerService) {
+		this.id = UUID.randomUUID();
+		this.name = name;
+		this.level = level;
 		this.players = new HashMap<>();
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
@@ -65,10 +64,11 @@ public class GameServer {
 		this.world.addListener(new BulletWallListener());
 		
 		this.world.setGravity(World.ZERO_GRAVITY);
+		
+		this.loadLevel();
 	}
 	
-	public void loadLevel(String levelName) throws IOException {
-		this.level = this.levelBuilder.loadLevel(levelName);
+	private void loadLevel() {
 		
 		List<Cell> cells = this.level.getLayouts().get(1).getCells();	// TODO manage many layout 
 		cells.stream().forEach(cell -> { 
@@ -78,11 +78,7 @@ public class GameServer {
 		});
 	}
 
-	public void createPlayer(WebSocketSession session, String playerName, PlayerSpecialization specialization) {
-		Color playerColor = this.availableColor.remove(0);
-
-		Player newPlayer = this.playerService.createPlayer(playerName, playerColor, specialization);
-		
+	public void createPlayer(WebSocketSession session, Player newPlayer) {
 		this.players.put(session, newPlayer);
 		
 		this.addPlayerToWorld(newPlayer);
@@ -91,7 +87,7 @@ public class GameServer {
 	}
 	
 	public void respawnPlayer(WebSocketSession session) {
-		Player player = this.players.get(session);
+		Player player = this.getPlayer(session);
 		
 		this.playerService.initializeStats(player);
 		this.world.removeBody(player);
@@ -271,7 +267,15 @@ public class GameServer {
 		return this.level;
 	}
 
-	public void newPlayerConnected(WebSocketSession session) {
-		this.players.put(session, null);
+	public String getName() {
+		return this.name;
+	}
+	
+	public UUID getId() {
+		return this.id;
+	}
+	
+	public List<Color> getAvailableColor() {
+		return this.availableColor;
 	}
 }
