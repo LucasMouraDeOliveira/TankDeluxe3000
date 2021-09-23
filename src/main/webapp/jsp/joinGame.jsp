@@ -152,7 +152,7 @@
 				let spec = $('input[name="flexRadioDefault"]:checked').val();
 
 				// Plug view on websocket
-				webSocketClient = new WebSocketClient(drawer, controls, spec);
+				webSocketClient = new WebSocketClient(${gameId}, drawer, controls, spec);
 			}
 			
 			function updateScoreDiv(scores) {
@@ -198,7 +198,7 @@
 			}
 
 			function respawn() {
-				webSocketClient.sendMessage(JSON.stringify({type: "respawn"}));
+				webSocketClient.sendMessage({type: "respawn"});
 				playerDied = false;
 			}
 		</script>

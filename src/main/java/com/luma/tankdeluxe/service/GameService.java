@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
@@ -51,6 +52,12 @@ public class GameService {
 		Player newPlayer = this.playerService.createPlayer(playerName, playerColor, specialization);
 	
 		game.createPlayer(session, newPlayer);
+	}
+	
+	public void updatePlayerAction(UUID gameId, WebSocketSession session, JSONObject actions) {
+		GameServer game = this.getGame(gameId);
+
+		game.updatePlayerAction(game.getPlayer(session), actions);
 	}
 	
 	public void respawnPlayer(UUID gameId, WebSocketSession session) {

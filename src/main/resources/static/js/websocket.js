@@ -1,6 +1,7 @@
 class WebSocketClient {
 	
-	constructor(drawer, controls, spec) {
+	constructor(gameId, drawer, controls, spec) {
+		this.gameId = gameId;
 		this.drawer = drawer;
 		this.controls = controls;
 		
@@ -12,7 +13,7 @@ class WebSocketClient {
 		this.ws.onmessage = this.receiveMessage;
 		
 		this.ws.onopen = () => {
-			this.ws.send(JSON.stringify({type: "initializePlayer", name : login, specialization : spec}));
+			this.ws.send(JSON.stringify({gameId: "", type: "initializePlayer", name : login, specialization : spec}));
 			this.controls.initControls();
 			this.controls.startUpdating(this);
 		};
@@ -26,6 +27,8 @@ class WebSocketClient {
 	}
 
 	sendMessage = (wsMessage) => {
-		this.ws.send(wsMessage);
+		wsMessage.gameId = this.gameId;
+		
+		this.ws.send(JSON.stringify(wsMessage));
 	}
 }

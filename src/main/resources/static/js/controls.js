@@ -30,7 +30,7 @@ class Controls {
 	
 	startUpdating = (webSocketClient) => {
 		setInterval(() => {
-			webSocketClient.sendMessage(JSON.stringify(this.controls));
+			webSocketClient.sendMessage(this.controls);
 		}, 50);
 	}
 	
