@@ -23,6 +23,9 @@ public class LevelBuilder {
 	@Autowired
 	private BodyFactory bodyFactory;
 	
+	@Autowired
+	private ObjectMapper mapper;
+	
 	@Value("${app.map.location}")
 	private String mapLocation;
 	
@@ -31,14 +34,15 @@ public class LevelBuilder {
 		
 		String levelString = Files.readString(Paths.get(mapLocation, levelName));
 		levelString = new String(Base64.getDecoder().decode(levelString));
-		LevelDTO levelDTO = new ObjectMapper().readValue(levelString, LevelDTO.class);
 		
+		LevelDTO levelDTO = mapper.readValue(levelString, LevelDTO.class);
+		levelDTO.setName(levelName);
 		
 		return this.loadLevel(levelDTO);
 	}
 	
 	public Level loadLevel(LevelDTO levelDTO) {
-		Level level = new Level();
+		Level level = new Level(levelDTO.getName());
 		
 		level.setHeight(levelDTO.getHeight());
 		level.setWidth(levelDTO.getWidth());

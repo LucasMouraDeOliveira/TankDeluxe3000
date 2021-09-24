@@ -1,8 +1,5 @@
 package com.luma.tankdeluxe.game;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,16 +7,16 @@ import com.luma.tankdeluxe.SettingsManager;
 
 public class TextFileLevelBuilder {
 	
-	public Level loadLevel(Path levelFolder) {
-		try {
-			Level level = new Level();
-			loadFloor(level, Files.readAllLines(levelFolder.resolve("floor.txt")));
-			loadWallsAndSpawns(level, Files.readAllLines(levelFolder.resolve("walls.txt")));
-			return level;
-		} catch(IOException e) {
-			return new Level();
-		}
-	}
+//	public Level loadLevel(Path levelFolder) {
+//		try {
+//			Level level = new Level();
+//			loadFloor(level, Files.readAllLines(levelFolder.resolve("floor.txt")));
+//			loadWallsAndSpawns(level, Files.readAllLines(levelFolder.resolve("walls.txt")));
+//			return level;
+//		} catch(IOException e) {
+//			return new Level();
+//		}
+//	}
 
 	private void loadFloor(Level level, List<String> lines) {
 //		level.setCells(loadCells(lines));

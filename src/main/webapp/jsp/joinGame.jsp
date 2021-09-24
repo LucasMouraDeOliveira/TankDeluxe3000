@@ -120,12 +120,12 @@
 	
 		<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/drawer/tank-drawer.js"></script>
-		<script type="text/javascript" src="js/drawer/bullet-drawer.js"></script>
-		<script type="text/javascript" src="js/controls.js"></script>
-		<script type="text/javascript" src="js/assetsManager.js"></script>
-		<script type="text/javascript" src="js/draw.js"></script>
-		<script type="text/javascript" src="js/websocket.js"></script>
+		<script type="text/javascript" src="/js/drawer/tank-drawer.js"></script>
+		<script type="text/javascript" src="/js/drawer/bullet-drawer.js"></script>
+		<script type="text/javascript" src="/js/controls.js"></script>
+		<script type="text/javascript" src="/js/assetsManager.js"></script>
+		<script type="text/javascript" src="/js/draw.js"></script>
+		<script type="text/javascript" src="/js/websocket.js"></script>
 		<script type="text/javascript">
 		
 			var login = "${login}";
@@ -152,7 +152,7 @@
 				let spec = $('input[name="flexRadioDefault"]:checked').val();
 
 				// Plug view on websocket
-				webSocketClient = new WebSocketClient(${gameId}, drawer, controls, spec);
+				webSocketClient = new WebSocketClient("${gameId}", drawer, controls, spec);
 			}
 			
 			function updateScoreDiv(scores) {

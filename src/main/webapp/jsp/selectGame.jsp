@@ -44,7 +44,7 @@
        		
        		<div class="row justify-content mt-3">
        			<div class="col-4">
-	       			<a href="javascript:joinGame()" class="btn btn-lg btn-block btn-primary">Rejoindre</a>
+	       			<a href="javascript:joinSelectedGame()" class="btn btn-lg btn-block btn-primary">Rejoindre</a>
        			</div>
        			<div class="col-4">
 	       			<a data-toggle="modal" data-target="#createGameModal" class="btn btn-lg btn-block btn-light">Créer une partie</a>
@@ -61,11 +61,22 @@
 						<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						
+						<form>
+							<div class="form-group">
+								<label for="gameName">Choisir le nom de la partie</label>
+								<input type="email" class="form-control" id="newGameName" placeholder="Nom...">
+							</div>
+							<div class="form-group">
+								<label for="gameLevel">Choisir le niveau</label>
+								<select class="form-control" id="newGameLevelId">
+									<option value="1">Crossfire</option>
+								</select>
+							 </div>
+						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-						<button type="button" class="btn btn-primary">Créer</button>
+						<button type="button" class="btn btn-primary" onClick="createGame()">Créer</button>
 					</div>
 				</div>
 			</div>
@@ -76,32 +87,33 @@
     	var selectedGameId;
     	
 		$(document).ready(function() {
+			checkExistingGame();
 			setInterval(checkExistingGame, 5000);
 		});
 
 		function checkExistingGame() {
 			$.get("games/list")
 				.done(setupGamesInfo)
-				.fail(function() { console.log("Fail to fetch game list"); });	
+				.fail(function() { console.error("Fail to fetch game list"); });	
 		}
 
 		function setupGamesInfo(gamesInfo) {
 			$("#gameTable tbody").empty();
 
-			if(gamesInfo.length()) {
+			if(gamesInfo?.length) {
 				$("#noGameLabel").hide();
-				gamesInfo.forEach(e => setupGameRow(e));
+				gamesInfo.forEach(i => setupGameRow(i));
 			} else {
 				$("#noGameLabel").show();
 			}
 		}
 
 		function setupGameRow(info) {
-			let name = $("td").append(info.gameName);
-			let levelName = $("td").append(info.levelName);
-			let playerNumber = $("td").append(info.playerNumber);
+			let name = $("<td>").append(info.gameName);
+			let levelName = $("<td>").append(info.levelName);
+			let playerNumber = $("<td>").append(info.playerNumber);
 
-			let row = $("td")
+			let row = $("<tr>")
 						.attr("id", info.gameId)
 						.attr("onClick", "selectGame(this)")
 						.append(name)
@@ -111,15 +123,38 @@
 			$("#gameTable").append(row);
 		}
 
+		function createGame() {
+			let datas = {
+						name: $("#newGameName").val(),
+						levelId: $("#newGameLevelId").val()
+					};
+
+			$.post("/games", datas)
+				.done((newGameId) => {
+					joinGame(newGameId);
+				})
+				.fail(() => {
+					console.error("Unable to create new game");
+				});
+		}
+		
 		function selectGame(row) {
 			selectedGameId = $(row).attr("id");
 		}
-		
-		function joinGame() {
-			if(selectedGameId) {
-				window.location = "/joinGame/"+ selectedGameId;
+
+		function joinSelectedGame() {
+			if(selectedGame){
+				joinGame(selectedGame);
 			} else {
-				alert("Aucune partie sélectionnée");
+				alert("Aucune partie selectionnée");
+			}
+		}
+		
+		function joinGame(gameId) {
+			if(gameId) {
+				window.location = "/joinGame/"+ gameId;
+			} else {
+				console.error("Incorrect game id "+ gameId);
 			}
 		}
     </script>

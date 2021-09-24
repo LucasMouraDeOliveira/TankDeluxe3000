@@ -43,7 +43,6 @@ public class GameServer {
 	
 	private PlayerService playerService;
 	
-	
 	private GameScore gameScore;
 	
 	public GameServer(String name, Level level, PlayerService playerService) {
@@ -56,6 +55,7 @@ public class GameServer {
 		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
 		this.gameScore = new GameScore();
+		this.playerService = playerService;
 		
 		this.world = new World();
 		

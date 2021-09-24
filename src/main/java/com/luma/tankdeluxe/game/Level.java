@@ -11,6 +11,8 @@ import lombok.Setter;
 @Getter @Setter
 public class Level {
 	
+	private String name;
+	
 	private int width;
 	
 	private int height;
@@ -19,7 +21,8 @@ public class Level {
 	
 	private List<Layout> layouts;
 	
-	public Level() {
+	public Level(String name) {
+		this.name = name;
 		this.spawn = new ArrayList<>();
 		this.layouts = new ArrayList<>(10);
 	}

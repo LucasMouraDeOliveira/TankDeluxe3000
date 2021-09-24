@@ -13,7 +13,7 @@ class WebSocketClient {
 		this.ws.onmessage = this.receiveMessage;
 		
 		this.ws.onopen = () => {
-			this.ws.send(JSON.stringify({gameId: "", type: "initializePlayer", name : login, specialization : spec}));
+			this.ws.send(JSON.stringify({gameId: this.gameId, type: "initializePlayer", name : login, specialization : spec}));
 			this.controls.initControls();
 			this.controls.startUpdating(this);
 		};
