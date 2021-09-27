@@ -22,7 +22,11 @@ class WebSocketClient {
 	receiveMessage = (wsMessage) => {
 		let data = JSON.parse(wsMessage.data);
 		this.drawer.drawForeground(data);
-		updateScoreDiv(data.scores);
+		
+		if(data.scores) {
+			updateScoreDiv(data.scores);
+		}
+
 		checkDeath(data.players);
 	}
 

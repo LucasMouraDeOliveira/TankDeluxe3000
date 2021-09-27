@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -31,6 +32,8 @@ public class WebSocketEndpoint extends TextWebSocketHandler {
 			if(object.get("type").equals("initializePlayer")) {
 				// Initialize new payer
 				this.gameService.connectNewPlayer(gameId, object.getString("name"), PlayerSpecialization.valueOf(object.getString("specialization")), session);
+				
+				session.getAttributes().put("gameId", gameId);
 			} else if(object.get("type").equals("respawn")) {
 				// Respawn player
 				this.gameService.respawnPlayer(gameId, session);
@@ -47,9 +50,11 @@ public class WebSocketEndpoint extends TextWebSocketHandler {
 //	}
 	
 
-//	@Override
-//	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-//		gameServer.removePlayer(session);
-//	}
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		UUID gameId = (UUID) session.getAttributes().get("gameId");
+		
+		this.gameService.disconnectPlayer(gameId, session);
+	}
 
 }

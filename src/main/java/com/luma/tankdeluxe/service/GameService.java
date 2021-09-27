@@ -42,6 +42,8 @@ public class GameService {
 		
 		this.games.put(newGame.getId(), newGame);
 		
+		newGame.start();
+		
 		return newGame;
 	}
 	

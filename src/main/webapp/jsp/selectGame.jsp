@@ -24,7 +24,7 @@
 					<div class="card">
 						<h5 class="card-header">Selectionner une partie ou créez en une nouvelle.</h5>
 	   					<div class="card-body">
-							<table id="gameTable" class="table table-striped">
+							<table id="gameTable" class="table table-striped table-dark">
 								<thead>
 									<tr>
 										<th>Nom</th>
@@ -44,7 +44,7 @@
        		
        		<div class="row justify-content mt-3">
        			<div class="col-4">
-	       			<a href="javascript:joinSelectedGame()" class="btn btn-lg btn-block btn-primary">Rejoindre</a>
+	       			<a id="joinGameButton" href="javascript:joinSelectedGame()" class="btn btn-lg btn-block btn-primary disabled">Rejoindre</a>
        			</div>
        			<div class="col-4">
 	       			<a data-toggle="modal" data-target="#createGameModal" class="btn btn-lg btn-block btn-light">Créer une partie</a>
@@ -120,6 +120,10 @@
 						.append(levelName)
 						.append(playerNumber);
 
+			if(selectedGameId == info.gameId) {
+				row.addClass("bg-primary");
+			}
+			
 			$("#gameTable").append(row);
 		}
 
@@ -139,12 +143,16 @@
 		}
 		
 		function selectGame(row) {
+			$("#joinGameButton").removeClass("disabled");
+			$("tr").removeClass("bg-primary");
+			
+			$(row).addClass("bg-primary");
 			selectedGameId = $(row).attr("id");
 		}
 
 		function joinSelectedGame() {
-			if(selectedGame){
-				joinGame(selectedGame);
+			if(selectedGameId){
+				joinGame(selectedGameId);
 			} else {
 				alert("Aucune partie selectionnée");
 			}
