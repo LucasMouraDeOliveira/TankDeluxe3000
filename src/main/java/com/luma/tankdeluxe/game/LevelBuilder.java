@@ -1,10 +1,13 @@
 package com.luma.tankdeluxe.game;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +32,12 @@ public class LevelBuilder {
 	@Value("${app.map.location}")
 	private String mapLocation;
 	
+	private List<String> mapList;
+	
+	
+	public Level loadLevel(int i) throws IOException {
+		return this.loadLevel(this.getMapList().get(i));
+	}
 	
 	public Level loadLevel(String levelName) throws IOException {
 		
@@ -95,4 +104,19 @@ public class LevelBuilder {
 		return level;
 	}
 	
+	public List<String> getMapList() {
+		if(this.mapList == null) {
+			this.loadMapList();
+		}
+		
+		return this.mapList;
+	}
+	
+	private void loadMapList() {
+		// Load existing map names
+		this.mapList = Stream.of(new File(this.mapLocation).listFiles(File::isFile))
+							.sorted((f1, f2) -> (int) (f1.lastModified() - f2.lastModified()))
+							.map(File::getName)
+							.collect(Collectors.toList());
+	}
 }

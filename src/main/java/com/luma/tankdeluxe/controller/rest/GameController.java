@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.luma.tankdeluxe.dto.CreateGameDTO;
 import com.luma.tankdeluxe.dto.GameDTO;
 import com.luma.tankdeluxe.game.GameServer;
+import com.luma.tankdeluxe.game.Level;
+import com.luma.tankdeluxe.game.LevelBuilder;
 import com.luma.tankdeluxe.service.GameService;
 
 @RestController
@@ -28,6 +30,10 @@ public class GameController {
 	@Autowired
 	private GameService gameService;
 	
+	@Autowired
+	private LevelBuilder levelBuilder;
+	
+	
 	@GetMapping("list")
 	public ResponseEntity<List<GameDTO>> getGamesList() {
 		return ResponseEntity.ok(this.gameService.getGamesInfos());
@@ -38,7 +44,8 @@ public class GameController {
 		GameServer newGame;
 		
 		try {
-			newGame = this.gameService.startNewGame(gameDTO.getName());
+			Level level = this.levelBuilder.loadLevel(gameDTO.getLevelId());
+			newGame = this.gameService.startNewGame(gameDTO.getName(), level);
 		} catch (IOException e) {
 			logger.error("An error occurred creating new game", e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

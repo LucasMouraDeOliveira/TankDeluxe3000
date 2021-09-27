@@ -27,7 +27,7 @@
 		<div class="container-fluid h-100">
 			<div class="row h-100" style="background-color: darkslategrey;">
 				<div class="col-9 h-100 w-100 my-auto text-center">
-					<canvas id="foregroundCanvas" class="mt-5" width=1000 height=800></canvas>
+					<canvas id="foregroundCanvas" class="mt-5" width=1300 height=800></canvas>
 				</div>
 				<div class="col-3">
 					<div class="card mt-5 mr-3">

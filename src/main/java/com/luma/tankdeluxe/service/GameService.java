@@ -16,6 +16,7 @@ import com.luma.tankdeluxe.dto.GameDTO;
 import com.luma.tankdeluxe.exception.NoSuchGameException;
 import com.luma.tankdeluxe.game.Color;
 import com.luma.tankdeluxe.game.GameServer;
+import com.luma.tankdeluxe.game.Level;
 import com.luma.tankdeluxe.game.LevelBuilder;
 import com.luma.tankdeluxe.game.player.Player;
 import com.luma.tankdeluxe.game.player.PlayerSpecialization;
@@ -26,9 +27,6 @@ public class GameService {
 	private Map<UUID, GameServer> games;
 
 	@Autowired
-	private LevelBuilder levelBuilder;
-	
-	@Autowired
 	private PlayerService playerService;
 	
 	
@@ -37,8 +35,8 @@ public class GameService {
 	}
 	
 	
-	public GameServer startNewGame(String gameName) throws IOException {
-		GameServer newGame = new GameServer(gameName, this.levelBuilder.loadLevel("Crossfire"), playerService);
+	public GameServer startNewGame(String gameName, Level level) throws IOException {
+		GameServer newGame = new GameServer(gameName, level, playerService);
 		
 		this.games.put(newGame.getId(), newGame);
 		

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -69,7 +70,9 @@
 							<div class="form-group">
 								<label for="gameLevel">Choisir le niveau</label>
 								<select class="form-control" id="newGameLevelId">
-									<option value="1">Crossfire</option>
+									<c:forEach items="${maps}" var="mapName" varStatus="i">
+										<option value="${i.index}">${mapName}</option>
+									</c:forEach>
 								</select>
 							 </div>
 						</form>
