@@ -1,6 +1,5 @@
 package com.luma.tankdeluxe.service;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import com.luma.tankdeluxe.exception.NoSuchGameException;
 import com.luma.tankdeluxe.game.Color;
 import com.luma.tankdeluxe.game.GameServer;
 import com.luma.tankdeluxe.game.Level;
-import com.luma.tankdeluxe.game.LevelBuilder;
 import com.luma.tankdeluxe.game.player.Player;
 import com.luma.tankdeluxe.game.player.PlayerSpecialization;
 
@@ -28,6 +26,9 @@ public class GameService {
 
 	@Autowired
 	private PlayerService playerService;
+
+	@Autowired
+	private LeaderboardService leaderboardService;
 	
 	
 	public GameService() {
@@ -35,8 +36,8 @@ public class GameService {
 	}
 	
 	
-	public GameServer startNewGame(String gameName, Level level) throws IOException {
-		GameServer newGame = new GameServer(gameName, level, playerService);
+	public GameServer startNewGame(String gameName, Level level) {
+		GameServer newGame = new GameServer(gameName, level, playerService, leaderboardService);
 		
 		this.games.put(newGame.getId(), newGame);
 		

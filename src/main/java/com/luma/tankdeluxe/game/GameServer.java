@@ -24,6 +24,7 @@ import com.luma.tankdeluxe.game.player.Player;
 import com.luma.tankdeluxe.listener.BulletBulletListener;
 import com.luma.tankdeluxe.listener.BulletWallListener;
 import com.luma.tankdeluxe.listener.TankBulletListener;
+import com.luma.tankdeluxe.service.LeaderboardService;
 import com.luma.tankdeluxe.service.PlayerService;
 
 public class GameServer {
@@ -45,7 +46,7 @@ public class GameServer {
 	
 	private GameScore gameScore;
 	
-	public GameServer(String name, Level level, PlayerService playerService) {
+	public GameServer(String name, Level level, PlayerService playerService, LeaderboardService leaderboardService) {
 		this.id = UUID.randomUUID();
 		this.name = name;
 		this.level = level;
@@ -54,7 +55,8 @@ public class GameServer {
 		this.bullets = new ArrayList<>();
 		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
-		this.gameScore = new GameScore();
+		this.gameScore = new GameScore(leaderboardService);
+		
 		this.playerService = playerService;
 		
 		this.world = new World();

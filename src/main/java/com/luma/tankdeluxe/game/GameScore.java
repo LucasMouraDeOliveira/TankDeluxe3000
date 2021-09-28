@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.luma.tankdeluxe.game.player.Player;
+import com.luma.tankdeluxe.service.LeaderboardService;
 
 public class GameScore {
 	
@@ -13,9 +14,12 @@ public class GameScore {
 	
 	private Player bestPlayer;
 	
-	public GameScore() {
+	private LeaderboardService leaderboardService;
+	
+	public GameScore(LeaderboardService leaderboardService) {
 		this.scores = new HashMap<>();
 		this.allTimeHighScore = 0;
+		this.leaderboardService = leaderboardService;
 	}
 	
 	public void initScore(Player player) {
@@ -32,6 +36,9 @@ public class GameScore {
 			if(playerScore % 3 == 0) {
 				player.addShield();
 			}
+			
+			// Publish score to leaderboard
+			this.leaderboardService.addScoreEntryIfEligible(player.getName(), playerScore);
 		}
 		
 		

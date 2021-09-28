@@ -1,5 +1,6 @@
 package com.luma.tankdeluxe.service;
 
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -31,15 +32,27 @@ public class LeaderboardService {
 	public void addScoreEntryIfEligible(String username, int score) {
 		SortedSet<ScoreEntry> scores = this.getLeaderboard();
 		
+		// Not enough to be added to leaderboard
 		if(scores.size() >= this.maxKept && scores.last().getScore() > score) {
-			// Not enough to be added to leaderboard
+			return;
+		}
+		
+		// Get potential existing score for this player
+		Optional<ScoreEntry> existingEntry= scores.stream().filter(entry -> entry.getUsername().equals(username)).findAny();
+		
+		// Existing score for this player is higher
+		if(existingEntry.isPresent() && existingEntry.get().getScore() > score) {
 			return;
 		}
 		
 		this.createScoreEntry(username, score);
 
+		// Remove existing score for this player
+		if(existingEntry.isPresent()) {
+			this.scoreEntryRepository.delete(existingEntry.get());
+
 		// Remove last score entry if max reached
-		if(scores.size() >= this.maxKept) {
+		} else if(scores.size() >= this.maxKept) {
 			this.scoreEntryRepository.delete(scores.last());
 		}
 	}
