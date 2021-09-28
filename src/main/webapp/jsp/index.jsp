@@ -18,28 +18,34 @@
     
     	<jsp:include page="/jsp/header.jsp"></jsp:include>
     
-    	
-        <div class="container m-2">
-        	<div class="row justify-content">
-        		<div class="col-8">
-					<div class="card">
-						<h5 class="card-header">Bienvenue sur TankDeluxe3000, le meilleur jeu de tank sur navigateur !</h5>
-	   					<div class="card-body">
-							<p>Description du jeu</p>
-	   					</div>
+       	<div class="row p-5">
+       	
+        	<div class="col">
+	        	<div class="row justify-content">
+	        		<div class="col-8">
+						<div class="card">
+							<h5 class="card-header">Bienvenue sur TankDeluxe3000, le meilleur jeu de tank sur navigateur !</h5>
+		   					<div class="card-body">
+								<p>Description du jeu</p>
+		   					</div>
+		   				</div>
 	   				</div>
-   				</div>
+	       		</div>
+	       		
+	       		<div class="row justify-content mt-3">
+	       			<div class="col-4">
+		       			<a href="/selectGame" class="btn btn-lg btn-block btn-primary">Play</a>
+	       			</div>
+	       			<div class="col-4">
+		       			<a href="/editor" class="btn btn-lg btn-block btn-light">Editor</a>
+	       			</div>
+	       		</div>
        		</div>
        		
-       		<div class="row justify-content mt-3">
-       			<div class="col-4">
-	       			<a href="/selectGame" class="btn btn-lg btn-block btn-primary">Play</a>
-       			</div>
-       			<div class="col-4">
-	       			<a href="/editor" class="btn btn-lg btn-block btn-light">Editor</a>
-       			</div>
+       		<div class="col">
+       			<jsp:include page="/jsp/fragment/leaderboard.jsp"></jsp:include>
        		</div>
-       	</div>
+   		</div>
         
     </body>
 </html>

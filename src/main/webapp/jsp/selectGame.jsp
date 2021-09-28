@@ -19,39 +19,50 @@
     
     	<jsp:include page="/jsp/header.jsp"></jsp:include>
     	
-        <div class="container m-2">
-        	<div class="row justify-content">
-        		<div class="col-8">
-					<div class="card">
-						<h5 class="card-header">Selectionner une partie ou créez en une nouvelle.</h5>
-	   					<div class="card-body">
-							<table id="gameTable" class="table table-striped table-dark">
-								<thead>
-									<tr>
-										<th>Nom</th>
-										<th>Niveau</th>
-										<th>Nombre de joueur</th>
-									</tr>
-								</thead>
-								<tbody>
-									
-								</tbody>
-							</table>
-							<em id="noGameLabel">Aucune partie exitante</em>
-	   					</div>
+       	<div class="row p-5">
+       	
+        	<div class="col">
+	        	<div class="row justify-content">
+	        		<div class="col-8">
+						<div class="card">
+							<h5 class="card-header">Selectionner une partie ou créez en une nouvelle.</h5>
+		   					<div class="card-body">
+								<table id="gameTable" class="table table-striped table-dark">
+									<thead>
+										<tr>
+											<th>Nom</th>
+											<th>Niveau</th>
+											<th>Nombre de joueur</th>
+										</tr>
+									</thead>
+									<tbody>
+										
+									</tbody>
+								</table>
+								<em id="noGameLabel">Aucune partie exitante</em>
+		   					</div>
+		   				</div>
 	   				</div>
-   				</div>
+	       		</div>
+	       		
+	       		<div class="row justify-content mt-3">
+	       			<div class="col-4">
+		       			<a id="joinGameButton" href="javascript:joinSelectedGame()" class="btn btn-lg btn-block btn-primary disabled">Rejoindre</a>
+	       			</div>
+	       			<div class="col-4">
+		       			<a data-toggle="modal" data-target="#createGameModal" class="btn btn-lg btn-block btn-light">Créer une partie</a>
+	       			</div>
+	       		</div>
+	       	</div>
+	       	
+	       	<div class="col">
+       			<jsp:include page="/jsp/fragment/leaderboard.jsp"></jsp:include>
        		</div>
-       		
-       		<div class="row justify-content mt-3">
-       			<div class="col-4">
-	       			<a id="joinGameButton" href="javascript:joinSelectedGame()" class="btn btn-lg btn-block btn-primary disabled">Rejoindre</a>
-       			</div>
-       			<div class="col-4">
-	       			<a data-toggle="modal" data-target="#createGameModal" class="btn btn-lg btn-block btn-light">Créer une partie</a>
-       			</div>
-       		</div>
+       	
        	</div>
+       	
+       	
+       	
         
         <%-- Create game modal --%>
         <div class="modal fade" id="createGameModal" tabindex="-1" aria-labelledby="createGameModalLabel" aria-hidden="true">
