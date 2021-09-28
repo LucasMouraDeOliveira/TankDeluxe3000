@@ -9,10 +9,6 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Matthieu</td>
-				<td>Ho !</td>
-			</tr>
 		</tbody>
 	</table>
 </div>
