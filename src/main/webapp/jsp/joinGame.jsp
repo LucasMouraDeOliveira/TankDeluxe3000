@@ -131,7 +131,7 @@
 			var login = "${login}";
 			var playerDied = false;
 			var assetsManager = new AssetsManager();
-			var camera = {width: 1000, height: 800, offsetX: 0, offsetY: 0};
+			var camera = {width: 1300, height: 800, offsetX: 0, offsetY: 0};
 			var drawer = new Drawer(assetsManager, camera);
 			var controls = new Controls(camera);
 			var webSocketClient;

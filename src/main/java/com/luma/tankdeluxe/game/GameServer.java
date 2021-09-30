@@ -196,18 +196,14 @@ public class GameServer {
 		gameData.put("level", jsonLevel);
 		gameData.put("scores", jsonScore);
 		
-		for(WebSocketSession session : new HashMap<>(this.players).keySet()) {
-			// identify current player
-			Player p = this.players.get(session);
-			if(p != null) {
-				for (int i = 0; i < jsonPlayers.length(); i++) {
-					JSONObject playerJson = jsonPlayers.getJSONObject(i);
-					playerJson.put("self", playerJson.getString("name").equals(p.getName()));
-				}
+		this.players.entrySet().parallelStream().forEach(entry -> {
+			for (int i = 0; i < jsonPlayers.length(); i++) {
+				JSONObject playerJson = jsonPlayers.getJSONObject(i);
+				playerJson.put("self", playerJson.getString("name").equals(entry.getValue().getName()));
 			}
-			
-			sendWsMessage(gameData.toString(), session);
-		}
+
+			sendWsMessage(gameData.toString(), entry.getKey());
+		});
 	}
 
 	private void sendMap(WebSocketSession playerSession) {
