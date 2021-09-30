@@ -61,6 +61,7 @@ public class LevelBuilder {
 		
 		List<List<String>> groundData = levelDTO.getGround();
 		List<List<String>> obstacleData = levelDTO.getObstacle();
+		List<List<Boolean>> spawnData = levelDTO.getSpawn();
 
 		// TODO optimize
 		for (int x = 0; x < levelDTO.getWidth(); x++) {
@@ -87,19 +88,16 @@ public class LevelBuilder {
 					
 					obstacle.addCell(cell);
 				}
+				
+				// Spawn
+				if(Boolean.TRUE.equals(spawnData.get(x).get(y))) {
+					level.addSpawn(new Coordinate((int) (x * SettingsManager.OBSTACLE_WIDTH), (int) (y * SettingsManager.OBSTACLE_HEIGHT)));
+				}
 			}
 		}
 		
 		level.addLayout(ground);
 		level.addLayout(obstacle);
-		
-		// Set spawn
-		level.addSpawn(new Coordinate(12, 15));
-		level.addSpawn(new Coordinate(12, 68));
-		level.addSpawn(new Coordinate(58, 8));
-		level.addSpawn(new Coordinate(58, 65));
-		level.addSpawn(new Coordinate(108, 15));
-		level.addSpawn(new Coordinate(108, 68));
 
 		return level;
 	}

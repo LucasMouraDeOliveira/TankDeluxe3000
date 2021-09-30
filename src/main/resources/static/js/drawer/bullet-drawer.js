@@ -64,8 +64,6 @@ class BulletDrawer {
         	this.ctx.drawImage(bulletSprite, bullet.x - Math.round(this.BULLET_WIDTH / 2), bullet.y - Math.round(this.BULLET_WIDTH / 2), this.BULLET_WIDTH, this.BULLET_HEIGHT);
             break;
         }
-        console.log(bullet);
-        console.log(this.camera);
 //        this.ctx.restore();
     }
 

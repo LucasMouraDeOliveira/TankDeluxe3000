@@ -1,10 +1,13 @@
 // Variable
 var fCanvas;
 var bCanvas;
+var sCanvas;
 var fCtx;
 var bCtx;
+var sCtx;
 var fLayout;
 var bLayout;
+var sLayout;
 
 var blockSize = 32;
 var canvasWidth = 1216;
@@ -31,11 +34,11 @@ $('#exportLevelModal').on('show.bs.modal', function (e) {
 	let action = $(e.relatedTarget).data("action");
 	
 	if(action == "export") {
-		$(this).find("textarea").empty().append(calculateMap());
+		$(this).find("textarea").val(calculateMap());
 		$(this).find(".modal-footer").hide();
 		
 	} else if(action == "import") {
-		$(this).find("textarea").empty();
+		$(this).find("textarea").val("");
 		$(this).find(".modal-footer").show();
 	}
 });
@@ -43,7 +46,6 @@ $('#exportLevelModal').on('show.bs.modal', function (e) {
 function reloadMapSize() {
 	canvasWidth = parseInt($("#mapWidthInput").val()) * blockSize;
 	canvasHeight = parseInt($("#mapHeightInput").val()) * blockSize;
-	console.log(canvasWidth, canvasHeight);
 	
 	initCanvas();
 }
@@ -55,8 +57,11 @@ function initCanvas() {
 	// Get canvas
 	fCanvas = document.querySelector("#foregroundCanvas");
 	bCanvas = document.querySelector("#backgroundCanvas");
+	sCanvas = document.querySelector("#spawnCanvas");
 	fCtx = fCanvas.getContext("2d");
 	bCtx = bCanvas.getContext("2d");
+	sCtx = sCanvas.getContext("2d");
+	sCtx.fillStyle =  "rgba(255, 25, 55, 0.4)";
 
 	// initialize canvas
 	fCtx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -66,6 +71,8 @@ function initCanvas() {
 	fCanvas.height = canvasHeight;
 	bCanvas.width = canvasWidth;
 	bCanvas.height = canvasHeight;
+	sCanvas.width = canvasWidth;
+	sCanvas.height = canvasHeight;
 	
 	initializeLevel();
 	drawGrid();
@@ -162,8 +169,6 @@ function drawGrid() {
 	gCanvas.width = canvasWidth;
 	gCanvas.height = canvasHeight;
 
-	console.log(gCanvas.width, gCanvas.height);
-
 	gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
 	
 	// x
@@ -224,6 +229,30 @@ function drawBackground() {
 	}
 }
 
+function drawSpawn() {
+	// Selected area
+	let coord = clickInfo ? reorderCoords(clickInfo.startX, clickInfo.startY, clickInfo.x, clickInfo.y) : undefined;
+	
+	sCtx.clearRect(0, 0, sCanvas.width, sCanvas.height);
+	
+	// bLayout
+	for (let x = 0; x < sLayout.length; x++) {
+		for (let y = 0; y < sLayout[0].length; y++) {
+			if(selectedLayout == "spawn" && clickInfo && x >= coord.x1 && x <= coord.x2 && y >= coord.y1 && y <= coord.y2) {
+				if(clickInfo.action == "fill") {
+					sCtx.fillStyle =  "rgba(255, 25, 55, 0.4)";
+//					sCtx.drawImage(assetsManager.getImage(selectedAssetCode), x * 32, y * 32);
+					sCtx.fillRect(x * 32, y * 32, 32, 32);
+				}
+			} else if(sLayout[x][y]) {
+				sCtx.fillStyle =  "rgba(255, 25, 55, 0.4)";
+//				sCtx.drawImage(assetsManager.getImage(sLayout[x][y]), x * 32, y * 32);
+				sCtx.fillRect(x * 32, y * 32, 32, 32);
+			} 
+		}
+	}
+}
+
 function initializeLevel() {
 	fLayout = new Array(nbBlockX);
 	for (let i = 0; i < fLayout.length; i++) {
@@ -233,6 +262,11 @@ function initializeLevel() {
 	bLayout = new Array(nbBlockX);
 	for (let i = 0; i < bLayout.length; i++) {
 		bLayout[i] = new Array(nbBlockY);
+	}
+
+	sLayout = new Array(nbBlockX);
+	for (let i = 0; i < sLayout.length; i++) {
+		sLayout[i] = new Array(nbBlockY);
 	}
 }
 
@@ -260,6 +294,8 @@ function getSelectedLayout() {
 		return bLayout;
 	} else if(selectedLayout == "obstacle") {
 		return fLayout;
+	} else if(selectedLayout == "spawn"){
+		return sLayout;
 	} else {
 		console.error("Unknwon layout " + selectedLayout);
 		return;
@@ -271,6 +307,8 @@ function getRefreshFunction() {
 		return drawBackground;
 	} else if(selectedLayout == "obstacle") {
 		return drawForeground;
+	} else if(selectedLayout == "spawn"){
+		return drawSpawn;
 	} else {
 		console.error("Unknwon layout " + selectedLayout);
 		return;
@@ -282,9 +320,10 @@ function calculateMap() {
 		width: nbBlockX,
 		height: nbBlockY,
 		ground: bLayout,
-		obstacle: fLayout
+		obstacle: fLayout,
+		spawn: sLayout
 	};
-	
+
 	return window.btoa(JSON.stringify(map));
 }
 
@@ -295,9 +334,17 @@ function importLevel() {
 	nbBlockY = map.height;
 	bLayout = map.ground;
 	fLayout = map.obstacle;
+	sLayout = map.spawn;
+
+	sLayout = new Array(nbBlockX);
+	for (let i = 0; i < sLayout.length; i++) {
+		sLayout[i] = new Array(nbBlockY);
+	}
 	
 	drawBackground();
 	drawForeground();
+	drawSpawn();
+	drawGrid();
 }
 
 function reorderCoords(x1, y1, x2, y2) {

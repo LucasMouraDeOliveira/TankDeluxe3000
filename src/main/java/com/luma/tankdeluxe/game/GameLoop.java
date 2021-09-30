@@ -3,6 +3,9 @@ package com.luma.tankdeluxe.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.luma.tankdeluxe.game.actions.DashAction;
 import com.luma.tankdeluxe.game.actions.GameUpdate;
 import com.luma.tankdeluxe.game.actions.MovePlayerAction;
@@ -11,6 +14,8 @@ import com.luma.tankdeluxe.game.actions.UpdatePlayerAction;
 import com.luma.tankdeluxe.game.actions.UpdatePlayerStateAction;
 
 public class GameLoop extends Thread {
+	
+	private static final Logger logger = LoggerFactory.getLogger(GameLoop.class);
 	
 	private int delay;
 	
@@ -49,7 +54,9 @@ public class GameLoop extends Thread {
 			
 			try {
 				Thread.sleep(Math.max(0, delay - (System.currentTimeMillis() - start)));
-			} catch(Exception e) {};
+			} catch(Exception e) {
+				logger.error("An error occurred trying to pause thread", e);
+			}
 
 			lastTickDuration = System.currentTimeMillis() - start;
 		}

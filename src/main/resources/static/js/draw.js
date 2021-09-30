@@ -58,7 +58,6 @@ class Drawer {
 		this.camera.offsetY = currentPlayer.y - this.camera.height / 2;
 		this.camera.offsetY = Math.max(0, this.camera.offsetY);
 		this.camera.offsetY = Math.min(this.mapHeight - this.camera.height, this.camera.offsetY);
-		console.log(this.camera);
 		
 		// First loop to draw floors
 		for(let i in this.walls) {

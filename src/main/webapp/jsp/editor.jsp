@@ -20,6 +20,7 @@
 				<div class="">
 					<canvas id="backgroundCanvas" width=1200 height=800></canvas>
 					<canvas id="foregroundCanvas" width=1200 height=800></canvas>
+					<canvas id="spawnCanvas" width=1200 height=800></canvas>
 					<canvas id="gridCanvas" width=1200 height=800></canvas>
 				</div>
 			</div>
@@ -45,10 +46,20 @@
 					<li class="nav-item">
 						<a class="nav-link" id="obstacle-tab" data-toggle="tab" href="#obstacle-assets" role="tab" aria-controls="obstacle" aria-selected="false">Obstacle</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="other-tab" data-toggle="tab" href="#other-assets" role="tab" aria-controls="other" aria-selected="false">Autre</a>
+					</li>
 				</ul>
 				<div class="tab-content" id="myTabContent">
 					<div class="tab-pane fade pt-2 show active" id="ground-assets" role="tabpanel" aria-labelledby="ground-tab"></div>
 					<div class="tab-pane fade pt-2" id="obstacle-assets" role="tabpanel" aria-labelledby="obstacle-tab"></div>
+					<div class="tab-pane fade pt-2" id="other-assets" role="tabpanel" aria-labelledby="other-tab">
+						<div id="spawnCard" class="card text-center shadow-sm" onClick="selectCard($(this), 'spawn')" data-code="true" style="width: 10rem;">
+							<div class="card-body">
+								<h5 class="card-title">Spawn</h5>
+							</div>
+						</div>
+					</div>
 				</div>
 				
 				<%-- Asset card template --%>
