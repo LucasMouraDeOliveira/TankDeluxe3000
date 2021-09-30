@@ -110,6 +110,14 @@ class TankDrawer {
 		// Draw shield
 		this.ctx.rotate(-a);
 		this.drawShield(tank.nbShield);
+		
+		// Draw username
+		this.ctx.font = '12px sans serif';
+		this.ctx.shadowColor = "white";
+		this.ctx.shadowBlur = 3;
+		this.ctx.fillText(tank.name, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2), 50);
+		this.ctx.shadowBlur = 0;
+		
 
 		// Draw turret
 		this.ctx.rotate(tAngle);

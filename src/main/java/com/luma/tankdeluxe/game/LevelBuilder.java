@@ -87,11 +87,11 @@ public class LevelBuilder {
 					cell.setBody(body);
 					
 					obstacle.addCell(cell);
-				}
-				
-				// Spawn
-				if(Boolean.TRUE.equals(spawnData.get(x).get(y))) {
-					level.addSpawn(new Coordinate((int) (x * SettingsManager.OBSTACLE_WIDTH), (int) (y * SettingsManager.OBSTACLE_HEIGHT)));
+				} else {
+					// Spawn
+					if(spawnData == null || Boolean.TRUE.equals(spawnData.get(x).get(y))) {
+						level.addSpawn(new Coordinate((int) (x * SettingsManager.OBSTACLE_WIDTH), (int) (y * SettingsManager.OBSTACLE_HEIGHT)));
+					}
 				}
 			}
 		}
