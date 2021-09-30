@@ -112,11 +112,15 @@ class TankDrawer {
 		this.drawShield(tank.nbShield);
 		
 		// Draw username
-		this.ctx.font = '12px sans serif';
-		this.ctx.shadowColor = "white";
+		this.ctx.font = '13px system-ui';
+		this.ctx.fillStyle = "#B6D6F0";
 		this.ctx.shadowBlur = 3;
-		this.ctx.fillText(tank.name, -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2), 50);
-		this.ctx.shadowBlur = 0;
+        this.ctx.shadowOffsetX = 0;
+        this.ctx.shadowOffsetY = 0;
+		this.ctx.fillText(tank.name.substring(0, 14), -(this.TANK_WIDTH / 2), -(this.TANK_HEIGHT / 2), 50);
+		this.ctx.shadowOffsetX = 1;
+        this.ctx.shadowOffsetY = 1;
+        this.ctx.shadowBlur = 6;
 		
 
 		// Draw turret
