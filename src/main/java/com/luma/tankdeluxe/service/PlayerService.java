@@ -49,6 +49,7 @@ public class PlayerService {
 		player.setAlive(true);
 		player.setShooting(false);
 		player.setDashing(false);
+		player.setCharge(0);
 		player.setInvincible(true);
 		player.setDashCooldown(0);
 		player.setMaxBullet(SettingsManager.MAX_BULLET);

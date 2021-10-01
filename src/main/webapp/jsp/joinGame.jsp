@@ -16,6 +16,9 @@
 				height: 100%;
 			}
 		
+			canvas {
+	 		   cursor: url(/assets/img/aim.png), auto;
+			}
 		</style>
 	
 	</head>
