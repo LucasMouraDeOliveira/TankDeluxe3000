@@ -13,7 +13,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.luma.tankdeluxe.game.player.PlayerSpecialization;
 import com.luma.tankdeluxe.service.GameService;
 
-@Component
+//@Component
 public class WebSocketEndpoint extends TextWebSocketHandler {
 	
 	@Autowired

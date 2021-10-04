@@ -8,10 +8,12 @@ import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.luma.tankdeluxe.dto.GameDTO;
+import com.luma.tankdeluxe.dto.PlayerActionDTO;
 import com.luma.tankdeluxe.exception.NoSuchGameException;
 import com.luma.tankdeluxe.game.Color;
 import com.luma.tankdeluxe.game.GameServer;
@@ -82,4 +84,8 @@ public class GameService {
 		return this.games.values().stream().map(GameDTO::new).collect(Collectors.toList());
 	}
 	
+	@MessageMapping("actions")
+	public void playerActionReceive(PlayerActionDTO actions) {
+		System.out.println(">>>" + actions.getAction());
+	}
 }

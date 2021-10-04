@@ -8,6 +8,12 @@
 		<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 		
+		
+		
+		<script type="text/javascript" src="/js/websocket-client.js"></script>
+        <script src="/webjars/sockjs-client/sockjs.js"></script>
+        <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+		
 		<!-- CSS -->
 		<link rel="stylesheet" href="/css/index.css" />
 		<link rel="stylesheet" href="/webjars/font-awesome/css/font-awesome.min.css"/>
