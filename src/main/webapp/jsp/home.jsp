@@ -57,6 +57,7 @@
 
 	<script type="text/javascript" src="js/drawer/tank-drawer.js"></script>
 	<script type="text/javascript" src="js/drawer/bullet-drawer.js"></script>
+	<script type="text/javascript" src="js/drawer/mine-drawer.js"></script>
 	<script type="text/javascript" src="js/controls.js"></script>
 	<script type="text/javascript" src="js/draw.js"></script>
 	<script type="text/javascript" src="js/websocket.js"></script>

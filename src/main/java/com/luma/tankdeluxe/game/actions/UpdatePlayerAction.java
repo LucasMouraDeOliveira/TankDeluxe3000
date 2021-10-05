@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.game.GameServer;
+import com.luma.tankdeluxe.game.player.Miner;
 import com.luma.tankdeluxe.game.player.Player;
 
 public class UpdatePlayerAction extends GameUpdate {
@@ -26,6 +27,11 @@ public class UpdatePlayerAction extends GameUpdate {
 				player.setMoving(Player.EAST, obj.getBoolean("right"));
 				player.setShooting(obj.getBoolean("shoot"));
 				player.setDashing(obj.getBoolean("dash"));
+				
+				if(player instanceof Miner) {
+				    Miner miner = (Miner)player;
+				    miner.setPlacingMine(obj.getBoolean("place_mine"));
+				}
 				
 				JSONObject aim = obj.getJSONObject("aim");
 				player.setAimX(aim.getInt("x") / SettingsManager.SIZE_RATIO);

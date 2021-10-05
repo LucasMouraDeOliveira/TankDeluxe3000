@@ -100,7 +100,7 @@
 									
 								</div>
 							</div>
-							<div class="card disabled col-5 m-2 shadow-sm" onclick='$(this).find("input").prop("checked", true)'>
+							<div class="card col-5 m-2 shadow-sm" onclick='$(this).find("input").prop("checked", true)'>
 								<div class="card-body">
 									<div class="form-check">
 										<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="MINER">
@@ -125,6 +125,7 @@
 		<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/js/drawer/tank-drawer.js"></script>
 		<script type="text/javascript" src="/js/drawer/bullet-drawer.js"></script>
+		<script type="text/javascript" src="/js/drawer/mine-drawer.js"></script>
 		<script type="text/javascript" src="/js/controls.js"></script>
 		<script type="text/javascript" src="/js/assetsManager.js"></script>
 		<script type="text/javascript" src="/js/draw.js"></script>

@@ -29,6 +29,7 @@ class Drawer {
 	
 		this.tankDrawer = new TankDrawer(this.fCtx, this, this.assetsManager, this.camera);
 		this.bulletDrawer = new BulletDrawer(this.fCtx, this, this.assetsManager, this.camera);
+		this.mineDrawer = new MineDrawer(this.fCtx, this, this.assetsManager, this.camera);
 	}
 	
 	drawForeground = (gameState) => {
@@ -83,6 +84,9 @@ class Drawer {
 		
 		// Draw bullet
 		gameState.bullets.forEach(bullet => this.bulletDrawer.draw(bullet));
+		
+		// Draw mines
+		gameState.mines.forEach(mine => this.mineDrawer.draw(mine));
 		
 	}
 	

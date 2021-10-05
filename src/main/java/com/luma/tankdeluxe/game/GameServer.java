@@ -23,6 +23,7 @@ import com.luma.tankdeluxe.game.level.Layout;
 import com.luma.tankdeluxe.game.player.Player;
 import com.luma.tankdeluxe.listener.BulletBulletListener;
 import com.luma.tankdeluxe.listener.BulletWallListener;
+import com.luma.tankdeluxe.listener.TankMineListener;
 import com.luma.tankdeluxe.listener.TankBulletListener;
 import com.luma.tankdeluxe.service.LeaderboardService;
 import com.luma.tankdeluxe.service.PlayerService;
@@ -40,6 +41,8 @@ public class GameServer {
 	private Map<Player, JSONObject> playerActions;
 	
 	private List<Bullet> bullets;
+	private List<Mine> mines;
+	
 	private List<Color> availableColor;
 	
 	private PlayerService playerService;
@@ -53,6 +56,7 @@ public class GameServer {
 		this.players = new HashMap<>();
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
+		this.mines = new ArrayList<>();
 		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
 		this.gameScore = new GameScore(leaderboardService);
@@ -62,6 +66,7 @@ public class GameServer {
 		this.world = new World();
 		
 		this.world.addListener(new TankBulletListener(this));
+		this.world.addListener(new TankMineListener(this));
 		this.world.addListener(new BulletBulletListener(this));
 		this.world.addListener(new BulletWallListener());
 		
@@ -146,6 +151,7 @@ public class GameServer {
 	public void notifyPlayers() {
 		JSONArray jsonPlayers = new JSONArray();
 		JSONArray jsonBullets = new JSONArray();
+		JSONArray jsonMines = new JSONArray();
 		JSONArray jsonLevel = new JSONArray();
 		JSONObject jsonScore = new JSONObject();
 		
@@ -175,6 +181,14 @@ public class GameServer {
 			jsonBullets.put(jsonBullet);
 		}
 		
+		JSONObject jsonMine;
+		for (Mine mine : mines) {
+            jsonMine = new JSONObject();
+            jsonMine.put("x", mine.getX() * SettingsManager.SIZE_RATIO);
+            jsonMine.put("y", mine.getY() * SettingsManager.SIZE_RATIO);
+            jsonMines.put(jsonMine);
+        }
+		
 		JSONArray jsonPlayerScores = new JSONArray();
 		for(Map.Entry<Player, Integer> entry : this.gameScore.getScores().entrySet()) {
 			JSONObject jsonPlayerScore = new JSONObject();
@@ -193,6 +207,7 @@ public class GameServer {
 		JSONObject gameData = new JSONObject();
 		gameData.put("players", jsonPlayers);
 		gameData.put("bullets", jsonBullets);
+		gameData.put("mines", jsonMines);
 		gameData.put("level", jsonLevel);
 		gameData.put("scores", jsonScore);
 		
@@ -242,10 +257,20 @@ public class GameServer {
 		this.world.addBody(bullet);
 	}
 	
+    public void addMine(Mine mine) {
+        this.mines.add(mine);
+        this.world.addBody(mine);
+    }
+	
 	public void removeBullet(Bullet bullet) {
 		bullet.getShooter().getBullets().remove(bullet);
 		this.bullets.remove(bullet);
 		this.world.removeBody(bullet);
+	}
+	
+	public void removeMine(Mine mine) {
+	    this.mines.remove(mine);
+        this.world.removeBody(mine);
 	}
 
 	public List<Bullet> getBullets() {
@@ -276,4 +301,5 @@ public class GameServer {
 	public List<Color> getAvailableColor() {
 		return this.availableColor;
 	}
+
 }

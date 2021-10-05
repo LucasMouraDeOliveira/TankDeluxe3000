@@ -18,6 +18,7 @@ class Controls {
 		this.controls.left = false;
 		this.controls.right = false;
 		this.controls.shoot = false;
+		this.controls.place_mine = false;
 		this.controls.dash = false;
 		this.controls.charging = false;
 		this.controls.aim = {x: 0, y: 0};
@@ -52,6 +53,9 @@ class Controls {
 			if (touch === ' ' || touch === 'Control') {
 				this.controls.dash = true;
 			}
+			if (touch === 'M') {
+				this.controls.place_mine = true;
+			}
 		}, false);
 	}
 	
@@ -72,6 +76,9 @@ class Controls {
 			}
 			if (touch === ' ' || touch === 'Control') {
 				this.controls.dash = false;
+			}
+			if (touch === 'M') {
+				this.controls.place_mine = false;
 			}
 		}, false);
 	}
