@@ -128,10 +128,15 @@
 		<script type="text/javascript" src="/js/controls.js"></script>
 		<script type="text/javascript" src="/js/assetsManager.js"></script>
 		<script type="text/javascript" src="/js/draw.js"></script>
-		<script type="text/javascript" src="/js/websocket.js"></script>
+		
+		<script type="text/javascript" src="/js/websocket-client.js"></script>
+        <script src="/webjars/sockjs-client/sockjs.js"></script>
+        <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+        
 		<script type="text/javascript">
 		
 			var login = "${login}";
+			var gameId = "${gameId}";
 			var playerDied = false;
 			var assetsManager = new AssetsManager();
 			var camera = {width: 1300, height: 800, offsetX: 0, offsetY: 0};
@@ -155,7 +160,11 @@
 				let spec = $('input[name="flexRadioDefault"]:checked').val();
 
 				// Plug view on websocket
-				webSocketClient = new WebSocketClient("${gameId}", drawer, controls, spec);
+// 				webSocketClient = new WebSocketClient("${gameId}", drawer, controls, spec);
+				webSocketClient = new WebSocketClient();
+				webSocketClient.subscribe("actions", function(s){console.log(s);});
+				controls.initControls();
+				controls.startUpdating(webSocketClient);
 			}
 			
 			function updateScoreDiv(scores) {

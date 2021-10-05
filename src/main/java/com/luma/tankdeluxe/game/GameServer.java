@@ -25,6 +25,7 @@ import com.luma.tankdeluxe.listener.BulletBulletListener;
 import com.luma.tankdeluxe.listener.BulletWallListener;
 import com.luma.tankdeluxe.listener.TankBulletListener;
 import com.luma.tankdeluxe.service.LeaderboardService;
+import com.luma.tankdeluxe.service.MessageService;
 import com.luma.tankdeluxe.service.PlayerService;
 
 public class GameServer {
@@ -43,10 +44,11 @@ public class GameServer {
 	private List<Color> availableColor;
 	
 	private PlayerService playerService;
+	private MessageService messageService;
 	
 	private GameScore gameScore;
 	
-	public GameServer(String name, Level level, PlayerService playerService, LeaderboardService leaderboardService) {
+	public GameServer(String name, Level level, PlayerService playerService, LeaderboardService leaderboardService,MessageService messageService) {
 		this.id = UUID.randomUUID();
 		this.name = name;
 		this.level = level;
@@ -58,6 +60,7 @@ public class GameServer {
 		this.gameScore = new GameScore(leaderboardService);
 		
 		this.playerService = playerService;
+		this.messageService = messageService;
 		
 		this.world = new World();
 		
@@ -228,13 +231,14 @@ public class GameServer {
 	}
 
 	private void sendWsMessage(String gameData, WebSocketSession session) {
-		new Thread(() -> {
-			try {
-				session.sendMessage(new TextMessage(gameData));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}).start();
+//		new Thread(() -> {
+//			try {
+//				session.sendMessage(new TextMessage(gameData));
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}).start();
+		this.messageService.sendMessage(this.id.toString(), gameData);
 	}
 	
 	public void addBullet(Bullet bullet) {

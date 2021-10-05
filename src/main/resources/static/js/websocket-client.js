@@ -52,7 +52,7 @@ class WebSocketClient {
 	
 	// Send a message to the given topic
 	sendMessage = (topicName, message) => {
-		this.stompClient.send("/topic/" + topicName, {}, message);
+		this.stompClient.send("/message/" + topicName, {}, message);
 			
 		console.log("Message send to topic " + topicName);
 	}

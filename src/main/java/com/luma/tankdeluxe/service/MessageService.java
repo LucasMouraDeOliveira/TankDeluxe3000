@@ -11,7 +11,7 @@ public class MessageService {
 	private SimpMessagingTemplate messageBroker;
 	
 	public void sendMessage(String topic, Object payload) {
-		this.messageBroker.convertAndSend(topic, payload);
+		this.messageBroker.convertAndSend("/topic/" + topic, payload);
 	}
 	
 }
