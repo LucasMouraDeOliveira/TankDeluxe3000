@@ -23,7 +23,6 @@ import com.luma.tankdeluxe.game.level.Layout;
 import com.luma.tankdeluxe.game.player.Player;
 import com.luma.tankdeluxe.listener.BulletBulletListener;
 import com.luma.tankdeluxe.listener.BulletWallListener;
-import com.luma.tankdeluxe.listener.TankMineListener;
 import com.luma.tankdeluxe.listener.TankBulletListener;
 import com.luma.tankdeluxe.service.LeaderboardService;
 import com.luma.tankdeluxe.service.PlayerService;
@@ -66,7 +65,6 @@ public class GameServer {
 		this.world = new World();
 		
 		this.world.addListener(new TankBulletListener(this));
-		this.world.addListener(new TankMineListener(this));
 		this.world.addListener(new BulletBulletListener(this));
 		this.world.addListener(new BulletWallListener());
 		
@@ -259,7 +257,6 @@ public class GameServer {
 	
     public void addMine(Mine mine) {
         this.mines.add(mine);
-        this.world.addBody(mine);
     }
 	
 	public void removeBullet(Bullet bullet) {
@@ -270,11 +267,14 @@ public class GameServer {
 	
 	public void removeMine(Mine mine) {
 	    this.mines.remove(mine);
-        this.world.removeBody(mine);
 	}
 
 	public List<Bullet> getBullets() {
 		return bullets;
+	}
+	
+	public List<Mine> getMines() {
+	    return mines;
 	}
 
 	public void killPlayer(Player player) {

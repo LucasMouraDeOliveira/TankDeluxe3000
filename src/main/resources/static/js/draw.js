@@ -78,16 +78,15 @@ class Drawer {
 //				this.fCtx.drawImage(this.obstacle, wall.x * 32, wall.y * 32);
 //			}
 //		}
+
+		// Draw mines
+		gameState.mines.forEach(mine => this.mineDrawer.draw(mine));
 		
 		// Draw tanks
 		gameState.players.forEach(tank => this.tankDrawer.draw(tank));
 		
 		// Draw bullet
 		gameState.bullets.forEach(bullet => this.bulletDrawer.draw(bullet));
-		
-		// Draw mines
-		gameState.mines.forEach(mine => this.mineDrawer.draw(mine));
-		
 	}
 	
 	drawBackground = () => {

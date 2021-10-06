@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.luma.tankdeluxe.game.actions.CheckMineCollisionAction;
 import com.luma.tankdeluxe.game.actions.DashAction;
 import com.luma.tankdeluxe.game.actions.GameUpdate;
 import com.luma.tankdeluxe.game.actions.MovePlayerAction;
@@ -38,6 +39,7 @@ public class GameLoop extends Thread {
 		this.updates.add(new UpdatePlayerStateAction(gameServer));
 		this.updates.add(new UpdatePlayerAction(gameServer));
 		this.updates.add(new MovePlayerAction(gameServer));
+		this.updates.add(new CheckMineCollisionAction(gameServer));
 		this.updates.add(new ShootAction(gameServer));
 		this.updates.add(new PlaceMineAction(gameServer));
 		this.updates.add(new DashAction(gameServer));

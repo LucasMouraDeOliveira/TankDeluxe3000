@@ -77,7 +77,7 @@ class Controls {
 			if (touch === ' ' || touch === 'Control') {
 				this.controls.dash = false;
 			}
-			if (touch === 'M') {
+			if (touch === 'M' || touch === 'm') {
 				this.controls.place_mine = false;
 			}
 		}, false);
