@@ -137,6 +137,7 @@
 		
 			var login = "${login}";
 			var gameId = "${gameId}";
+			var gameAccessToken = "${gameAccessToken}";
 			var playerDied = false;
 			var assetsManager = new AssetsManager();
 			var camera = {width: 1300, height: 800, offsetX: 0, offsetY: 0};
@@ -154,15 +155,22 @@
 
 				// Show spec modal
 				$("#specModal").modal("show");
+
+				// Connect websocket
+				webSocketClient = new WebSocketClient();
 			}
 
 			function specChoosed() {
 				let spec = $('input[name="flexRadioDefault"]:checked').val();
 
+
 				// Plug view on websocket
 // 				webSocketClient = new WebSocketClient("${gameId}", drawer, controls, spec);
-				webSocketClient = new WebSocketClient();
 				webSocketClient.subscribe("actions", function(s){console.log(s);});
+
+				webScocketClient.sendMessage("joinGame", {gameId: gameId, playerName: login, gameAccessToken: gameAccessToken, specialization: spec});
+
+
 				controls.initControls();
 				controls.startUpdating(webSocketClient);
 			}

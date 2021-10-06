@@ -36,7 +36,8 @@ public class GameServer {
 	private Random random;
 	private Level level;
 	
-	private Map<WebSocketSession, Player> players;
+//	private Map<WebSocketSession, Player> players;
+	private Map<String, Player> players;
 	
 	private Map<Player, JSONObject> playerActions;
 	
@@ -121,6 +122,10 @@ public class GameServer {
 		this.gameScore.removeScore(p);
 	}
 	
+	public Player getPlayer(String gameAccessToken) {
+		return players.get(gameAccessToken);
+	}
+
 	public Player getPlayer(WebSocketSession session) {
 		return players.get(session);
 	}

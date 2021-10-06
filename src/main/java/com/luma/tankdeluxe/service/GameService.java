@@ -49,6 +49,15 @@ public class GameService {
 		return newGame;
 	}
 	
+	public void connectNewPlayer(UUID gameId, String playerName, PlayerSpecialization specialization, String gameAccessToken) {
+		GameServer game = this.getGame(gameId);
+		
+		Color playerColor = game.getAvailableColor().remove(0);
+		Player newPlayer = this.playerService.createPlayer(playerName, playerColor, specialization);
+		
+		game.createPlayer(gameAccessToken, newPlayer);
+	}
+	
 	public void connectNewPlayer(UUID gameId, String playerName, PlayerSpecialization specialization, WebSocketSession session) {
 		GameServer game = this.getGame(gameId);
 		
@@ -58,6 +67,12 @@ public class GameService {
 		game.createPlayer(session, newPlayer);
 	}
 	
+	public void updatePlayerAction(UUID gameId, String gameAccessToken, JSONObject actions) {
+		GameServer game = this.getGame(gameId);
+		
+		game.updatePlayerAction(game.getPlayer(gameAccessToken), actions);
+	}
+
 	public void updatePlayerAction(UUID gameId, WebSocketSession session, JSONObject actions) {
 		GameServer game = this.getGame(gameId);
 

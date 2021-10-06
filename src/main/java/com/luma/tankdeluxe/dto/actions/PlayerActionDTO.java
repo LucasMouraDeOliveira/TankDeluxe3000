@@ -11,6 +11,7 @@ import lombok.ToString;
 public class PlayerActionDTO {
 
 	private UUID gameId;
+	private String gameAccessToken;
 	private ControlsDTO controls;
 	
 }

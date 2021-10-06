@@ -31,7 +31,7 @@ class Controls {
 	startUpdating = (webSocketClient) => {
 		setInterval(() => {
 //			webSocketClient.sendMessage(this.controls);
-			webSocketClient.sendMessage("actions", JSON.stringify({gameId: gameId, controls: controls}));
+			webSocketClient.sendMessage("actions", JSON.stringify({gameId: gameId, gameAccessToken: gameAccessToken, controls: controls}));
 		}, 50);
 	}
 	
