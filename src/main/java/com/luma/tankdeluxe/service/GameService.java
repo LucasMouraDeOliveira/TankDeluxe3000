@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.luma.tankdeluxe.dto.GameDTO;
+import com.luma.tankdeluxe.dto.PlayerActionDTO;
 import com.luma.tankdeluxe.exception.NoSuchGameException;
 import com.luma.tankdeluxe.game.Color;
 import com.luma.tankdeluxe.game.GameServer;
@@ -55,10 +55,15 @@ public class GameService {
 		game.createPlayer(session, newPlayer);
 	}
 	
-	public void updatePlayerAction(UUID gameId, WebSocketSession session, JSONObject actions) {
+	public void updatePlayerAction(UUID gameId, WebSocketSession session, PlayerActionDTO actions) {
 		GameServer game = this.getGame(gameId);
+		Player player = game.getPlayer(session);
 
-		game.updatePlayerAction(game.getPlayer(session), actions);
+		if(actions.getForward() != null) {
+			game.updatePlayerAction(player, actions);
+		} else {
+			game.updatePlayerAim(player, actions.getAim());
+		}
 	}
 	
 	public void respawnPlayer(UUID gameId, WebSocketSession session) {

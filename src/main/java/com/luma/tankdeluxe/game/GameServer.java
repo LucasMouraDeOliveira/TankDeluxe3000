@@ -19,6 +19,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.luma.tankdeluxe.SettingsManager;
+import com.luma.tankdeluxe.dto.AimDTO;
+import com.luma.tankdeluxe.dto.PlayerActionDTO;
 import com.luma.tankdeluxe.game.level.Layout;
 import com.luma.tankdeluxe.game.player.Player;
 import com.luma.tankdeluxe.listener.BulletBulletListener;
@@ -37,7 +39,7 @@ public class GameServer {
 	
 	private Map<WebSocketSession, Player> players;
 	
-	private Map<Player, JSONObject> playerActions;
+	private Map<Player, PlayerActionDTO> playerActions;
 	
 	private List<Bullet> bullets;
 	private List<Mine> mines;
@@ -129,12 +131,21 @@ public class GameServer {
 		return this.players.values().stream().filter(Objects::nonNull).collect(Collectors.toList());
 	}
 	
-	public Map<Player, JSONObject> getPlayerActions() {
+	public Map<Player, PlayerActionDTO> getPlayerActions() {
 		return this.playerActions;
 	}
 	
-	public void updatePlayerAction(Player player, JSONObject action) {
+	public void updatePlayerAction(Player player, PlayerActionDTO action) {
 		playerActions.put(player, action);
+	}
+	
+	public void updatePlayerAim(Player player, AimDTO aim) {
+		PlayerActionDTO action = this.playerActions.get(player);
+		
+		// TODO avoid this check by ensuring that action will never be null
+		if(action != null) {
+			action.setAim(aim);
+		}
 	}
 	
 	public void start() {

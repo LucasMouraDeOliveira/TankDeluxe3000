@@ -1,5 +1,6 @@
 package com.luma.tankdeluxe.websocket;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import org.json.JSONObject;
@@ -10,6 +11,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luma.tankdeluxe.dto.PlayerActionDTO;
 import com.luma.tankdeluxe.game.player.PlayerSpecialization;
 import com.luma.tankdeluxe.service.GameService;
 
@@ -19,9 +22,14 @@ public class WebSocketEndpoint extends TextWebSocketHandler {
 	@Autowired
 	private GameService gameService;
 	
+	@Autowired
+	private ObjectMapper mapper;
+	
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message) {
 		String payload = message.getPayload();
+		
+		// TOO use only ObjectMapper
 		JSONObject object = new JSONObject(payload);
 		
 		UUID gameId = UUID.fromString(object.getString("gameId"));
@@ -39,7 +47,12 @@ public class WebSocketEndpoint extends TextWebSocketHandler {
 				this.gameService.respawnPlayer(gameId, session);
 			}
 		} else {
-			this.gameService.updatePlayerAction(gameId, session, object);
+			try {
+				this.gameService.updatePlayerAction(gameId, session, this.mapper.readValue(payload, PlayerActionDTO.class));
+			} catch (IOException e) {
+				// TODO
+				e.printStackTrace();
+			}
 		}
 		
 	}
