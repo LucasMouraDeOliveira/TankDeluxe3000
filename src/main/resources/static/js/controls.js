@@ -5,6 +5,7 @@ class Controls {
 		this.camera = camera;
 //		this.sendControlPause = 1000;
 		this.sendAimPause = 50;
+		this.previsousAim = {x: -1, y: -1};		// To detect if aim has changed
 		
 		document.addEventListener("DOMContentLoaded", () => {
 			this.fCanvas = document.querySelector("#foregroundCanvas");
@@ -46,59 +47,67 @@ class Controls {
 	}
 	
 	sendAim = () => {
-		this.webSocketClient.sendMessage({aim: this.controls.aim});
+		if(this.previsousAim.x != this.controls.aim.x || this.previsousAim.y != this.controls.aim.y) {
+			this.webSocketClient.sendMessage({aim: this.controls.aim});
+			this.previsousAim.x = this.controls.aim.x;
+			this.previsousAim.y = this.controls.aim.y;
+		}
 	}
 	
 	addPressEvent = () => {
 		document.addEventListener('keydown', (event) => {
-			const touch = event.key;
-			if (touch === 'ArrowUp' || touch === 'Z' || touch === 'z') {
-				this.controls.forward = true; 
+			if(!event.repeat) {
+				const touch = event.key;
+				if (touch === 'ArrowUp' || touch === 'Z' || touch === 'z') {
+					this.controls.forward = true; 
+				}
+				if (touch === 'ArrowDown' || touch === 'S' || touch === 's') {
+					this.controls.backward = true; 
+				}
+				if (touch === 'ArrowRight' || touch === 'D' || touch === 'd') {
+					this.controls.right = true;
+				}
+				if (touch === 'ArrowLeft' || touch === 'Q' || touch === 'q') {
+					this.controls.left = true;
+				}
+				if (touch === ' ' || touch === 'Control') {
+					this.controls.dash = true;
+				}
+				if (touch === 'M') {
+					this.controls.place_mine = true;
+				}
+				
+				this.sendControls();
 			}
-			if (touch === 'ArrowDown' || touch === 'S' || touch === 's') {
-				this.controls.backward = true; 
-			}
-			if (touch === 'ArrowRight' || touch === 'D' || touch === 'd') {
-				this.controls.right = true;
-			}
-			if (touch === 'ArrowLeft' || touch === 'Q' || touch === 'q') {
-				this.controls.left = true;
-			}
-			if (touch === ' ' || touch === 'Control') {
-				this.controls.dash = true;
-			}
-			if (touch === 'M') {
-				this.controls.place_mine = true;
-			}
-			
-			this.sendControls();
 			
 		}, false);
 	}
 	
 	addReleaseEvent = () => {
 		document.addEventListener('keyup', (event) => {
-			const touch = event.key;
-			if (touch === 'ArrowUp' || touch === 'Z' || touch === 'z') {
-				this.controls.forward = false; 
+			if(!event.repeat) {
+				const touch = event.key;
+				if (touch === 'ArrowUp' || touch === 'Z' || touch === 'z') {
+					this.controls.forward = false; 
+				}
+				if (touch === 'ArrowDown' || touch === 'S' || touch === 's') {
+					this.controls.backward = false; 
+				}
+				if (touch === 'ArrowRight' || touch === 'D' || touch === 'd') {
+					this.controls.right = false;
+				}
+				if (touch === 'ArrowLeft' || touch === 'Q' || touch === 'q') {
+					this.controls.left = false;
+				}
+				if (touch === ' ' || touch === 'Control') {
+					this.controls.dash = false;
+				}
+				if (touch === 'M' || touch === 'm') {
+					this.controls.place_mine = false;
+				}
+				
+				this.sendControls();
 			}
-			if (touch === 'ArrowDown' || touch === 'S' || touch === 's') {
-				this.controls.backward = false; 
-			}
-			if (touch === 'ArrowRight' || touch === 'D' || touch === 'd') {
-				this.controls.right = false;
-			}
-			if (touch === 'ArrowLeft' || touch === 'Q' || touch === 'q') {
-				this.controls.left = false;
-			}
-			if (touch === ' ' || touch === 'Control') {
-				this.controls.dash = false;
-			}
-			if (touch === 'M' || touch === 'm') {
-				this.controls.place_mine = false;
-			}
-			
-			this.sendControls();
 			
 		}, false);
 	}
