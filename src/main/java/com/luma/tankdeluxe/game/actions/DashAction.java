@@ -14,7 +14,7 @@ public class DashAction extends GameUpdate {
 
 	@Override
 	public void act(int delta) {
-		double force =  Math.pow(SettingsManager.DASH_VELOCITY, 2);
+		double force =  Math.pow(SettingsManager.DASH_VELOCITY, 2);	// Use delta to weight force
 				
 		for(Player p : this.gameServer.getPlayers()) {
 			

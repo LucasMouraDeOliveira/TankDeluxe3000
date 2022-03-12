@@ -2,6 +2,7 @@ package com.luma.tankdeluxe.service;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.dyn4j.geometry.Transform;
 import org.springframework.stereotype.Service;
@@ -26,17 +27,17 @@ import com.luma.tankdeluxe.game.player.Sniper;
 public class PlayerService {
 
 	
-	public Player createPlayer(String name, Color color, PlayerSpecialization specialization) {
+	public Player createPlayer(UUID userId, String name, Color color, PlayerSpecialization specialization) {
 		Player newPlayer;
 		
 		if(specialization == PlayerSpecialization.SHOOTER) {
-			newPlayer = new Shooter(name, color);
+			newPlayer = new Shooter(userId, name, color);
 		} else if(specialization == PlayerSpecialization.MINER) {
-			newPlayer = new Miner(name, color);
+			newPlayer = new Miner(userId, name, color);
 		} else if(specialization == PlayerSpecialization.SNIPER) {
-			newPlayer = new Sniper(name, color);
+			newPlayer = new Sniper(userId, name, color);
 		} else if(specialization == PlayerSpecialization.QUICKER) {
-			newPlayer = new Quicker(name, color);
+			newPlayer = new Quicker(userId, name, color);
 		} else {
 			throw new IllegalArgumentException("Unknwon player speicialization " + specialization);
 		}

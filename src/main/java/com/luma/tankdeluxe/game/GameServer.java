@@ -37,8 +37,7 @@ public class GameServer {
 	private Random random;
 	private Level level;
 	
-	private Map<WebSocketSession, Player> players;
-	
+	private Map<UUID, Player> players;
 	private Map<Player, PlayerActionDTO> playerActions;
 	
 	private List<Bullet> bullets;
@@ -85,16 +84,14 @@ public class GameServer {
 		});
 	}
 
-	public void createPlayer(WebSocketSession session, Player newPlayer) {
-		this.players.put(session, newPlayer);
+	public void createPlayer(Player newPlayer) {
+		this.players.put(newPlayer.getUserId(), newPlayer);
 		
 		this.addPlayerToWorld(newPlayer);
-		
-		this.sendMap(session);
 	}
 	
-	public void respawnPlayer(WebSocketSession session) {
-		Player player = this.getPlayer(session);
+	public void respawnPlayer(UUID userId) {
+		Player player = this.getPlayer(userId);
 		
 		this.playerService.initializeStats(player);
 		this.world.removeBody(player);
@@ -116,15 +113,17 @@ public class GameServer {
 		this.gameScore.initScore(player);
 	}
 
-	public void removePlayer(WebSocketSession session) {
-		this.availableColor.add(this.players.get(session).getColor());
-		Player p = this.players.remove(session);
+	public void removePlayer(UUID userId) {
+		this.availableColor.add(this.players.get(userId).getColor());
+		
+		Player p = this.players.remove(userId);
+		
 		this.world.removeBody(p);
 		this.gameScore.removeScore(p);
 	}
 	
-	public Player getPlayer(WebSocketSession session) {
-		return players.get(session);
+	public Player getPlayer(UUID userId) {
+		return players.get(userId);
 	}
 	
 	public List<Player> getPlayers() {
@@ -220,18 +219,19 @@ public class GameServer {
 		gameData.put("level", jsonLevel);
 		gameData.put("scores", jsonScore);
 		
-		this.players.entrySet().parallelStream().forEach(entry -> {
-			for (int i = 0; i < jsonPlayers.length(); i++) {
-				JSONObject playerJson = jsonPlayers.getJSONObject(i);
-				playerJson.put("self", playerJson.getString("name").equals(entry.getValue().getName()));
+		this.players.values().parallelStream().forEach(player -> {
+			if(player.getSession() != null) {
+				for (int i = 0; i < jsonPlayers.length(); i++) {
+					JSONObject playerJson = jsonPlayers.getJSONObject(i);
+					playerJson.put("self", playerJson.getString("name").equals(player.getName()));
+				}
+				
+				sendWsMessage(gameData.toString(), player.getSession());
 			}
-
-			sendWsMessage(gameData.toString(), entry.getKey());
 		});
 	}
 
-	private void sendMap(WebSocketSession playerSession) {
-		
+	public String getMap() {
 		JSONArray jsonCells = new JSONArray();
 		for(Layout l : this.level.getLayouts()) {
 			for(Cell cell : l.getCells()) {
@@ -248,7 +248,7 @@ public class GameServer {
 		gameData.put("width", this.level.getWidth());
 		gameData.put("height", this.level.getHeight());
 		
-		this.sendWsMessage(gameData.toString(), playerSession);
+		return gameData.toString();
 	}
 
 	private void sendWsMessage(String gameData, WebSocketSession session) {

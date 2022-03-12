@@ -3,10 +3,12 @@ package com.luma.tankdeluxe.game.player;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.game.Bullet;
@@ -14,10 +16,12 @@ import com.luma.tankdeluxe.game.Color;
 
 public abstract class Player extends Body {
 	
+	private UUID userId;
 	private String name;
 	private PlayerSpecialization specialization;
 	private Color color;
 	private boolean moving[];
+	private WebSocketSession session;
 	
 	// Shoot
 	private boolean shooting;
@@ -48,7 +52,8 @@ public abstract class Player extends Body {
 	public static final int WEST = 3;
 	
 	
-	public Player(String name, Color color, PlayerSpecialization specialization) {
+	public Player(UUID userId, String name, Color color, PlayerSpecialization specialization) {
+		this.userId = userId;
 		this.name = name;
 		this.color = color;
 		this.specialization = specialization;
@@ -266,5 +271,21 @@ public abstract class Player extends Body {
 
 	public void addCharge(int charge) {
 		this.charge += charge;
+	}
+
+	public WebSocketSession getSession() {
+		return session;
+	}
+
+	public void setSession(WebSocketSession session) {
+		this.session = session;
+	}
+
+	public UUID getUserId() {
+		return userId;
+	}
+
+	public void setUserId(UUID userId) {
+		this.userId = userId;
 	}
 }

@@ -1,13 +1,15 @@
 package com.luma.tankdeluxe.game.player;
 
+import java.util.UUID;
+
 import com.luma.tankdeluxe.game.Color;
 
 public class Miner extends Player {
     
     private boolean placingMine;
 
-	public Miner(String name, Color color) {
-		super(name, color, PlayerSpecialization.MINER);
+	public Miner(UUID userId, String name, Color color) {
+		super(userId, name, color, PlayerSpecialization.MINER);
 	}
 
 	@Override

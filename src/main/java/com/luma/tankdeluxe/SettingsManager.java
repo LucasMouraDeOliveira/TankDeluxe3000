@@ -2,7 +2,7 @@ package com.luma.tankdeluxe;
 
 public class SettingsManager {
 
-	public static final int FPS = 20;
+	public static final int FPS = 30;
 	public static final int SIZE_RATIO = 10;
 	
 	// Canvas

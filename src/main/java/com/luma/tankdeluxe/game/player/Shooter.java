@@ -1,11 +1,13 @@
 package com.luma.tankdeluxe.game.player;
 
+import java.util.UUID;
+
 import com.luma.tankdeluxe.game.Color;
 
 public class Shooter extends Player {
 
-	public Shooter(String name, Color color) {
-		super(name, color, PlayerSpecialization.SHOOTER);
+	public Shooter(UUID userId, String name, Color color) {
+		super(userId, name, color, PlayerSpecialization.SHOOTER);
 	}
 
 	@Override

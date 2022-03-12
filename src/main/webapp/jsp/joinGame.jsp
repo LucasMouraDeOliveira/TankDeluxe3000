@@ -155,8 +155,24 @@
 			function specChoosed() {
 				let spec = $('input[name="flexRadioDefault"]:checked').val();
 
-				// Plug view on websocket
-				webSocketClient = new WebSocketClient("${gameId}", drawer, controls, spec);
+				Promise.all([initializePlayer(spec), loadMap()]).then(plugWebsocket);
+			}
+
+			function initializePlayer(spec) {
+				return $.ajax({
+					type: "POST",
+					contentType: 'application/json',
+					url: "/games/${gameId}/player", 
+					data: JSON.stringify({userId: "${userId}", specialization: spec})
+				});
+			}
+
+			function loadMap() {
+				return $.get("/games/${gameId}").done((map) => drawer.drawForeground(JSON.parse(map)));
+			}
+
+			function plugWebsocket() {
+				webSocketClient = new WebSocketClient("${gameId}", "${userId}", drawer, controls);
 			}
 			
 			function updateScoreDiv(scores) {
@@ -202,8 +218,11 @@
 			}
 
 			function respawn() {
-				webSocketClient.sendMessage({type: "respawn"});
-				playerDied = false;
+				$.ajax({
+					type: "PUT",
+					url: "/games/${gameId}/player/${userId}", 
+				})
+				.done(() => playerDied = false);
 			}
 		</script>
 	

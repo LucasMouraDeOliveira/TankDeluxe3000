@@ -1,5 +1,7 @@
 package com.luma.tankdeluxe.controller;
 
+import java.util.UUID;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,7 +45,7 @@ public class RegisterController {
 		}
 		
 		//On vérifie qu'il n'y a pas d'utilisateur de même nom
-		User user = userService.loadUserByUsername(username);
+		User user = userService.find(username);
 		if(user != null) {
 			redirectAttributes.addFlashAttribute("error", "This username is already taken");
 			return "redirect:/register";
@@ -51,6 +53,7 @@ public class RegisterController {
 		
 		//On crée l'utilisateur et on l'insère en base
 		user = new User();
+		user.setUuid(UUID.randomUUID());
 		user.setLogin(username);
 		user.setPassword(password);
 		userService.createUser(user);

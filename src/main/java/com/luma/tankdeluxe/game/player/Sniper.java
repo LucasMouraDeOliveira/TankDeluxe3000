@@ -1,11 +1,13 @@
 package com.luma.tankdeluxe.game.player;
 
+import java.util.UUID;
+
 import com.luma.tankdeluxe.game.Color;
 
 public class Sniper extends Player {
 
-	public Sniper(String name, Color color) {
-		super(name, color, PlayerSpecialization.SNIPER);
+	public Sniper(UUID userId, String name, Color color) {
+		super(userId, name, color, PlayerSpecialization.SNIPER);
 	}
 
 	@Override
