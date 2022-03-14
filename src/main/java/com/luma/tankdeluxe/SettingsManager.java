@@ -20,7 +20,7 @@ public class SettingsManager {
 	public static final double OBSTACLE_WIDTH = (double) OBSTACLE_WIDTH_PX / SIZE_RATIO;
 	public static final double TANK_WIDTH = (double) TANK_WIDTH_PX / SIZE_RATIO;
 	public static final double TANK_HEIGHT = (double) TANK_HEIGHT_PX / SIZE_RATIO;
-	public static final double TANK_VELOCITY = 90;
+	public static final double TANK_VELOCITY = 110;
 	
 	
 	// Player

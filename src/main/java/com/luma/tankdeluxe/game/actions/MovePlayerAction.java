@@ -1,5 +1,6 @@
 package com.luma.tankdeluxe.game.actions;
 
+import org.dyn4j.geometry.Interval;
 import org.dyn4j.geometry.Vector2;
 
 import com.luma.tankdeluxe.SettingsManager;
@@ -27,7 +28,6 @@ public class MovePlayerAction extends GameUpdate {
 			}
 			
 			Vector2 r = new Vector2(player.getTransform().getRotation() + Math.PI * 0.5);
-			Vector2 c = player.getWorldCenter();
 			
 			if(player.isMoving(Player.NORTH)) {
 				Vector2 f = r.product(-force);
@@ -38,23 +38,19 @@ public class MovePlayerAction extends GameUpdate {
 				player.applyForce(f);
 			} 
 			
-			// Limit angular velocity to 8
 			if(player.isMoving(Player.EAST)) {
-	        	Vector2 f1 = r.product(force).right();
-	        	Vector2 f2 = r.product(force).left();
-	        	Vector2 p1 = c.sum(r.product(0.9));
-	        	Vector2 p2 = c.sum(r.product(-0.9));
-	        	
-	        	player.applyForce(f1, p1);			// Apply a force to the top going left
-	        	player.applyForce(f2, p2);			// Apply a force to the bottom going right
+				player.applyTorque(5000);
 			} else if(player.isMoving(Player.WEST)) {
-				Vector2 f1 = r.product(force).left();
-	        	Vector2 f2 = r.product(force).right();
-	        	Vector2 p1 = c.sum(r.product(0.9));
-	        	Vector2 p2 = c.sum(r.product(-0.9));
-	        	
-	        	player.applyForce(f1, p1);			// Apply a force to the top going left
-	        	player.applyForce(f2, p2);			// Apply a force to the bottom going right
+				player.applyTorque(-5000);
+			}
+			
+			// If not dashing, make sure the linear velocity is in the direction of the tank front
+			if(player.getDashCooldown() <= 0) {
+				Vector2 normal = player.getTransform().getTransformedR(new Vector2(0.0, 1.0));
+				double defl = player.getLinearVelocity().dot(normal);
+				// Clamp the velocity
+				defl = Interval.clamp(defl, -200, 200);
+				player.setLinearVelocity(normal.multiply(defl));
 			}
 			
 			// Turret move
