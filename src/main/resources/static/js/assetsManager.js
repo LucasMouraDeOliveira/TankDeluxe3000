@@ -5,6 +5,7 @@ class AssetsManager {
 		this.models = new Map();		// name => model
 		this.codes = new Map();			// name => code
 		this.images = new Map();		// code => image
+		this.textures = new Map();		// code => texture
 	}
 	
 	loadAssets = (assetsLoadedCallback) => {
@@ -25,6 +26,10 @@ class AssetsManager {
 		return this.images.get(code);
 	}
 	
+	getTexture = (code) => {
+		return this.textures.get(code);
+	}
+	
 	getCode = (modelName, assetName) => {
 		return this.codes.get(modelName)[assetName];
 	}
@@ -41,6 +46,7 @@ class AssetsManager {
 				images[part.name] = this.createImageFromUrl(part.url);
 				codes[part.name] = part.code;
 				
+				this.textures.set(part.code, PIXI.Texture.from(part.url));
 				this.images.set(part.code, images[part.name]);
 			});
 				

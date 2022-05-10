@@ -29,7 +29,7 @@
 
 		<div class="container-fluid h-100">
 			<div class="row h-100" style="background-color: darkslategrey;">
-				<div class="col-9 h-100 w-100 my-auto text-center">
+				<div id="graphicContainer" class="col-9 h-100 w-100 my-auto text-center">
 					<canvas id="foregroundCanvas" class="mt-5" width=1300 height=800></canvas>
 				</div>
 				<div class="col-3">
@@ -130,6 +130,7 @@
 		<script type="text/javascript" src="/js/assetsManager.js"></script>
 		<script type="text/javascript" src="/js/draw.js"></script>
 		<script type="text/javascript" src="/js/websocket.js"></script>
+		<script type="text/javascript" src="/js/pixi.min.js"></script>
 		<script type="text/javascript">
 		
 			var login = "${login}";
@@ -150,6 +151,28 @@
 
 				// Show spec modal
 				$("#specModal").modal("show");
+
+				const app = new PIXI.Application({width: 800, height: 600, backgroundColor: 0x1099bb});
+				$("#graphicContainer").append(app.view);
+
+				const bunny = new PIXI.Sprite(assetsManager.getTexture("0023"));
+
+				// center the sprite's anchor point
+				bunny.anchor.set(0.5);
+
+				// move the sprite to the center of the screen
+				bunny.x = app.screen.width / 2;
+				bunny.y = app.screen.height / 2;
+
+				app.stage.addChild(bunny);
+
+				// Listen for animate update
+				app.ticker.add((delta) => {
+				    // just for fun, let's rotate mr rabbit a little
+				    // delta is 1 if running at 100% performance
+				    // creates frame-independent transformation
+				    bunny.rotation += 0.1 * delta;
+				});
 			}
 
 			function specChoosed() {
