@@ -6,6 +6,7 @@ class Drawer {
 		
 		this.assetsManager = assetsManager;
 		this.camera = camera;
+		this.app = undefined;
 	}
 	
 	initCanvas = () => {
@@ -27,9 +28,33 @@ class Drawer {
 			//this.drawBackground();
 		}
 	
-		this.tankDrawer = new TankDrawer(this.fCtx, this, this.assetsManager, this.camera);
-		this.bulletDrawer = new BulletDrawer(this.fCtx, this, this.assetsManager, this.camera);
-		this.mineDrawer = new MineDrawer(this.fCtx, this, this.assetsManager, this.camera);
+		this.tankDrawer = new TankDrawer(this.fCtx, this, this.assetsManager, this.camera, this.app);
+		this.bulletDrawer = new BulletDrawer(this.fCtx, this, this.assetsManager, this.camera, this.app);
+		this.mineDrawer = new MineDrawer(this.fCtx, this, this.assetsManager, this.camera, this.app);
+		
+		
+		// PIXI
+		this.app = new PIXI.Application({width: 1300, height: 800, backgroundColor: 0x1099bb});
+		$("#graphicContainer").append(this.app.view);
+
+//		const bunny = new PIXI.Sprite(assetsManager.getTexture("0023"));
+//		this.app.stage.addChild(bunny);
+	}
+	
+	drawMap = (map) => {
+		this.walls = map.walls;
+		this.mapWidth = map.width * 32;
+		this.mapHeight = map.height * 32;
+
+		for(let i in this.walls) {
+			let wall = this.walls[i];
+
+			const newWall = new PIXI.Sprite(this.assetsManager.getTexture(wall.code));
+			newWall.x = wall.x * 32 - this.camera.offsetX;
+			newWall.y = wall.y * 32 - this.camera.offsetY;
+
+			this.app.stage.addChild(newWall);
+		}
 	}
 	
 	drawForeground = (gameState) => {

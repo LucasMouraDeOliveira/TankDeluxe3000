@@ -1,10 +1,12 @@
 class TankDrawer {
 	
-    constructor(ctx, drawer, assetsManager, camera) {
+    constructor(ctx, drawer, assetsManager, camera, engine) {
         this.ctx = ctx;
 		this.drawer = drawer;
 		this.camera = camera;
 		this.tankModel = assetsManager.get("tank");
+		this.tankTextures = assetsManager.getModelTextures("tank");
+		this.engine = engine;
 		
         this.initParts();
     }

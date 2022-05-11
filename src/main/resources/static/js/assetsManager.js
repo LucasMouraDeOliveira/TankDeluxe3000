@@ -6,6 +6,7 @@ class AssetsManager {
 		this.codes = new Map();			// name => code
 		this.images = new Map();		// code => image
 		this.textures = new Map();		// code => texture
+		this.modelTextures = new Map();	// code => model's textures
 	}
 	
 	loadAssets = (assetsLoadedCallback) => {
@@ -22,6 +23,10 @@ class AssetsManager {
 		return this.models.get(modelName);
 	}
 	
+	getModelTextures = (modelName) => {
+		return this.modelTextures.get(modelName);
+	}
+		
 	getImage = (code) => {
 		return this.images.get(code);
 	}
@@ -42,16 +47,20 @@ class AssetsManager {
 		this.models.forEach((parts, key) => {
 			let images = {};
 			let codes = {};
+			let textures = {};
+			
 			parts.forEach(part => {
 				images[part.name] = this.createImageFromUrl(part.url);
 				codes[part.name] = part.code;
+				textures[part.name] = PIXI.Texture.from(part.url);
 				
-				this.textures.set(part.code, PIXI.Texture.from(part.url));
+				this.textures.set(part.code, textures[part.name]);
 				this.images.set(part.code, images[part.name]);
 			});
 				
 			this.models.set(key, images);
 			this.codes.set(key, codes);
+			this.modelTextures.set(key, textures);
 		});
 	}
 	

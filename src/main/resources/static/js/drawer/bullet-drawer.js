@@ -2,10 +2,11 @@ var bulletSprite;
 
 class BulletDrawer {
 	
-    constructor(ctx, drawer, _, camera) {
+    constructor(ctx, drawer, _, camera, engine) {
         this.ctx = ctx;
 		this.drawer = drawer;
 		this.camera = camera;
+		this.engine = engine;
         this.initParts();
         
         bulletSprite = new Image();
