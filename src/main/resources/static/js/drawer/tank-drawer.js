@@ -7,6 +7,7 @@ class TankDrawer {
 		this.tankModel = assetsManager.get("tank");
 		this.tankTextures = assetsManager.getModelTextures("tank");
 		this.engine = engine;
+		this.tanks = new Map();
 		
         this.initParts();
     }
@@ -39,6 +40,31 @@ class TankDrawer {
     centerAround = (img, x, y, width, height) => {
         this.ctx.drawImage(img, x - (width / 2) - (this.TANK_WIDTH / 2) , y - (height / 2) - (this.TANK_HEIGHT / 2), width, height);
     }
+
+	createTank = (tankData) => {
+		const tank = {
+			body: new PIXI.Sprite(this.tankTextures[`tankBody${this.getCamelCase(tankData.color)}`])
+		}
+
+		tank.body.anchor.set(0.5);
+		tank.body.x = tankData.x - this.camera.offsetX;
+		tank.body.y = tankData.y - this.camera.offsetY;
+		tank.body.rotation = tankData.angle;
+		
+		this.engine.stage.addChild(tank.body);
+		
+		this.tanks.set(tankData.name, tank);
+		
+		return tank;
+	}
+	
+	updateTank = (tankData) => {
+		const tank = this.tanks.get(tankData.name) || this.createTank(tankData);
+
+		tank.body.x = tankData.x - this.camera.offsetX;
+		tank.body.y = tankData.y - this.camera.offsetY;
+		tank.body.rotation = tankData.angle;
+	}
 
     draw = (tank) => {
 		tank.x = tank.x - this.camera.offsetX;
@@ -282,6 +308,11 @@ class TankDrawer {
 	getTurretHeatSprite = (charge) => {
 		let heatLevel = Math.min(7, Math.floor(charge / 285));
 		return this.tankModel["barrelHeat"+ heatLevel];
+	}
+	
+	getCamelCase = (value) => {
+		let tmp = value.toLowerCase();
+		return tmp.charAt(0).toUpperCase() + tmp.slice(1);
 	}
 
 }

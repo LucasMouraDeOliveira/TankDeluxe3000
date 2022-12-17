@@ -10,6 +10,14 @@ class Drawer {
 	}
 	
 	initCanvas = () => {
+		// PIXI
+		this.app = new PIXI.Application({width: 1300, height: 800, backgroundColor: 0x1099bb});
+		$("#graphicContainer").append(this.app.view);
+
+//		const bunny = new PIXI.Sprite(assetsManager.getTexture("0023"));
+//		this.app.stage.addChild(bunny);
+
+
 		// Variable initialization
 		this.currentStepNumber = 0;
 		
@@ -31,14 +39,6 @@ class Drawer {
 		this.tankDrawer = new TankDrawer(this.fCtx, this, this.assetsManager, this.camera, this.app);
 		this.bulletDrawer = new BulletDrawer(this.fCtx, this, this.assetsManager, this.camera, this.app);
 		this.mineDrawer = new MineDrawer(this.fCtx, this, this.assetsManager, this.camera, this.app);
-		
-		
-		// PIXI
-		this.app = new PIXI.Application({width: 1300, height: 800, backgroundColor: 0x1099bb});
-		$("#graphicContainer").append(this.app.view);
-
-//		const bunny = new PIXI.Sprite(assetsManager.getTexture("0023"));
-//		this.app.stage.addChild(bunny);
 	}
 	
 	drawMap = (map) => {
@@ -55,6 +55,10 @@ class Drawer {
 
 			this.app.stage.addChild(newWall);
 		}
+	}
+	
+	update = (gameState) => {
+		gameState.players.forEach(tank => this.tankDrawer.updateTank(tank));
 	}
 	
 	drawForeground = (gameState) => {

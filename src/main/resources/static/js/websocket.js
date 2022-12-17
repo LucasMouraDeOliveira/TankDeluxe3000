@@ -22,6 +22,7 @@ class WebSocketClient {
 	receiveMessage = (wsMessage) => {
 		let data = JSON.parse(wsMessage.data);
 		this.drawer.drawForeground(data);
+		this.drawer.update(data);
 		
 		if(data.scores) {
 			updateScoreDiv(data.scores);

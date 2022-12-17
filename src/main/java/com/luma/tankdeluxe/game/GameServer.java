@@ -157,6 +157,7 @@ public class GameServer {
 	}
 
 	public void notifyPlayers() {
+		// TODO create DTO
 		JSONArray jsonPlayers = new JSONArray();
 		JSONArray jsonBullets = new JSONArray();
 		JSONArray jsonMines = new JSONArray();
