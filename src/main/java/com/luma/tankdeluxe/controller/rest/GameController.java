@@ -1,6 +1,7 @@
 package com.luma.tankdeluxe.controller.rest;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -74,8 +75,8 @@ public class GameController {
 	}
 
 	@PostMapping("{gameId}/player")
-	public ResponseEntity<Void> connectNewPlayer(@PathVariable UUID gameId, @RequestBody ConnectPlayerDTO playerInfos) {
-		User user = this.userService.find(playerInfos.getUserId());
+	public ResponseEntity<Void> connectNewPlayer(Principal principal, @PathVariable UUID gameId, @RequestBody ConnectPlayerDTO playerInfos) {
+		User user = this.userService.find(principal.getName());
 		
 		this.gameService.connectNewPlayer(gameId, user, playerInfos.getSpecialization());
 		
