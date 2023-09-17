@@ -43,7 +43,7 @@ public class GameController {
 	private UserService userService;
 	
 	
-	@GetMapping("list")
+	@GetMapping
 	public ResponseEntity<List<GameDTO>> getGamesList() {
 		return ResponseEntity.ok(this.gameService.getGamesInfos());
 	}
@@ -66,6 +66,11 @@ public class GameController {
 	@GetMapping("{gameId}")
 	public ResponseEntity<String> getGameMap(@PathVariable UUID gameId) {
 		return ResponseEntity.ok(this.gameService.getGame(gameId).getMap());
+	}
+	
+	@GetMapping("{gameId}/level")
+	public ResponseEntity<Level> getGameLevel(@PathVariable UUID gameId) {
+		return ResponseEntity.ok(this.gameService.getGame(gameId).getLevel());
 	}
 
 	@PostMapping("{gameId}/player")

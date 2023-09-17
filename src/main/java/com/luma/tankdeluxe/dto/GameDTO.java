@@ -4,27 +4,19 @@ import java.util.UUID;
 
 import com.luma.tankdeluxe.game.GameServer;
 
+import lombok.Getter;
+
+@Getter
 public class GameDTO {
 	
-	private UUID gameId;
-	private String gameName;
-	private int playerNumber;
+	private UUID id;
+	private String name;
+	private int playerCount;
 	
 	public GameDTO(GameServer game) {
-		this.gameId = game.getId();
-		this.gameName = game.getName();
-		this.playerNumber = game.getPlayers().size();
+		this.id = game.getId();
+		this.name = game.getName();
+		this.playerCount = game.getPlayers().size();
 	}
 
-	public UUID getGameId() {
-		return gameId;
-	}
-
-	public String getGameName() {
-		return gameName;
-	}
-
-	public int getPlayerNumber() {
-		return playerNumber;
-	}
 }
