@@ -24,8 +24,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authz) -> authz
-                        .anyRequest().anonymous())
-                .httpBasic(withDefaults());
+                        .requestMatchers("/", "/index", "/register", "/leaderboard", "/hello").permitAll()
+                        .anyRequest().authenticated())
+                .csrf(csrf -> csrf.disable());
         return http.build();
     }
 
@@ -46,14 +47,6 @@ public class WebSecurityConfig {
     // .permitAll()
     // .and()
     // .csrf().disable();
-    // }
-
-    // @Override
-    // public void configure(WebSecurity web) throws Exception {
-    // web
-    // .ignoring()
-    // .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**",
-    // "/webjars/**");
     // }
 
     @Autowired

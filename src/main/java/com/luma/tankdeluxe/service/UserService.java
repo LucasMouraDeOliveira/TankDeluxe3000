@@ -14,22 +14,25 @@ public class UserService {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
-	public void createUser(User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+	public User createUser(String login, String password) {
+		var user = new User();
+		user.setLogin(login);
+		user.setUuid(UUID.randomUUID());
+		user.setPassword(passwordEncoder.encode(password));
 		user.setRole("USER");
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 
-	public User find(String username)  {
+	public User find(String username) {
 		return userRepository.findByLogin(username);
 	}
-	
+
 	public User find(UUID userUuid) {
 		return this.userRepository.findByUuid(userUuid);
 	}
-	
+
 }
