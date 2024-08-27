@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.luma.tankdeluxe.dto.jwt.JwtAuthenticationResponse;
 import com.luma.tankdeluxe.entity.User;
+import com.luma.tankdeluxe.exception.user.UsernameAlreadyUsedException;
 
 @Service
 public class AuthenticationService {
@@ -43,7 +44,7 @@ public class AuthenticationService {
         if (login.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid username");
         } else if (this.userService.find(login) != null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "username already taken");
+            throw new UsernameAlreadyUsedException();
         }
 
     }

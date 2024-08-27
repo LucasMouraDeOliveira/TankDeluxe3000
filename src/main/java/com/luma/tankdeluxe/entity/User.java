@@ -31,7 +31,7 @@ public class User {
 
 	@Id
 	@JsonIgnore
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@JdbcTypeCode(Types.VARCHAR)
