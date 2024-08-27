@@ -3,20 +3,18 @@ package com.luma.tankdeluxe.controller.rest.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luma.tankdeluxe.dto.jwt.JwtAuthenticationResponse;
 import com.luma.tankdeluxe.service.AuthenticationService;
 
 @RestController
-@RequestMapping
 public class AuthenticationController {
 
     @Autowired
     private AuthenticationService authService;
 
-    @PostMapping("sign-up")
+    @PostMapping(value = "sign-up")
     public JwtAuthenticationResponse createUserAccount(@RequestBody UserInfo dto) {
         return this.authService.signup(dto.username(), dto.password());
     }

@@ -1,10 +1,12 @@
 package com.luma.tankdeluxe.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.luma.tankdeluxe.dto.jwt.JwtAuthenticationResponse;
 import com.luma.tankdeluxe.entity.User;
@@ -25,6 +27,9 @@ public class AuthenticationService {
     private AuthenticationManager authenticationManager;
 
     public JwtAuthenticationResponse signup(String login, String password) {
+
+        this.checkLogin(login);
+
         User user = User.builder().login(login)
                 .password(passwordEncoder.encode(password))
                 .role("USER").build();
@@ -32,6 +37,15 @@ public class AuthenticationService {
 
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
+    }
+
+    private void checkLogin(String login) {
+        if (login.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid username");
+        } else if (this.userService.find(login) != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "username already taken");
+        }
+
     }
 
     public JwtAuthenticationResponse signin(String login, String password) {
