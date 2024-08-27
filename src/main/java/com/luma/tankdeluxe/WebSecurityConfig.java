@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                         request -> request
                                 .requestMatchers("/", "/index", "/sign-up", "/sign-in", "/leaderboard", "/hello")
                                 .permitAll()
-                                .anyRequest().authenticated())
+                                .anyRequest().permitAll())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(Customizer.withDefaults())
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
