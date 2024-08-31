@@ -50,7 +50,7 @@ public class GameController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<UUID> createGame(CreateGameDTO gameDTO) {
+	public ResponseEntity<UUID> createGame(@RequestBody CreateGameDTO gameDTO) {
 		GameServer newGame;
 		
 		try {
