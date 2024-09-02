@@ -166,6 +166,7 @@ public class GameServer {
 		JSONObject jsonPlayer;
 		for(Player player : this.getPlayers()) {
 			jsonPlayer = new JSONObject();
+			jsonPlayer.put("id", player.getId().toString());
 			jsonPlayer.put("x", player.getX() * SettingsManager.SIZE_RATIO);
 			jsonPlayer.put("y", player.getY() * SettingsManager.SIZE_RATIO);
 			jsonPlayer.put("angle", player.getAngle());
