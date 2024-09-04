@@ -19,18 +19,19 @@ public class Bullet extends Body {
 	public Bullet(Player shooter) {
 		this.shooter = shooter;
 		this.remainingBounce = SettingsManager.MAX_BOUNCE;
+		double turretAngle = shooter.getTurretAngle();
 		
-		this.angle = new Vector2(shooter.getTurretAngle() + Math.PI * 0.5);
+		this.angle = new Vector2(turretAngle);
 
 		this.addFixture(Geometry.createCircle(0.7), 0.0001, 0, 1);
-		this.translate(shooter.getX() - SettingsManager.TANK_WIDTH * Math.cos(shooter.getTurretAngle() + Math.PI * 0.5), 
-						shooter.getY() - SettingsManager.TANK_HEIGHT * Math.sin(shooter.getTurretAngle() + Math.PI * 0.5));
+		this.translate(shooter.getX() + SettingsManager.TANK_WIDTH * Math.cos(turretAngle), 
+						shooter.getY() + SettingsManager.TANK_HEIGHT * Math.sin(turretAngle));
 		this.setMass(MassType.NORMAL);
 		this.setVelocity(shooter.getBulletVelocity());
 	}
 	
 	public void setVelocity(int velocity) {
-		this.setLinearVelocity(angle.product(-velocity));
+		this.setLinearVelocity(angle.product(velocity));
 	}
 	
 	public Player getShooter() {

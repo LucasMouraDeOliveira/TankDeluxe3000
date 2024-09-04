@@ -27,7 +27,7 @@ public class MovePlayerAction extends GameUpdate {
 				force /= 2;
 			}
 			
-			Vector2 r = new Vector2(player.getTransform().getRotation() + Math.PI * 0.5);
+			Vector2 r = new Vector2(player.getTransform().getRotation() - Math.PI);
 			
 			if(player.isMoving(Player.NORTH)) {
 				Vector2 f = r.product(-force);
@@ -44,19 +44,20 @@ public class MovePlayerAction extends GameUpdate {
 				player.applyTorque(-5000);
 			}
 			
+			// TODO restore feature broken after body angle refactor
 			// If not dashing, make sure the linear velocity is in the direction of the tank front
-			if(player.getDashCooldown() <= 0) {
-				Vector2 normal = player.getTransform().getTransformedR(new Vector2(0.0, 1.0));
-				double defl = player.getLinearVelocity().dot(normal);
-				// Clamp the velocity
-				defl = Interval.clamp(defl, -200, 200);
-				player.setLinearVelocity(normal.multiply(defl));
-			}
+//			if(player.getDashCooldown() <= 0) {
+//				Vector2 normal = player.getTransform().getTransformedR(new Vector2(0.0, 1.0));
+//				double defl = player.getLinearVelocity().dot(normal);
+//				// Clamp the velocity
+//				defl = Interval.clamp(defl, -200, 200);
+//				player.setLinearVelocity(normal.multiply(defl));
+//			}
 			
 			// Turret move
 			Vector2 aimDirection = new Vector2(player.getAimX() - player.getX(), player.getAimY() - player.getY());
 			
-			player.setTurretAngle(Math.atan2(aimDirection.y, aimDirection.x) + (Math.PI / 2));
+			player.setTurretAngle(Math.atan2(aimDirection.y, aimDirection.x));
 		}
 	}
 
