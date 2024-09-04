@@ -186,7 +186,7 @@ public class GameServer {
 			jsonBullet = new JSONObject();
 			jsonBullet.put("x", bullet.getX() * SettingsManager.SIZE_RATIO);
 			jsonBullet.put("y", bullet.getY() * SettingsManager.SIZE_RATIO);
-			jsonBullet.put("angle", bullet.getAngle());
+			jsonBullet.put("direction", bullet.getLinearVelocity().getDirection());
 			jsonBullets.put(jsonBullet);
 		}
 		
