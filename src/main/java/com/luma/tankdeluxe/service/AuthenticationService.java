@@ -1,5 +1,7 @@
 package com.luma.tankdeluxe.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,7 +35,9 @@ public class AuthenticationService {
 
         User user = User.builder().login(login)
                 .password(passwordEncoder.encode(password))
-                .role("USER").build();
+                .role("USER")
+                .uuid(UUID.randomUUID())
+                .build();
         this.userService.save(user);
 
         var jwt = jwtService.generateToken(user);
