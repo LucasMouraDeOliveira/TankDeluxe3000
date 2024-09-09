@@ -1,10 +1,10 @@
-package com.luma.tankdeluxe.game;
+package com.luma.tankdeluxe.game.level;
 
 public class Coordinate {
-	
+
 	private int x;
 	private int y;
-	
+
 	public Coordinate(int x, int y) {
 		this.x = x;
 		this.y = y;

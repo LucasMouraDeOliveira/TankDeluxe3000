@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.game.Color;
-import com.luma.tankdeluxe.game.Coordinate;
+import com.luma.tankdeluxe.game.level.Coordinate;
 import com.luma.tankdeluxe.game.player.Miner;
 import com.luma.tankdeluxe.game.player.Player;
 import com.luma.tankdeluxe.game.player.PlayerSpecialization;
@@ -20,31 +20,31 @@ import com.luma.tankdeluxe.game.player.Sniper;
 /**
  * 
  * Manager player manipulation. Need to be thread-safe !
+ * 
  * @author Matthieu Bellamy
  *
  */
 @Service
 public class PlayerService {
 
-	
 	public Player createPlayer(UUID userId, String name, Color color, PlayerSpecialization specialization) {
 		Player newPlayer;
-		
-		if(specialization == PlayerSpecialization.SHOOTER) {
+
+		if (specialization == PlayerSpecialization.SHOOTER) {
 			newPlayer = new Shooter(userId, name, color);
-		} else if(specialization == PlayerSpecialization.MINER) {
+		} else if (specialization == PlayerSpecialization.MINER) {
 			newPlayer = new Miner(userId, name, color);
-		} else if(specialization == PlayerSpecialization.SNIPER) {
+		} else if (specialization == PlayerSpecialization.SNIPER) {
 			newPlayer = new Sniper(userId, name, color);
-		} else if(specialization == PlayerSpecialization.QUICKER) {
+		} else if (specialization == PlayerSpecialization.QUICKER) {
 			newPlayer = new Quicker(userId, name, color);
 		} else {
 			throw new IllegalArgumentException("Unknwon player speicialization " + specialization);
 		}
-		
+
 		return newPlayer;
 	}
-			
+
 	public void initializeStats(Player player) {
 		player.setAliveSince(ZonedDateTime.now());
 		player.setAlive(true);
@@ -63,14 +63,14 @@ public class PlayerService {
 		player.setMoving(3, false);
 		player.setBullets(new ArrayList<>());
 		player.setHealth(100);
-		
+
 		player.applyBuff();
 	}
-	
+
 	public void initializePlayerPosition(Player player, Coordinate spone) {
 		Transform playerTransform = player.getTransform();
 		playerTransform.setRotation(0);
 		playerTransform.setTranslation(spone.getX(), spone.getY());
 	}
-	
+
 }

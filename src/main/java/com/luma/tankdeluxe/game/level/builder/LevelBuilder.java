@@ -1,4 +1,4 @@
-package com.luma.tankdeluxe.game;
+package com.luma.tankdeluxe.game.level.builder;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,10 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.entity.dto.LevelDTO;
+import com.luma.tankdeluxe.game.level.Cell;
+import com.luma.tankdeluxe.game.level.Coordinate;
 import com.luma.tankdeluxe.game.level.Layout;
+import com.luma.tankdeluxe.game.level.Level;
 import com.luma.tankdeluxe.service.BodyFactory;
 
 @Service

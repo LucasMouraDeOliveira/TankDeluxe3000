@@ -23,8 +23,8 @@ import com.luma.tankdeluxe.dto.CreateGameDTO;
 import com.luma.tankdeluxe.dto.GameDTO;
 import com.luma.tankdeluxe.entity.User;
 import com.luma.tankdeluxe.game.GameServer;
-import com.luma.tankdeluxe.game.Level;
-import com.luma.tankdeluxe.game.LevelBuilder;
+import com.luma.tankdeluxe.game.level.Level;
+import com.luma.tankdeluxe.game.level.builder.LevelBuilder;
 import com.luma.tankdeluxe.service.GameService;
 import com.luma.tankdeluxe.service.UserService;
 
@@ -36,23 +36,22 @@ public class GameController {
 
 	@Autowired
 	private GameService gameService;
-	
+
 	@Autowired
 	private LevelBuilder levelBuilder;
-	
+
 	@Autowired
 	private UserService userService;
-	
-	
+
 	@GetMapping
 	public ResponseEntity<List<GameDTO>> getGamesList() {
 		return ResponseEntity.ok(this.gameService.getGamesInfos());
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<UUID> createGame(@RequestBody CreateGameDTO gameDTO) {
 		GameServer newGame;
-		
+
 		try {
 			Level level = this.levelBuilder.loadLevel(gameDTO.getLevelId());
 			newGame = this.gameService.startNewGame(gameDTO.getName(), level);
@@ -60,34 +59,35 @@ public class GameController {
 			logger.error("An error occurred creating new game", e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		return ResponseEntity.ok(newGame.getId());
 	}
-	
+
 	@GetMapping("{gameId}")
 	public ResponseEntity<String> getGameMap(@PathVariable UUID gameId) {
 		return ResponseEntity.ok(this.gameService.getGame(gameId).getMap());
 	}
-	
+
 	@GetMapping("{gameId}/level")
 	public ResponseEntity<Level> getGameLevel(@PathVariable UUID gameId) {
 		return ResponseEntity.ok(this.gameService.getGame(gameId).getLevel());
 	}
 
 	@PostMapping("{gameId}/player")
-	public ResponseEntity<Void> connectNewPlayer(Principal principal, @PathVariable UUID gameId, @RequestBody ConnectPlayerDTO playerInfos) {
+	public ResponseEntity<Void> connectNewPlayer(Principal principal, @PathVariable UUID gameId,
+			@RequestBody ConnectPlayerDTO playerInfos) {
 		User user = this.userService.find(principal.getName());
-		
+
 		this.gameService.connectNewPlayer(gameId, user, playerInfos.getSpecialization());
-		
+
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@PutMapping("{gameId}/player/{userId}")
 	public ResponseEntity<Void> respawnPlayer(@PathVariable UUID gameId, @PathVariable UUID userId) {
-		
+
 		this.gameService.respawnPlayer(gameId, userId);
-		
+
 		return ResponseEntity.ok().build();
 	}
 }
