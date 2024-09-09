@@ -13,12 +13,14 @@ public class Bullet extends Body {
 	private Player shooter;
 	
 	private int remainingBounce;
+	private int damage;
 	
 	private Vector2 angle;
 	
 	public Bullet(Player shooter) {
 		this.shooter = shooter;
 		this.remainingBounce = SettingsManager.MAX_BOUNCE;
+		this.damage = SettingsManager.BULLET_DAMAGE;
 		double turretAngle = shooter.getTurretAngle();
 		
 		this.angle = new Vector2(turretAngle);
@@ -48,6 +50,14 @@ public class Bullet extends Body {
 	}
 	public double getAngle() {
 		return this.getTransform().getRotation();
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
 	}
 
 	public int getRemainingBounce() {

@@ -62,6 +62,7 @@ public class PlayerService {
 		player.setMoving(2, false);
 		player.setMoving(3, false);
 		player.setBullets(new ArrayList<>());
+		player.setHealth(100);
 		
 		player.applyBuff();
 	}

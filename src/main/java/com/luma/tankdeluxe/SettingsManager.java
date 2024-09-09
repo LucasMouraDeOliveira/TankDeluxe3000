@@ -33,6 +33,7 @@ public class SettingsManager {
 	// Bullet
 	public static final int BULLET_VELOCITY = 50;
 	public static final int MAX_BOUNCE = 1;
+	public static final int BULLET_DAMAGE = 50;
 	
 	
 }

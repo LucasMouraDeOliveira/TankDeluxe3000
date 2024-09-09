@@ -38,6 +38,7 @@ public abstract class Player extends Body {
 	private boolean alive;
 	private boolean invincible;
 	private ZonedDateTime aliveSince;
+	private int health;
 	
 	private int aimX;
 	private int aimY;
@@ -287,5 +288,13 @@ public abstract class Player extends Body {
 
 	public void setUserId(UUID userId) {
 		this.userId = userId;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
 	}
 }

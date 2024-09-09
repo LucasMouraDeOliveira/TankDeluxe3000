@@ -180,6 +180,7 @@ public class GameServer {
 			jsonPlayer.put("name", player.getName());
 			jsonPlayer.put("shooting", player.isShooting());
 			jsonPlayer.put("charge", player.getCharge());
+			jsonPlayer.put("health", player.getHealth());
 			jsonPlayers.put(jsonPlayer);
 		}
 

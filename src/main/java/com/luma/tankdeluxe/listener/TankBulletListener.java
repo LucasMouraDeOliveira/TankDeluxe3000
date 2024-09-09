@@ -33,14 +33,17 @@ public class TankBulletListener extends ContactAdapter {
 				// If player has shield, do nothing except decrease shield count
 				if(p.getNbShield() > 0) {
 					p.removeOneShield();
-				} else if(!p.isInvincible()){
-					this.gameServer.killPlayer(p);
-
-					//If another player killed him, he's score increases
-					if(!p.equals(b.getShooter())) {
-						this.gameServer.getGameScore().increaseScore(b.getShooter());
-					}
+				} else {
+					p.setHealth(p.getHealth() - b.getDamage());
 					
+					if(!p.isInvincible() && p.getHealth() <= 0) {
+						this.gameServer.killPlayer(p);
+	
+						//If another player killed him, he's score increases
+						if(!p.equals(b.getShooter())) {
+							this.gameServer.getGameScore().increaseScore(b.getShooter());
+						}
+					}
 				}
 				
 				break;
