@@ -25,6 +25,7 @@ import com.luma.tankdeluxe.entity.User;
 import com.luma.tankdeluxe.game.GameServer;
 import com.luma.tankdeluxe.game.level.Level;
 import com.luma.tankdeluxe.game.level.builder.LevelBuilder;
+import com.luma.tankdeluxe.game.notifier.GameStateBuilder;
 import com.luma.tankdeluxe.service.GameService;
 import com.luma.tankdeluxe.service.UserService;
 
@@ -65,7 +66,8 @@ public class GameController {
 
 	@GetMapping("{gameId}")
 	public ResponseEntity<String> getGameMap(@PathVariable UUID gameId) {
-		return ResponseEntity.ok(this.gameService.getGame(gameId).getMap());
+		GameServer server = this.gameService.getGame(gameId);
+		return ResponseEntity.ok(GameStateBuilder.getMap(server));
 	}
 
 	@GetMapping("{gameId}/level")

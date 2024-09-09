@@ -1,6 +1,5 @@
 package com.luma.tankdeluxe.game;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,17 +12,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.dyn4j.dynamics.World;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 
 import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.dto.AimDTO;
 import com.luma.tankdeluxe.dto.PlayerActionDTO;
 import com.luma.tankdeluxe.game.level.Cell;
 import com.luma.tankdeluxe.game.level.Coordinate;
-import com.luma.tankdeluxe.game.level.Layout;
 import com.luma.tankdeluxe.game.level.Level;
 import com.luma.tankdeluxe.game.player.Player;
 import com.luma.tankdeluxe.listener.BulletBulletListener;
@@ -47,6 +41,8 @@ public class GameServer {
 	private List<Bullet> bullets;
 	private List<Mine> mines;
 
+	private List<MapEvent> mapEvents;
+
 	private List<Color> availableColor;
 
 	private PlayerService playerService;
@@ -61,6 +57,7 @@ public class GameServer {
 		this.playerActions = new HashMap<>();
 		this.bullets = new ArrayList<>();
 		this.mines = new ArrayList<>();
+		this.mapEvents = new ArrayList<>();
 		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
 		this.gameScore = new GameScore(leaderboardService);
@@ -72,7 +69,7 @@ public class GameServer {
 		this.world.addListener(new TankBulletListener(this));
 		this.world.addListener(new BulletBulletListener(this));
 		this.world.addListener(new BulletWallListener());
-		this.world.addListener(new BulletDestructibleListener());
+		this.world.addListener(new BulletDestructibleListener(this));
 
 		this.world.setGravity(World.ZERO_GRAVITY);
 
@@ -81,7 +78,8 @@ public class GameServer {
 
 	private void loadLevel() {
 
-		List<Cell> cells = this.level.getLayouts().get(1).getCells(); // TODO manage many layout
+		// TODO manage many layout
+		List<Cell> cells = this.level.getLayouts().get(1).getCells();
 		cells.stream().forEach(cell -> {
 			if (cell.getBody() != null) {
 				this.world.addBody(cell.getBody());
@@ -161,113 +159,6 @@ public class GameServer {
 		this.world.update(elapsedTime);
 	}
 
-	public void notifyPlayers() {
-		JSONArray jsonPlayers = new JSONArray();
-		JSONArray jsonBullets = new JSONArray();
-		JSONArray jsonMines = new JSONArray();
-		JSONArray jsonLevel = new JSONArray();
-		JSONObject jsonScore = new JSONObject();
-
-		JSONObject jsonPlayer;
-		for (Player player : this.getPlayers()) {
-			jsonPlayer = new JSONObject();
-			jsonPlayer.put("id", player.getId().toString());
-			jsonPlayer.put("x", player.getX() * SettingsManager.SIZE_RATIO);
-			jsonPlayer.put("y", player.getY() * SettingsManager.SIZE_RATIO);
-			jsonPlayer.put("angle", player.getAngle());
-			jsonPlayer.put("turretAngle", player.getTurretAngle());
-			jsonPlayer.put("nbShield", player.getNbShield());
-			jsonPlayer.put("color", player.getColor());
-			jsonPlayer.put("alive", player.isAlive());
-			jsonPlayer.put("invincible", player.isInvincible());
-			jsonPlayer.put("name", player.getName());
-			jsonPlayer.put("shooting", player.isShooting());
-			jsonPlayer.put("charge", player.getCharge());
-			jsonPlayer.put("health", player.getHealth());
-			jsonPlayers.put(jsonPlayer);
-		}
-
-		JSONObject jsonBullet;
-		for (Bullet bullet : bullets) {
-			jsonBullet = new JSONObject();
-			jsonBullet.put("x", bullet.getX() * SettingsManager.SIZE_RATIO);
-			jsonBullet.put("y", bullet.getY() * SettingsManager.SIZE_RATIO);
-			jsonBullet.put("direction", bullet.getLinearVelocity().getDirection());
-			jsonBullets.put(jsonBullet);
-		}
-
-		JSONObject jsonMine;
-		for (Mine mine : mines) {
-			jsonMine = new JSONObject();
-			jsonMine.put("x", mine.getX() * SettingsManager.SIZE_RATIO);
-			jsonMine.put("y", mine.getY() * SettingsManager.SIZE_RATIO);
-			jsonMines.put(jsonMine);
-		}
-
-		JSONArray jsonPlayerScores = new JSONArray();
-		for (Map.Entry<Player, Integer> entry : this.gameScore.getScores().entrySet()) {
-			JSONObject jsonPlayerScore = new JSONObject();
-			jsonPlayerScore.put("name", entry.getKey().getName());
-			jsonPlayerScore.put("score", entry.getValue());
-			jsonPlayerScores.put(jsonPlayerScore);
-		}
-		jsonScore.put("players", jsonPlayerScores);
-
-		Player bestPlayer = this.gameScore.getBestPlayer();
-		if (bestPlayer != null) {
-			jsonScore.put("bestPlayer", bestPlayer.getName());
-			jsonScore.put("bestScore", this.gameScore.getAllTimeHighScore());
-		}
-
-		JSONObject gameData = new JSONObject();
-		gameData.put("players", jsonPlayers);
-		gameData.put("bullets", jsonBullets);
-		gameData.put("mines", jsonMines);
-		gameData.put("level", jsonLevel);
-		gameData.put("scores", jsonScore);
-
-		this.players.values().parallelStream().forEach(player -> {
-			if (player.getSession() != null) {
-				for (int i = 0; i < jsonPlayers.length(); i++) {
-					JSONObject playerJson = jsonPlayers.getJSONObject(i);
-					playerJson.put("self", playerJson.getString("name").equals(player.getName()));
-				}
-
-				sendWsMessage(gameData.toString(), player.getSession());
-			}
-		});
-	}
-
-	public String getMap() {
-		JSONArray jsonCells = new JSONArray();
-		for (Layout l : this.level.getLayouts()) {
-			for (Cell cell : l.getCells()) {
-				JSONObject jsonCell = new JSONObject();
-				jsonCell.put("x", cell.getX());
-				jsonCell.put("y", cell.getY());
-				jsonCell.put("code", cell.getCode());
-				jsonCells.put(jsonCell);
-			}
-		}
-
-		JSONObject gameData = new JSONObject();
-		gameData.put("walls", jsonCells);
-		gameData.put("width", this.level.getWidth());
-		gameData.put("height", this.level.getHeight());
-
-		return gameData.toString();
-	}
-
-	private void sendWsMessage(String gameData, WebSocketSession session) {
-		new Thread(() -> {
-			try {
-				session.sendMessage(new TextMessage(gameData));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}).start();
-	}
-
 	public void addBullet(Bullet bullet) {
 		this.bullets.add(bullet);
 		this.world.addBody(bullet);
@@ -293,6 +184,14 @@ public class GameServer {
 
 	public List<Mine> getMines() {
 		return mines;
+	}
+
+	public List<MapEvent> getMapEvents() {
+		return mapEvents;
+	}
+
+	public void clearMapEvents() {
+		this.mapEvents.clear();
 	}
 
 	public void killPlayer(Player player) {

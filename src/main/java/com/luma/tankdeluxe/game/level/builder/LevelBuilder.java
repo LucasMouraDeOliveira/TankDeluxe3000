@@ -83,7 +83,8 @@ public class LevelBuilder {
 				// Assets and body
 				if (obstacleSpriteCode != null) {
 					Cell cell = new Cell(x, y);
-					Body body = this.bodyFactory.buildObstacle(obstacleSpriteCode, x * SettingsManager.OBSTACLE_WIDTH,
+					Body body = this.bodyFactory.buildObstacle(cell, obstacleSpriteCode,
+							x * SettingsManager.OBSTACLE_WIDTH,
 							y * SettingsManager.OBSTACLE_HEIGHT);
 
 					cell.setCode(obstacleSpriteCode);
