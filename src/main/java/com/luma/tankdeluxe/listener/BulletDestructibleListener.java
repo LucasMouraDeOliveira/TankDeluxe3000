@@ -23,13 +23,13 @@ public class BulletDestructibleListener extends ContactAdapter {
 
         Optional<Contact> entities = this.getContact(point);
         if (entities.isPresent()) {
-            entities.get().bullet().setRemainingBounce(-1);
+            entities.get().bullet().bounce();
 
             DestructibleObstacle obstacle = entities.get().obstacle();
-            obstacle.destroy();
+            obstacle.hit();
 
             Cell cell = obstacle.getCell();
-            cell.setCode("0026");
+            cell.setCode(obstacle.getCurrentStatus());
             this.addMapEvent(cell);
         }
 

@@ -1,5 +1,7 @@
 package com.luma.tankdeluxe.game.physical;
 
+import java.util.Map;
+
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
@@ -15,8 +17,13 @@ public class DestructibleObstacle extends Body {
 
     private final Cell cell;
 
-    public DestructibleObstacle(Cell cell, double x, double y) {
+    private int currentHealth;
+    private Map<Integer, String> healthStatus;
+
+    public DestructibleObstacle(Cell cell, double x, double y, Map<Integer, String> healthStatus) {
         this.cell = cell;
+        this.healthStatus = healthStatus;
+        this.currentHealth = healthStatus.keySet().stream().mapToInt(i -> i).max().getAsInt();
         this.initBody(x, y);
     }
 
@@ -30,8 +37,14 @@ public class DestructibleObstacle extends Body {
         return Geometry.createRectangle(SettingsManager.OBSTACLE_WIDTH, SettingsManager.OBSTACLE_HEIGHT);
     }
 
-    public void destroy() {
-        this.removeAllFixtures();
+    public void hit() {
+        this.currentHealth = Math.max(0, this.currentHealth - 1);
+        if (this.currentHealth == 0) {
+            this.removeAllFixtures();
+        }
     }
 
+    public String getCurrentStatus() {
+        return this.healthStatus.get(this.currentHealth);
+    }
 }
