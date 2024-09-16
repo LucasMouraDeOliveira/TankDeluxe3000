@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.luma.tankdeluxe.dto.ConnectPlayerDTO;
 import com.luma.tankdeluxe.dto.GameDTO;
 import com.luma.tankdeluxe.dto.PlayerActionDTO;
 import com.luma.tankdeluxe.entity.User;
@@ -18,7 +19,6 @@ import com.luma.tankdeluxe.game.Color;
 import com.luma.tankdeluxe.game.GameServer;
 import com.luma.tankdeluxe.game.level.Level;
 import com.luma.tankdeluxe.game.player.Player;
-import com.luma.tankdeluxe.game.player.PlayerSpecialization;
 
 @Service
 public class GameService {
@@ -45,13 +45,13 @@ public class GameService {
 		return newGame;
 	}
 
-	public void connectNewPlayer(UUID gameId, User user, PlayerSpecialization specialization) {
+	public void connectNewPlayer(UUID gameId, User user, ConnectPlayerDTO dto) {
 		GameServer game = this.getGame(gameId);
 
-		Color playerColor = game.getAvailableColor().remove(0);
+		Color playerColor = dto.getColor();
 
 		Player newPlayer = this.playerService.createPlayer(user.getUuid(), user.getLogin(), playerColor,
-				specialization);
+				dto.getSpecialization());
 
 		game.createPlayer(newPlayer);
 	}

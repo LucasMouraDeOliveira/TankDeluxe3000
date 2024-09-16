@@ -80,7 +80,7 @@ public class GameController {
 			@RequestBody ConnectPlayerDTO playerInfos) {
 		User user = this.userService.find(principal.getName());
 
-		this.gameService.connectNewPlayer(gameId, user, playerInfos.getSpecialization());
+		this.gameService.connectNewPlayer(gameId, user, playerInfos);
 
 		return ResponseEntity.ok().build();
 	}
