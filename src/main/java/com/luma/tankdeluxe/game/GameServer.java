@@ -11,7 +11,9 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.dyn4j.dynamics.World;
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.world.PhysicsWorld;
+import org.dyn4j.world.World;
 
 import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.dto.AimDTO;
@@ -31,7 +33,7 @@ public class GameServer {
 
 	private UUID id;
 	private String name;
-	private World world;
+	private World<Body> world;
 	private Random random;
 	private Level level;
 
@@ -64,14 +66,15 @@ public class GameServer {
 
 		this.playerService = playerService;
 
-		this.world = new World();
+		this.world = new World<>();
 
+		this.world.addCollisionListener(new TankBulletListener(this));
 		this.world.addListener(new TankBulletListener(this));
 		this.world.addListener(new BulletBulletListener(this));
 		this.world.addListener(new BulletWallListener());
 		this.world.addListener(new BulletDestructibleListener(this));
 
-		this.world.setGravity(World.ZERO_GRAVITY);
+		this.world.setGravity(PhysicsWorld.ZERO_GRAVITY);
 
 		this.loadLevel();
 	}
