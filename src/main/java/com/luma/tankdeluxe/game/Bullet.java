@@ -49,7 +49,7 @@ public class Bullet extends Body {
 		return this.getWorldCenter().y;
 	}
 	public double getAngle() {
-		return this.getTransform().getRotation();
+		return this.getTransform().getRotation().toRadians();
 	}
 
 	public int getDamage() {

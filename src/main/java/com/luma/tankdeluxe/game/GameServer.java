@@ -69,10 +69,9 @@ public class GameServer {
 		this.world = new World<>();
 
 		this.world.addCollisionListener(new TankBulletListener(this));
-		this.world.addListener(new TankBulletListener(this));
-		this.world.addListener(new BulletBulletListener(this));
-		this.world.addListener(new BulletWallListener());
-		this.world.addListener(new BulletDestructibleListener(this));
+		this.world.addCollisionListener(new BulletBulletListener(this));
+		this.world.addCollisionListener(new BulletWallListener());
+		this.world.addCollisionListener(new BulletDestructibleListener(this));
 
 		this.world.setGravity(PhysicsWorld.ZERO_GRAVITY);
 

@@ -79,7 +79,7 @@ public abstract class Player extends Body {
 	}
 
 	public double getAngle() {
-		return this.getTransform().getRotation();
+		return this.getTransform().getRotation().toRadians();
 	}
 
 	public String getName() {

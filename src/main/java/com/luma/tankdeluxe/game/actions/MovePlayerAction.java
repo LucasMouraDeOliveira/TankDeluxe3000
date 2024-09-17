@@ -27,7 +27,7 @@ public class MovePlayerAction extends GameUpdate {
 				force /= 2;
 			}
 			
-			Vector2 r = new Vector2(player.getTransform().getRotation() - Math.PI);
+			Vector2 r = new Vector2(player.getTransform().getRotation().toRadians() - Math.PI);
 			
 			if(player.isMoving(Player.NORTH)) {
 				Vector2 f = r.product(-force);
