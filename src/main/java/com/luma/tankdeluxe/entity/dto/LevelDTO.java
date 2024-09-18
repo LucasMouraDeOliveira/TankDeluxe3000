@@ -12,6 +12,7 @@ public class LevelDTO {
 	private int width;
 	private int height;
 	private List<List<String>> ground;
+	private List<List<String>> carpet;
 	private List<List<String>> obstacle;
 	private List<List<Boolean>> spawn;
 	

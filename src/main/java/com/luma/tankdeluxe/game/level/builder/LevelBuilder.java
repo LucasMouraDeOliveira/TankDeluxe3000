@@ -59,9 +59,11 @@ public class LevelBuilder {
 		level.setWidth(levelDTO.getWidth());
 
 		Layout ground = new Layout(0);
-		Layout obstacle = new Layout(1);
+		Layout carpet = new Layout(1);
+		Layout obstacle = new Layout(2);
 
 		List<List<String>> groundData = levelDTO.getGround();
+		List<List<String>> carpetData = levelDTO.getCarpet();
 		List<List<String>> obstacleData = levelDTO.getObstacle();
 		List<List<Boolean>> spawnData = levelDTO.getSpawn();
 
@@ -69,6 +71,7 @@ public class LevelBuilder {
 		for (int x = 0; x < levelDTO.getWidth(); x++) {
 			for (int y = 0; y < levelDTO.getHeight(); y++) {
 				String groundSpriteCode = groundData.get(x).get(y);
+				String carpetSpriteCode = carpetData.get(x).get(y);
 				String obstacleSpriteCode = obstacleData.get(x).get(y);
 
 				// Just assets
@@ -81,6 +84,18 @@ public class LevelBuilder {
 				}
 
 				// Assets and body
+				if (carpetSpriteCode != null) {
+					Cell cell = new Cell(x, y);
+					Body body = this.bodyFactory.buildObstacle(cell, carpetSpriteCode,
+							x * SettingsManager.OBSTACLE_WIDTH,
+							y * SettingsManager.OBSTACLE_HEIGHT);
+
+					cell.setCode(carpetSpriteCode);
+					cell.setBody(body);
+
+					carpet.addCell(cell);
+				}
+				
 				if (obstacleSpriteCode != null) {
 					Cell cell = new Cell(x, y);
 					Body body = this.bodyFactory.buildObstacle(cell, obstacleSpriteCode,
@@ -102,6 +117,7 @@ public class LevelBuilder {
 		}
 
 		level.addLayout(ground);
+		level.addLayout(carpet);
 		level.addLayout(obstacle);
 
 		return level;

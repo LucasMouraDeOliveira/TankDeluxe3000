@@ -26,6 +26,7 @@ import com.luma.tankdeluxe.listener.BulletBulletListener;
 import com.luma.tankdeluxe.listener.BulletDestructibleListener;
 import com.luma.tankdeluxe.listener.BulletWallListener;
 import com.luma.tankdeluxe.listener.TankBulletListener;
+import com.luma.tankdeluxe.listener.TankRegenerationListener;
 import com.luma.tankdeluxe.service.LeaderboardService;
 import com.luma.tankdeluxe.service.PlayerService;
 
@@ -72,6 +73,7 @@ public class GameServer {
 		this.world.addCollisionListener(new BulletBulletListener(this));
 		this.world.addCollisionListener(new BulletWallListener());
 		this.world.addCollisionListener(new BulletDestructibleListener(this));
+		this.world.addCollisionListener(new TankRegenerationListener());
 
 		this.world.setGravity(PhysicsWorld.ZERO_GRAVITY);
 
