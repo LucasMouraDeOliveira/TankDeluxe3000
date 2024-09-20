@@ -21,7 +21,7 @@ public class SettingsManager {
 	public static final double TANK_WIDTH = (double) TANK_WIDTH_PX / SIZE_RATIO;
 	public static final double TANK_HEIGHT = (double) TANK_HEIGHT_PX / SIZE_RATIO;
 	public static final double TANK_VELOCITY = 110;
-	public static final double REGENERATION_RADIUS = 50;
+	public static final double REGENERATION_RADIUS = 3;
 	
 	
 	// Player
@@ -30,11 +30,12 @@ public class SettingsManager {
 	public static final int SPAWN_INVICIBLE_DURATION = 3;
 	public static final double DASH_VELOCITY = 300;
 	public static final int DASH_COOLDOWN = 1500;
+	public static final int MAX_HEALTH = 200;
 	
 	// Bullet
 	public static final int BULLET_VELOCITY = 50;
 	public static final int MAX_BOUNCE = 1;
-	public static final int BULLET_DAMAGE = 50;
+	public static final int BULLET_DAMAGE = 100;
 	
 	
 }

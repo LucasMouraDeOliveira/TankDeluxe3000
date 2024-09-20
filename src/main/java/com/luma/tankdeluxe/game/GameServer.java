@@ -18,8 +18,8 @@ import org.dyn4j.world.World;
 import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.dto.AimDTO;
 import com.luma.tankdeluxe.dto.PlayerActionDTO;
-import com.luma.tankdeluxe.game.level.Cell;
 import com.luma.tankdeluxe.game.level.Coordinate;
+import com.luma.tankdeluxe.game.level.Layout;
 import com.luma.tankdeluxe.game.level.Level;
 import com.luma.tankdeluxe.game.player.Player;
 import com.luma.tankdeluxe.listener.BulletBulletListener;
@@ -82,12 +82,13 @@ public class GameServer {
 
 	private void loadLevel() {
 
-		// TODO manage many layout
-		List<Cell> cells = this.level.getLayouts().get(1).getCells();
-		cells.stream().forEach(cell -> {
-			if (cell.getBody() != null) {
-				this.world.addBody(cell.getBody());
-			}
+		this.level.getLayouts().stream()
+			.map(Layout::getCells)
+			.flatMap(List::stream)
+			.forEach(cell -> {
+				if (cell.getBody() != null) {
+					this.world.addBody(cell.getBody());
+				}
 		});
 	}
 

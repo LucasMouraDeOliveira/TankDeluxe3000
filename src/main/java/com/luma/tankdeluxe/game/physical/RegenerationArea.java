@@ -18,7 +18,7 @@ public class RegenerationArea extends Body {
         this.cell = cell;
         
         BodyFixture fixture = new BodyFixture(Geometry.createCircle(SettingsManager.REGENERATION_RADIUS));
-        fixture.setSensor(false);
+        fixture.setSensor(true);
         
         this.addFixture(fixture);
         this.translate(x, y);
