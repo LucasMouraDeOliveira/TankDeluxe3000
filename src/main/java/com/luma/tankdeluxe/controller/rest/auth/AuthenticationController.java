@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luma.tankdeluxe.dto.jwt.JwtAuthenticationResponse;
-import com.luma.tankdeluxe.service.AuthenticationService;
+import com.luma.tankdeluxe.service.auth.AuthenticationService;
 
 @RestController
 public class AuthenticationController {

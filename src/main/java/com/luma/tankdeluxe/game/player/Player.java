@@ -15,22 +15,22 @@ import com.luma.tankdeluxe.game.Bullet;
 import com.luma.tankdeluxe.game.Color;
 
 public abstract class Player extends Body {
-	
+
 	private UUID userId;
 	private String name;
 	private PlayerSpecialization specialization;
 	private Color color;
-	private boolean moving[];
+	private boolean[] moving;
 	private WebSocketSession session;
-	
+
 	// Shoot
 	private boolean shooting;
-	private List<Bullet> bullets;
+	private List<Bullet> bullets = new ArrayList<>();
 	private int cooldown;
 	protected int maxBullet;
 	protected int bulletVelocity;
-	private int charge;			// In ms
-	
+	private int charge; // In ms
+
 	private boolean dashing;
 	private int dashCooldown;
 	private int nbShield;
@@ -39,21 +39,20 @@ public abstract class Player extends Body {
 	private boolean invincible;
 	private ZonedDateTime aliveSince;
 	private int health;
-	
+
 	private int aimX;
 	private int aimY;
 
 	private double turretAngle;
 	protected int mineCount;
-	
+
 	// TODO externalize
 	public static final int NORTH = 0;
 	public static final int EAST = 1;
 	public static final int SOUTH = 2;
 	public static final int WEST = 3;
-	
-	
-	public Player(UUID userId, String name, Color color, PlayerSpecialization specialization) {
+
+	protected Player(UUID userId, String name, Color color, PlayerSpecialization specialization) {
 		this.userId = userId;
 		this.name = name;
 		this.color = color;
@@ -65,10 +64,8 @@ public abstract class Player extends Body {
 		this.setLinearDamping(6);
 		this.setAngularDamping(8);
 	}
-	
+
 	public abstract void applyBuff();
-	
-	
 
 	public double getX() {
 		return this.getWorldCenter().x;
@@ -85,23 +82,24 @@ public abstract class Player extends Body {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public boolean isMoving(int direction) {
 		try {
 			return moving[direction];
-		} catch(ArrayIndexOutOfBoundsException e) {
+		} catch (ArrayIndexOutOfBoundsException e) {
 			return false;
 		}
 	}
-	
+
 	public void setMoving(int direction, boolean value) {
 		try {
 			this.moving[direction] = value;
-		} catch(ArrayIndexOutOfBoundsException e) {}
+		} catch (ArrayIndexOutOfBoundsException e) {
+		}
 	}
 
 	public void setShooting(boolean isShooting) {
@@ -111,17 +109,13 @@ public abstract class Player extends Body {
 	public boolean isShooting() {
 		return shooting;
 	}
-	
+
 	public void addBullet(Bullet b) {
 		this.bullets.add(b);
 	}
-	
+
 	public List<Bullet> getBullets() {
 		return this.bullets;
-	}
-	
-	public void setBullets(List<Bullet> bullets) {
-		this.bullets = new ArrayList<>();
 	}
 
 	public int getMaxBullet() {
@@ -171,25 +165,25 @@ public abstract class Player extends Body {
 	public void setTurretAngle(double turretAngle) {
 		this.turretAngle = turretAngle;
 	}
-	
+
 	public int getScore() {
 		return score;
 	}
-	
+
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
+
 	public void addShield() {
 		this.nbShield++;
 	}
-	
+
 	public void setNbShield(int nbShield) {
 		this.nbShield = nbShield;
 	}
-	
+
 	public void removeOneShield() {
-		if(this.nbShield > 0) {
+		if (this.nbShield > 0) {
 			this.nbShield--;
 		}
 	}
@@ -197,11 +191,11 @@ public abstract class Player extends Body {
 	public int getNbShield() {
 		return this.nbShield;
 	}
-	
+
 	public boolean isAlive() {
 		return alive;
 	}
-	
+
 	public void setAlive(boolean alive) {
 		this.alive = alive;
 	}

@@ -1,4 +1,4 @@
-package com.luma.tankdeluxe.service;
+package com.luma.tankdeluxe.game;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class BodyFactory {
 	private static final String FULL_CRATE = "0021";
 	private static final String DAMAGED_CRATE = "0026";
 	private static final String DESTROYED_CRATE = "0027";
-	
+
 	private static final String REGENERATION_AREA = "0028";
 
 	public Body buildObstacle(Cell cell, String code, double x, double y) {
@@ -44,7 +44,7 @@ public class BodyFactory {
 			healthStatus.put(1, DAMAGED_CRATE);
 			healthStatus.put(0, DESTROYED_CRATE);
 			return new DestructibleObstacle(cell, x, y, healthStatus);
-		} else if(code.equals(REGENERATION_AREA)) {
+		} else if (code.equals(REGENERATION_AREA)) {
 			return new RegenerationArea(cell, x, y);
 		}
 

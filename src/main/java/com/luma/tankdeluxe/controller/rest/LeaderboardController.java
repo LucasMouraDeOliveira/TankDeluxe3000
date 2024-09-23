@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luma.tankdeluxe.entity.ScoreEntry;
-import com.luma.tankdeluxe.service.LeaderboardService;
+import com.luma.tankdeluxe.service.game.ScoreService;
 
 @RestController
 @RequestMapping("leaderboard")
 public class LeaderboardController {
 
 	@Autowired
-	private LeaderboardService leaderboardService;
-	
+	private ScoreService scoreService;
+
 	@GetMapping
 	public ResponseEntity<SortedSet<ScoreEntry>> getLeaderboard() {
-		return ResponseEntity.ok(this.leaderboardService.getLeaderboard());
+		return ResponseEntity.ok(this.scoreService.getLeaderboard());
 	}
 }

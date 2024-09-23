@@ -1,7 +1,6 @@
-package com.luma.tankdeluxe.service;
+package com.luma.tankdeluxe.service.game;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.UUID;
 
 import org.dyn4j.geometry.Transform;
@@ -61,7 +60,6 @@ public class PlayerService {
 		player.setMoving(1, false);
 		player.setMoving(2, false);
 		player.setMoving(3, false);
-		player.setBullets(new ArrayList<>());
 		player.setHealth(SettingsManager.MAX_HEALTH);
 
 		player.applyBuff();

@@ -21,8 +21,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.luma.tankdeluxe.service.JwtAuthenticationFilter;
-import com.luma.tankdeluxe.service.UserSecurityService;
+import com.luma.tankdeluxe.service.auth.JwtAuthenticationFilter;
+import com.luma.tankdeluxe.service.auth.UserSecurityService;
 
 import lombok.RequiredArgsConstructor;
 

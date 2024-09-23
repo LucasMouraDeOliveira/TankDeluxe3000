@@ -26,8 +26,8 @@ import com.luma.tankdeluxe.game.GameServer;
 import com.luma.tankdeluxe.game.level.Level;
 import com.luma.tankdeluxe.game.level.builder.LevelBuilder;
 import com.luma.tankdeluxe.game.notifier.GameStateBuilder;
-import com.luma.tankdeluxe.service.GameService;
-import com.luma.tankdeluxe.service.UserService;
+import com.luma.tankdeluxe.service.game.GameService;
+import com.luma.tankdeluxe.service.user.UserService;
 
 @RestController
 @RequestMapping("games")

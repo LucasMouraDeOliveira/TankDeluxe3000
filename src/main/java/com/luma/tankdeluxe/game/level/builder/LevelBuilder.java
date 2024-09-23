@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.entity.dto.LevelDTO;
+import com.luma.tankdeluxe.game.BodyFactory;
 import com.luma.tankdeluxe.game.level.Cell;
 import com.luma.tankdeluxe.game.level.Coordinate;
 import com.luma.tankdeluxe.game.level.Layout;
 import com.luma.tankdeluxe.game.level.Level;
-import com.luma.tankdeluxe.service.BodyFactory;
 
 @Service
 public class LevelBuilder {
@@ -95,7 +95,7 @@ public class LevelBuilder {
 
 					carpet.addCell(cell);
 				}
-				
+
 				if (obstacleSpriteCode != null) {
 					Cell cell = new Cell(x, y);
 					Body body = this.bodyFactory.buildObstacle(cell, obstacleSpriteCode,

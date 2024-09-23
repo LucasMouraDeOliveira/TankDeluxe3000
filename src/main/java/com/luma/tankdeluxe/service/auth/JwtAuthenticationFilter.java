@@ -1,4 +1,4 @@
-package com.luma.tankdeluxe.service;
+package com.luma.tankdeluxe.service.auth;
 
 import java.io.IOException;
 

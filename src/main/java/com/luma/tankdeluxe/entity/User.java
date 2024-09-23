@@ -8,11 +8,14 @@ import org.hibernate.annotations.JdbcTypeCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,5 +49,10 @@ public class User {
 	private String password;
 
 	private String role;
+
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "player_level_id")
+	@JsonProperty("player_level")
+	private PlayerLevel playerLevel;
 
 }

@@ -1,27 +1,22 @@
-package com.luma.tankdeluxe.service;
-
-import java.util.UUID;
+package com.luma.tankdeluxe.service.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.luma.tankdeluxe.dto.jwt.JwtAuthenticationResponse;
 import com.luma.tankdeluxe.entity.User;
 import com.luma.tankdeluxe.exception.user.UsernameAlreadyUsedException;
+import com.luma.tankdeluxe.service.user.UserService;
 
 @Service
 public class AuthenticationService {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JwtService jwtService;
@@ -33,12 +28,7 @@ public class AuthenticationService {
 
         this.checkLogin(login);
 
-        User user = User.builder().login(login)
-                .password(passwordEncoder.encode(password))
-                .role("USER")
-                .uuid(UUID.randomUUID())
-                .build();
-        this.userService.save(user);
+        User user = this.userService.create(login, password);
 
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();

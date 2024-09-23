@@ -11,26 +11,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.luma.tankdeluxe.entity.User;
-import com.luma.tankdeluxe.service.UserService;
-
+import com.luma.tankdeluxe.service.user.UserService;
 
 @Controller
 @RequestMapping("/joinGame")
 public class JoinGameController {
-	
+
 	@Autowired
 	private UserService userService;
-	
 
 	@GetMapping("{gameId}")
 	public String loadView(Model model, Principal principal, @PathVariable UUID gameId) {
-		
+
 		User user = this.userService.find(principal.getName());
-		
+
 		model.addAttribute("login", principal.getName());
 		model.addAttribute("gameId", gameId);
 		model.addAttribute("userId", user.getUuid());
-		
+
 		return "joinGame";
 	}
 

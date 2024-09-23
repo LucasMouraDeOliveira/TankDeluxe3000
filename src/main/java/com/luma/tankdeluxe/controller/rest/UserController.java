@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luma.tankdeluxe.entity.User;
-import com.luma.tankdeluxe.service.UserService;
+import com.luma.tankdeluxe.service.user.UserService;
 
 @RestController
 @RequestMapping("user")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -21,5 +21,5 @@ public class UserController {
 	public User getAuthenticatedUser(Principal principal) {
 		return this.userService.find(principal.getName());
 	}
-	
+
 }

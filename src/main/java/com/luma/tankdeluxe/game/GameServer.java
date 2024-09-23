@@ -27,8 +27,8 @@ import com.luma.tankdeluxe.listener.BulletDestructibleListener;
 import com.luma.tankdeluxe.listener.BulletWallListener;
 import com.luma.tankdeluxe.listener.TankBulletListener;
 import com.luma.tankdeluxe.listener.TankRegenerationListener;
-import com.luma.tankdeluxe.service.LeaderboardService;
-import com.luma.tankdeluxe.service.PlayerService;
+import com.luma.tankdeluxe.service.game.ScoreService;
+import com.luma.tankdeluxe.service.game.PlayerService;
 
 public class GameServer {
 
@@ -52,7 +52,7 @@ public class GameServer {
 
 	private GameScore gameScore;
 
-	public GameServer(String name, Level level, PlayerService playerService, LeaderboardService leaderboardService) {
+	public GameServer(String name, Level level, PlayerService playerService, ScoreService scoreService) {
 		this.id = UUID.randomUUID();
 		this.name = name;
 		this.level = level;
@@ -63,7 +63,7 @@ public class GameServer {
 		this.mapEvents = new ArrayList<>();
 		this.availableColor = new LinkedList<>(Arrays.asList(Color.values()));
 		this.random = new Random();
-		this.gameScore = new GameScore(leaderboardService);
+		this.gameScore = new GameScore(scoreService);
 
 		this.playerService = playerService;
 
@@ -83,13 +83,13 @@ public class GameServer {
 	private void loadLevel() {
 
 		this.level.getLayouts().stream()
-			.map(Layout::getCells)
-			.flatMap(List::stream)
-			.forEach(cell -> {
-				if (cell.getBody() != null) {
-					this.world.addBody(cell.getBody());
-				}
-		});
+				.map(Layout::getCells)
+				.flatMap(List::stream)
+				.forEach(cell -> {
+					if (cell.getBody() != null) {
+						this.world.addBody(cell.getBody());
+					}
+				});
 	}
 
 	public void createPlayer(Player newPlayer) {

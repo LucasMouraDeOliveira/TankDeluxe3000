@@ -1,4 +1,4 @@
-package com.luma.tankdeluxe.service;
+package com.luma.tankdeluxe.service.game;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,14 +29,14 @@ public class GameService {
 	private PlayerService playerService;
 
 	@Autowired
-	private LeaderboardService leaderboardService;
+	private ScoreService scoreService;
 
 	public GameService() {
 		this.games = new HashMap<>();
 	}
 
 	public GameServer startNewGame(String gameName, Level level) {
-		GameServer newGame = new GameServer(gameName, level, playerService, leaderboardService);
+		GameServer newGame = new GameServer(gameName, level, playerService, scoreService);
 
 		this.games.put(newGame.getId(), newGame);
 
