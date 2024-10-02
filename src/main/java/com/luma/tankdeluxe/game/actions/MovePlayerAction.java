@@ -39,9 +39,9 @@ public class MovePlayerAction extends GameUpdate {
 			} 
 			
 			if(player.isMoving(Player.EAST)) {
-				player.applyTorque(5000);
+				player.applyTorque(SettingsManager.TANK_ROTATION_VELCITY);
 			} else if(player.isMoving(Player.WEST)) {
-				player.applyTorque(-5000);
+				player.applyTorque(-SettingsManager.TANK_ROTATION_VELCITY);
 			}
 			
 			// If not dashing, make sure the linear velocity is in the direction of the tank front

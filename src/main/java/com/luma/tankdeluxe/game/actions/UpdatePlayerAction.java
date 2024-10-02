@@ -2,7 +2,6 @@ package com.luma.tankdeluxe.game.actions;
 
 import java.util.Map;
 
-import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.dto.AimDTO;
 import com.luma.tankdeluxe.dto.PlayerActionDTO;
 import com.luma.tankdeluxe.game.GameServer;
@@ -35,8 +34,8 @@ public class UpdatePlayerAction extends GameUpdate {
 				}
 				
 				AimDTO aim = actions.getAim();
-				player.setAimX(aim.getX() / SettingsManager.SIZE_RATIO);
-				player.setAimY(aim.getY() / SettingsManager.SIZE_RATIO);
+				player.setAimX(aim.getX());
+				player.setAimY(aim.getY());
 			}
 		}
 	}

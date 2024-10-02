@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
-import com.luma.tankdeluxe.SettingsManager;
 import com.luma.tankdeluxe.game.Bullet;
 import com.luma.tankdeluxe.game.GameServer;
 import com.luma.tankdeluxe.game.MapEvent;
@@ -47,8 +46,8 @@ public class GameStateBuilder {
         for (Player player : server.getPlayers()) {
             JSONObject jsonPlayer = new JSONObject();
             jsonPlayer.put("id", player.getUserId().toString());
-            jsonPlayer.put("x", player.getX() * SettingsManager.SIZE_RATIO);
-            jsonPlayer.put("y", player.getY() * SettingsManager.SIZE_RATIO);
+            jsonPlayer.put("x", player.getX());
+            jsonPlayer.put("y", player.getY());
             jsonPlayer.put("angle", player.getAngle());
             jsonPlayer.put("turretAngle", player.getTurretAngle());
             jsonPlayer.put("nbShield", player.getNbShield());
@@ -68,8 +67,8 @@ public class GameStateBuilder {
         JSONArray jsonBullets = new JSONArray();
         for (Bullet bullet : server.getBullets()) {
             JSONObject jsonBullet = new JSONObject();
-            jsonBullet.put("x", bullet.getX() * SettingsManager.SIZE_RATIO);
-            jsonBullet.put("y", bullet.getY() * SettingsManager.SIZE_RATIO);
+            jsonBullet.put("x", bullet.getX());
+            jsonBullet.put("y", bullet.getY());
             jsonBullet.put("direction", bullet.getLinearVelocity().getDirection());
             jsonBullets.put(jsonBullet);
         }
@@ -80,8 +79,8 @@ public class GameStateBuilder {
         JSONArray jsonMines = new JSONArray();
         for (Mine mine : server.getMines()) {
             JSONObject jsonMine = new JSONObject();
-            jsonMine.put("x", mine.getX() * SettingsManager.SIZE_RATIO);
-            jsonMine.put("y", mine.getY() * SettingsManager.SIZE_RATIO);
+            jsonMine.put("x", mine.getX());
+            jsonMine.put("y", mine.getY());
             jsonMines.put(jsonMine);
         }
         return jsonMines;
